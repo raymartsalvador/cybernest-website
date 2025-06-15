@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+html {
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* === Custom Color Variables === */
+:root {
+  --cyberred: #DC3D50;
+  --cyberviolet: #473C59;
+}
+
+/* === Optional: Apply to body or base text === */
+body {
+  margin: 0;
+  color: #222;
+  background-color: #fff;
+  font-size: 16px;
+}
+
+/* === Example: Use your custom colors in plain CSS === */
+.text-cyberred {
+  color: var(--cyberred);
+}
+
+.text-cyberviolet {
+  color: var(--cyberviolet);
+}
+
+.bg-cyberred {
+  background-color: var(--cyberred);
+}
+
+.bg-cyberviolet {
+  background-color: var(--cyberviolet);
+}
+@keyframes slowBeat {
+  0%, 100% {
+    transform: scale(1);
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    transform: scale(1.1);
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.slow-beat-animation {
+  animation: slowBeat 2s infinite;
+}
