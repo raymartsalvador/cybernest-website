@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 
 import Hero from './pages/Hero'
-import NavBar from './components/NavBar'
+import NavBar from './components/Navbar'
 import FeaturedProduct from "./pages/FeaturedProduct";
 import AboutUs from "./pages/AboutUs";
 import OurPurpose from "./pages/OurPurpose";
