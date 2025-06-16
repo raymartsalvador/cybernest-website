@@ -94,7 +94,7 @@ export default function FeaturedProduct() {
           </div>
 
           {/* Premium Version */}
-          <div className="bg-white shadow-lg rounded-xl overflow-hidden max-w-lg w-full border border-gray-200">
+          <div className="bg-white mb-4 shadow-lg rounded-xl overflow-hidden max-w-lg w-full border border-gray-200">
             <div className="absolute bg-cyberred text-white text-xs font-bold px-10 py-2 rounded-t-2xl w-fit mx-6 mt-[-30px]">
               Premium Version
             </div>
