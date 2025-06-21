@@ -8,8 +8,8 @@ export default function Footer() {
         {/* Logo & Description */}
         <div className="md:col-span-2 flex flex-col items-start">
           <img src={logo} alt="Cybernest Logo" className="h-10 mb-4" />
-          <p className="text-xs mb-1">Skip the search for the best home loan rates.</p>
-          <p className="text-xs">Let the best rates find you!</p>
+          <p className="text-xs mb-1">Enabling seamless digital transformation</p>
+          <p className="text-xs">Optimizing people, tasks, and data for efficient service delivery</p>
           <div className="flex gap-4 mt-4">
             <a
               href="https://web.facebook.com/CybernestSolutions"
