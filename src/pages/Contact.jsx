@@ -22,9 +22,21 @@ export default function Contact() {
             with us at Cybernest
           </h2>
 
-          <p className="text-sm sm:text-base text-gray-600 max-w-md">
-            Start your transformation journey with a seamless system built to optimize your people, tasks, and data flow.
+          {/* <p className="text-sm sm:text-base text-gray-600 max-w-md">
+            We also offer a range of services to support your growth and innovation — including IoT solutions, website and web app development, training seminars, and expert guidance through strategic advisory.
+          </p> */}
+          
+        <div className="max-w-xl text-start text-gray-600 space-y-2">
+          <p className="text-sm sm:text-base font-medium">
+            We also offer other services such as:
           </p>
+          <ul className="text-sm sm:text-base list-disc list-inside space-y-1 ml-5">
+            <li>IoT solutions</li>
+            <li>Website and web app development</li>
+            <li>Training seminars</li>
+            <li>Strategic advisory and expert guidance</li>
+          </ul>
+        </div>
 
           <a
             href="https://calendly.com/tlvelardo-pup/30min"
