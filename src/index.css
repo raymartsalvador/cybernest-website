@@ -1,4 +1,7 @@
+@import 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css';
+@import 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css';
 @import "tailwindcss";
+
 
 body {
   font-family: 'Montserrat', sans-serif;

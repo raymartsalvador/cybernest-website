@@ -1,0 +1,27 @@
+.my-selected {
+  background-color: #4e366d;
+  color: white;
+}
+
+.my-today {
+  border: 1px solid #4e366d;
+}
+
+.my-disabled {
+  color: #ccc;
+}
+
+.my-fully-booked {
+  background-color: #f8d7da;
+  color: #721c24;
+  position: relative;
+}
+
+.my-fully-booked::after {
+  content: "✖";
+  color: #dc3545;
+  font-size: 0.75rem;
+  position: absolute;
+  top: 4px;
+  right: 6px;
+}
