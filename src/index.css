@@ -19,6 +19,7 @@ html {
 
 /* === Custom Color Variables === */
 :root {
+  --cyberlightred: #fbecee;
   --cyberred: #DC3D50;
   --cyberviolet: #473C59;
 }
@@ -42,6 +43,9 @@ body {
 
 .bg-cyberred {
   background-color: var(--cyberred);
+}
+.bg-cyberlightred {
+  background-color: var(--cyberlightred);
 }
 
 .bg-cyberviolet {

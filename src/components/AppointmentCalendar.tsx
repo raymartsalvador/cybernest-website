@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, getDefaultClassNames  } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import "./calendar.css"; // Your custom styles
 const baseAPIUrl = import.meta.env.VITE_API_URL;
 export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dateStr: string) => void }) {
+
+  const defaultClassNames = getDefaultClassNames();
   const today = new Date();
   const [fullyBookedDates, setFullyBookedDates] = useState<Date[]>([]);
 
@@ -26,7 +28,7 @@ export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dat
   }, []);
 
   return (
-  <div className="p-4 bg-red-100 rounded-2xl" style={{ border: "1px solid #DC3D50" }}>
+  <div className="p-4 bg-cyberlightred  rounded-2xl" style={{ border: "1px solid #DC3D50" }}>
     <DayPicker
       mode="single"
       
@@ -48,13 +50,14 @@ export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dat
       modifiers={{
         fullyBooked: fullyBookedDates,
       }}
+      
       modifiersClassNames={{
         selected: "my-selected",
         today: "my-today",
         disabled: "my-disabled",
         fullyBooked: "my-fully-booked",
+        chevron: "my-chevron"
       }}
-      
       className="rounded-xl p-2 bg-white"
     />
     </div>

@@ -25,15 +25,11 @@
   top: 4px;
   right: 6px;
 }
-
-/* calendar.css */
-
-.rdp-nav_button {
-  color: gray !important; /* Make arrows gray */
+.rdp-chevron {
+  display: inline-block;
+  fill: #343a40 !important; /* dark gray */
 }
+.rdp-caption_label{
 
-/* Optional: Add hover effect */
-.rdp-nav_button:hover {
-  color: #4b5563 !important; /* Tailwind gray-700 */
+  color: #dc3545;
 }
-

@@ -1,12 +1,13 @@
 
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { showPopup } from "./PopupService";
 import AppointmentCalendar from "./AppointmentCalendar";
 import leftImage from "../assets/images/123.png";
 import logo from "../assets/images/logo.png"; // 🔄 Adjust if needed
 import gridBg from "../assets/images/grid-bg.png";
 
-const baseAPIUrl = "http://192.168.8.122:3000";
+const baseAPIUrl = import.meta.env.VITE_API_URL;
 
 export default function BookingModal({ show, onClose }: { show: boolean; onClose: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -14,21 +15,23 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    clientName: "",
-    email: "",
-    phone: "",
-    notes: "",
-  });
+ const [formData, setFormData] = useState({
+        clientName: "",
+        email: "",
+        phone: "",
+        address: "",
+        company: "",
+        notes: "",
+    });
 
-  const resetState = () => {
+ const resetState = () => {
     setSelectedDate(null);
     setAvailability([]);
     setSelectedTime(null);
     setShowForm(false);
-    setFormData({ clientName: "", email: "", phone: "", notes: "" });
-  };
-
+    setFormData({ clientName: "", email: "", phone: "", address: "", company: "", notes: "" });
+    };
+    
   useEffect(() => {
     if (selectedDate) {
       fetch(`${baseAPIUrl}/showTimeAvailability?date=${selectedDate}`)
@@ -53,44 +56,64 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
   };
 
   const handleBookingSubmit = async () => {
-    if (!selectedDate || !selectedTime) return;
-    setLoading(true);
+  if (!selectedDate || !selectedTime) return;
+  setLoading(true);
 
-    try {
-      const datetimeStr = `${selectedDate}T${selectedTime}:00`;
-      const localDate = new Date(datetimeStr);
-
-      if (isNaN(localDate.getTime())) {
-        alert("Invalid date or time.");
-        setLoading(false);
-        return;
-      }
-
-      const payload = {
-        clientName: formData.clientName,
-        email: formData.email,
-        phone: formData.phone,
-        datetime: localDate.toISOString(),
-        notes: formData.notes,
-      };
-
-      const res = await fetch(`${baseAPIUrl}/appointments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+  try {
+    const datetimeStr = `${selectedDate}T${selectedTime}:00`;
+    const localDate = new Date(datetimeStr);
+    if (isNaN(localDate.getTime())) {
+      showPopup({
+        icon: 'error',
+        title: 'Invalid Date or Time',
+        message: 'Please select a valid date and time.',
+        confirmText: 'OK'
       });
-
-      if (!res.ok) throw new Error("Booking failed");
-
-      alert("Appointment booked successfully!");
-      onClose();
-      resetState();
-    } catch (error) {
-      alert("Failed to book appointment.");
-    } finally {
       setLoading(false);
+      return;
     }
-  };
+
+    const utcDateStr = localDate.toISOString();
+
+    const payload = {
+      clientName: formData.clientName,
+      email: formData.email,
+      phone: formData.phone,
+      datetime: utcDateStr,
+      notes: `Company: ${formData.company} | Address: ${formData.address} | Notes: ${formData.notes}`,
+    };
+
+    const res = await fetch(`${baseAPIUrl}/appointments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error("Booking failed");
+
+    // 🎉 Success Popup
+    showPopup({
+      icon: 'success',
+      title: 'Booked!',
+      message: 'Thank you! Your appointment has been scheduled successfully.',
+      confirmText: 'Go to Home',
+      onConfirm: () => {
+        onClose();
+        resetState();
+      }
+    });
+
+  } catch (error) {
+    showPopup({
+      icon: 'error',
+      title: 'Booking Failed',
+      message: 'Something went wrong. Please try again later.',
+      confirmText: 'Go to Home'
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (!show) return null;
 
@@ -110,14 +133,64 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
 
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
           {/* Left Image */}
-          <div className="relative hidden md:block overflow-hidden rounded-l-2xl px-3 py-3 bg-white">
-            <img
-              src={leftImage}
-              alt="Book Meeting"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0" />
+          {/* Left Panel: Image or Form */}
+          <div className="relative overflow-hidden rounded-l-2xl px-3 py-3 bg-white hidden md:block">
+            {!showForm ? (
+              <img
+                src={leftImage}
+                alt="Book Meeting"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="p-2 overflow-auto h-full">
+                <h4 className="text-lg font-semibold text-cyberred mb-3">Fill out the Details</h4>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full border p-2 rounded"
+                    value={formData.clientName}
+                    onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Contact Number"
+                    className="w-full border p-2 rounded"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    className="w-full border p-2 rounded"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full border p-2 rounded"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Company"
+                    className="w-full border p-2 rounded"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  />
+                  <textarea
+                    placeholder="Notes (Optional)"
+                    className="w-full border p-2 rounded"
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  />
+                </div>
+              </div>
+            )}
           </div>
+
 
           {/* Right Side */}
           <div
@@ -178,42 +251,11 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
                 )}
               </>
             ) : (
-              <div className="grid md:grid-cols-2 gap-4 mt-2">
-                {/* Form Fields */}
-                <div className="space-y-3">
-                  <h4 className="text-lg font-semibold text-cyberred">Fill out the Details</h4>
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full border p-2 rounded"
-                    value={formData.clientName}
-                    onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Contact Number"
-                    className="w-full border p-2 rounded"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full border p-2 rounded"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                  <textarea
-                    placeholder="Notes (Optional)"
-                    className="w-full border p-2 rounded"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  />
-                </div>
-
+              <div className="mt-2">
+     
                 {/* Booking Receipt */}
                 <div className="bg-white border border-cyberred rounded-lg p-4 text-sm">
-                  <h4 className="text-lg font-bold text-center text-cyberred mb-2">Booking Receipt</h4>
+                  <h4 className="text-lg font-bold text-center text-cyberred mb-2">Appointment Details</h4>
                   <p className="text-center text-gray-600 mb-2">
                     Let’s talk about what you need for Free!
                   </p>
@@ -229,10 +271,12 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
                   </div>
                   <div className="space-y-2">
                     <h5 className="font-semibold text-cyberred">Personal Details</h5>
-                    <p>{formData.clientName || "N/A"}</p>
-                    <p>{formData.phone || "N/A"}</p>
-                    <p>{formData.email || "N/A"}</p>
-                    <p>{formData.notes || "No additional notes"}</p>
+                    <p>{formData.clientName || ""}</p>
+                    <p>{formData.phone || ""}</p>
+                    <p>{formData.address || ""}</p>
+                    <p>{formData.email || ""}</p>
+                    <p>{formData.company || ""}</p>
+                    <p className="p-2 bg-cyberlightred" style={{borderRadius:"10px"}}>{formData.notes || "No additional notes"}</p>
                   </div>
                   <button
                     onClick={handleBookingSubmit}
