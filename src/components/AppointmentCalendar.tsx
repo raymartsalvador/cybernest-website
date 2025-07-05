@@ -3,7 +3,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import "./calendar.css"; // Your custom styles
 
-const baseAPIUrl = "http://192.168.1.3:3000";
+const baseAPIUrl = "http://192.168.8.122:3000";
 
 export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dateStr: string) => void }) {
   const today = new Date();
@@ -28,8 +28,10 @@ export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dat
   }, []);
 
   return (
+  <div className="p-4 bg-red-100 rounded-2xl" style={{ border: "1px solid #DC3D50" }}>
     <DayPicker
       mode="single"
+      
       onDayClick={(date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -54,7 +56,9 @@ export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dat
         disabled: "my-disabled",
         fullyBooked: "my-fully-booked",
       }}
-      className="rounded-xl shadow-md p-2"
+      
+      className="rounded-xl p-2 bg-white"
     />
+    </div>
   );
 }
