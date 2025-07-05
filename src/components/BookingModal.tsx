@@ -2,7 +2,7 @@
     import { X } from "lucide-react";
     import AppointmentCalendar from "./AppointmentCalendar";
 
-    const baseAPIUrl = "http://192.168.1.3:3000";
+    const baseAPIUrl = import.meta.env.VITE_API_URL;
 
     export default function BookingModal({ show, onClose }: { show: boolean; onClose: () => void }) {
     const [selectedDate, setSelectedDate] = useState<string | null>(null);

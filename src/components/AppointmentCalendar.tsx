@@ -3,7 +3,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import "./calendar.css"; // Your custom styles
 
-const baseAPIUrl = "http://192.168.1.3:3000";
+    const baseAPIUrl = import.meta.env.VITE_API_URL;
 
 export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dateStr: string) => void }) {
   const today = new Date();
