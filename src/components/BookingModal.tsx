@@ -13,6 +13,8 @@
         clientName: "",
         email: "",
         phone: "",
+        address: "",
+        company: "",
         notes: "",
     });
 
@@ -21,7 +23,7 @@
     setAvailability([]);
     setSelectedTime(null);
     setShowForm(false);
-    setFormData({ clientName: "", email: "", phone: "", notes: "" });
+    setFormData({ clientName: "", email: "", phone: "", address: "", company: "", notes: "" });
     };
 
 
@@ -76,7 +78,7 @@
       email: formData.email,
       phone: formData.phone,
       datetime: utcDateStr,
-      notes: formData.notes,
+      notes: `Company: ${formData.company} | Address: ${formData.address} | Notes: ${formData.notes}`,
     };
 
     const res = await fetch(`${baseAPIUrl}/appointments`, {
@@ -185,11 +187,25 @@
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         />
                         <input
+                        type="text"
+                        placeholder="Address"
+                        className="w-full border p-2 rounded"
+                        value={formData.address}
+                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                        />
+                        <input
                         type="email"
                         placeholder="Email"
                         className="w-full border p-2 rounded"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
+                         <input
+                        type="text"
+                        placeholder="Copmpany"
+                        className="w-full border p-2 rounded"
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         />
                         <textarea
                         placeholder="Notes (Optional)"
