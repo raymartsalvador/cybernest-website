@@ -44,7 +44,7 @@ export default function Hero() {
               backgroundImage: `url(${gridBox})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
-              width: "120px",
+              width: "160px",
               height: "60px",
               lineHeight: "1",
             }}
