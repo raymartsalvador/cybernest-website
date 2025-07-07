@@ -8,7 +8,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 AOS.init({
-  duration: 1500,       // animation duration
+  duration: 1000,       // animation duration
   once: true,          // only animate once
   offset: 100,         // offset (in px) from the original trigger point
 });

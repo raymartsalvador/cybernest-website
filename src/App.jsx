@@ -17,7 +17,7 @@ import FlowPopup from './components/FlowPopup';
 function App() {
   return (
       <div className="font-montserrat text-gray-900 scroll-smooth">
-      <FlowPopup />
+      <FlowPopup  data-aos="fade-left"/>
       <NavBar />
 
       <section id="hero">

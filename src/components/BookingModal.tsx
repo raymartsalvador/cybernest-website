@@ -119,7 +119,7 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-3xl h-[90vh] rounded-2xl shadow-lg overflow-hidden relative">
+      <div  data-aos="fade-up" className="bg-white w-full max-w-3xl h-[90vh] rounded-2xl shadow-lg overflow-hidden relative">
         {/* Close Button */}
         <button
           onClick={() => {
@@ -133,13 +133,12 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
 
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
           {/* Left Image */}
-          {/* Left Panel: Image or Form */}
-          <div className="relative overflow-hidden rounded-l-2xl px-3 py-3 bg-white hidden md:block">
+          <div className=" relative overflow-hidden rounded-l-2xl px-3 py-3 bg-white hidden md:block">
             {!showForm ? (
               <img
                 src={leftImage}
                 alt="Book Meeting"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-xl"
               />
             ) : (
               <div className="p-2 overflow-auto h-full">
@@ -195,7 +194,6 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
           {/* Right Side */}
           <div
             className="p-5 overflow-auto bg-gray-50 bg-cover bg-center"
-            style={{ backgroundImage: `url(${gridBg})` }}
             >
             {!selectedDate ? (
               <>

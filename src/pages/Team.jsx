@@ -6,7 +6,7 @@ import froilan from "../assets/images/cybermest-team/froiFormal.jpg";
 import raymart from "../assets/images/cybermest-team/raymart.jpg";
 import kurt from "../assets/images/cybermest-team/kurtFormal.jpg";
 import kenneth from "../assets/images/cybermest-team/kenneth.png";
-import john from "../assets/images/cybermest-team/jdeeFormal.jpg";
+import philip from "../assets/images/cybermest-team/philip.jpg";
 import airah from "../assets/images/cybermest-team/aira.jpg";
 import valdez from "../assets/images/cybermest-team/valdez.jpg";
 import gridBox from "../assets/images/grid-box.png";
@@ -32,10 +32,10 @@ export default function Team() {
       linkedin: "https://www.linkedin.com/in/raymart-g-salvador-54096221b/",
     },
     {
-      name: "Mr. John Dee Gonos",
-      position: "Chief Marketing Officer",
-      image: john,
-      linkedin: "https://www.linkedin.com/in/john-dee-gonos-2169b9197/",
+      name: "Dr. Philip P. Ermita, PIE, PDQM, ASEAN Eng.",
+      position: "Adviser",
+      image: philip,
+      linkedin: "https://www.linkedin.com/in/philip-p-ermita-pie-phd-pdqm-asean-eng-91996245/?originalSubdomain=ph",
     },
     {
       name: "Engr. Kurt Leinard D. Balbuena",
