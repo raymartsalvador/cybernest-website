@@ -6,7 +6,7 @@ import froilan from "../assets/images/cybermest-team/froiFormal.jpg";
 import raymart from "../assets/images/cybermest-team/raymart.jpg";
 import kurt from "../assets/images/cybermest-team/kurtFormal.jpg";
 import kenneth from "../assets/images/cybermest-team/kenneth.png";
-import philip from "../assets/images/cybermest-team/philip.jpg";
+import philip from "../assets/images/cybermest-team/doc-philip-formal.jpg";
 import airah from "../assets/images/cybermest-team/aira.jpg";
 import valdez from "../assets/images/cybermest-team/valdez.jpg";
 import gridBox from "../assets/images/grid-box.png";
@@ -32,10 +32,10 @@ export default function Team() {
       linkedin: "https://www.linkedin.com/in/raymart-g-salvador-54096221b/",
     },
     {
-      name: "Dr. Philip P. Ermita, PIE, PDQM, ASEAN Eng.",
-      position: "Adviser",
+      name: "Dr. Philip P. Ermita",
+      position: "Advisor",
       image: philip,
-      linkedin: "https://www.linkedin.com/in/philip-p-ermita-pie-phd-pdqm-asean-eng-91996245/?originalSubdomain=ph",
+      linkedin: "https://www.linkedin.com/in/philip-p-ermita-pie-phd-pdqm-asean-eng-91996245",
     },
     {
       name: "Engr. Kurt Leinard D. Balbuena",
