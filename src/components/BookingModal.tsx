@@ -6,7 +6,7 @@ import leftImage from "../assets/images/123.png";
 import logo from "../assets/images/logo.png"; // 🔄 Adjust if needed
 import gridBg from "../assets/images/grid-bg.png";
 
-const baseAPIUrl = "http://192.168.8.122:3000";
+const baseAPIUrl = import.meta.env.VITE_API_URL;
 
 export default function BookingModal({ show, onClose }: { show: boolean; onClose: () => void }) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
