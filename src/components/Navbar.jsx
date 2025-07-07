@@ -31,7 +31,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white flex justify-center py-4 font-montserrat">
+    <header className="absolute top-0 left-0 right-0 z-40 bg-white flex justify-center py-4 font-montserrat md:">
       <nav
           className="flex items-center justify-between w-full max-w-5xl mx-auto px-4 md:px-8 bg-white rounded-full h-[52px]"
           style={{ border: "1px solid #DC3D50" }}

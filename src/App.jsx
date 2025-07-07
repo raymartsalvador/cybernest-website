@@ -12,10 +12,12 @@ import AboutUs from "./pages/AboutUs";
 import OurPurpose from "./pages/OurPurpose";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
+import FlowPopup from './components/FlowPopup';
 
 function App() {
   return (
       <div className="font-montserrat text-gray-900 scroll-smooth">
+      <FlowPopup  data-aos="fade-left"/>
       <NavBar />
 
       <section id="hero">
@@ -41,7 +43,6 @@ function App() {
       <section id="contact">
         <Contact />
       </section>
-
       <Footer />
     </div>
     
