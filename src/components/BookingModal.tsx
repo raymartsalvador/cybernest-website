@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { showPopup } from "./PopupService";
 import AppointmentCalendar from "./AppointmentCalendar";
 import leftImage from "../assets/images/123.png";
-import logo from "../assets/images/logo.png"; // 🔄 Adjust if needed
+import logo from "../assets/images/logo.png";
 import gridBg from "../assets/images/grid-bg.png";
 
 const baseAPIUrl = import.meta.env.VITE_API_URL;
@@ -15,23 +14,40 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
- const [formData, setFormData] = useState({
-        clientName: "",
-        email: "",
-        phone: "",
-        address: "",
-        company: "",
-        notes: "",
-    });
-
- const resetState = () => {
+  const [formData, setFormData] = useState({
+    clientName: "",
+    email: "",
+    phone: "",
+    address: "",
+    company: "",
+    notes: "",
+  });
+  const handleClose = () => {
+    // Optional: Add confirmation popup if needed
     setSelectedDate(null);
     setAvailability([]);
     setSelectedTime(null);
     setShowForm(false);
-    setFormData({ clientName: "", email: "", phone: "", address: "", company: "", notes: "" });
-    };
-    
+    setFormData({
+      clientName: "",
+      email: "",
+      phone: "",
+      address: "",
+      company: "",
+      notes: "",
+    });
+    onClose(); // Call parent onClose to hide modal
+  };
+
+  const formatTimeRange = (start: string) => {
+    const [hour, minute] = start.split(":" ).map(Number);
+    const startDate = new Date();
+    startDate.setHours(hour, minute, 0);
+    const endDate = new Date(startDate.getTime() + 30 * 60000);
+    const formatOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+    return `${startDate.toLocaleTimeString([], formatOptions)} - ${endDate.toLocaleTimeString([], formatOptions)}`;
+  };
+
   useEffect(() => {
     if (selectedDate) {
       fetch(`${baseAPIUrl}/showTimeAvailability?date=${selectedDate}`)
@@ -43,253 +59,207 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
 
   const isPastTime = (time: string) => {
     if (!selectedDate) return false;
-
     const now = new Date();
     const selected = new Date(selectedDate);
     if (selected.toDateString() !== now.toDateString()) return false;
-
-    const [hours, minutes] = time.split(":").map(Number);
+    const [hours, minutes] = time.split(":" ).map(Number);
     const timeDate = new Date(selected);
     timeDate.setHours(hours, minutes, 0, 0);
-
     return timeDate < now;
   };
 
   const handleBookingSubmit = async () => {
-  if (!selectedDate || !selectedTime) return;
-  setLoading(true);
-
-  try {
-    const datetimeStr = `${selectedDate}T${selectedTime}:00`;
-    const localDate = new Date(datetimeStr);
-    if (isNaN(localDate.getTime())) {
-      showPopup({
-        icon: 'error',
-        title: 'Invalid Date or Time',
-        message: 'Please select a valid date and time.',
-        confirmText: 'OK'
-      });
-      setLoading(false);
-      return;
-    }
-
-    const utcDateStr = localDate.toISOString();
-
-    const payload = {
-      clientName: formData.clientName,
-      email: formData.email,
-      phone: formData.phone,
-      datetime: utcDateStr,
-      notes: `Company: ${formData.company} | Address: ${formData.address} | Notes: ${formData.notes}`,
-    };
-
-    const res = await fetch(`${baseAPIUrl}/appointments`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) throw new Error("Booking failed");
-
-    // 🎉 Success Popup
-    showPopup({
-      icon: 'success',
-      title: 'Booked!',
-      message: 'Thank you! Your appointment has been scheduled successfully.',
-      confirmText: 'Go to Home',
-      onConfirm: () => {
-        onClose();
-        resetState();
+    if (!selectedDate || !selectedTime) return;
+    setLoading(true);
+    try {
+      const datetimeStr = `${selectedDate}T${selectedTime}:00`;
+      const localDate = new Date(datetimeStr);
+      if (isNaN(localDate.getTime())) {
+        showPopup({ icon: 'error', title: 'Invalid Date or Time', message: 'Please select a valid date and time.', confirmText: 'OK' });
+        setLoading(false);
+        return;
       }
-    });
-
-  } catch (error) {
-    showPopup({
-      icon: 'error',
-      title: 'Booking Failed',
-      message: 'Something went wrong. Please try again later.',
-      confirmText: 'Go to Home'
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+      const utcDateStr = localDate.toISOString();
+      const payload = {
+        datetime: utcDateStr,
+        clientName: formData.clientName,
+        email: formData.email,
+        phone: formData.phone,
+        notes: `Company: ${formData.company} | Address: ${formData.address} | Notes: ${formData.notes}`,
+      };
+      const res = await fetch(`${baseAPIUrl}/appointments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Booking failed");
+      showPopup({ icon: 'success', title: 'Booked!', message: 'Thank you! Your appointment has been scheduled successfully.', confirmText: 'Go to Home', onConfirm: () => handleClose() });
+    } catch (error) {
+      showPopup({ icon: 'error', title: 'Booking Failed', message: 'Something went wrong. Please try again later.', confirmText: 'OK' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-      <div  data-aos="fade-up" className="bg-white w-full max-w-3xl h-[90vh] rounded-2xl shadow-lg overflow-hidden relative">
-        {/* Close Button */}
-        <button
-          onClick={() => {
-            onClose();
-            resetState();
-          }}
-          className="absolute top-3 right-3 text-gray-600 hover:text-black z-10"
+      <div
+        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-2"
+        onClick={handleClose}
+      >
+        <div
+          className="bg-white rounded-2xl shadow-xl w-full max-w-6xl p-0 md:p-4 flex flex-col md:flex-row relative"
+          style={{ backgroundImage: `url(${gridBg})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          onClick={(e) => e.stopPropagation()} // Prevent inner clicks from bubbling to background
         >
+        <button onClick={handleClose} className="absolute top-3 right-3 text-gray-600 hover:text-black z-10">
           <X size={24} />
         </button>
 
-        <div className="grid h-full grid-cols-1 md:grid-cols-2">
-          {/* Left Image */}
-          <div className=" relative overflow-hidden rounded-l-2xl px-3 py-3 bg-white hidden md:block">
-            {!showForm ? (
-              <img
-                src={leftImage}
-                alt="Book Meeting"
-                className="w-full h-full object-cover rounded-xl"
-              />
-            ) : (
-              <div className="p-2 overflow-auto h-full">
-                <h4 className="text-lg font-semibold text-cyberred mb-3">Fill out the Details</h4>
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full border p-2 rounded"
-                    value={formData.clientName}
-                    onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Contact Number"
-                    className="w-full border p-2 rounded"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    className="w-full border p-2 rounded"
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full border p-2 rounded"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Company"
-                    className="w-full border p-2 rounded"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  />
-                  <textarea
-                    placeholder="Notes (Optional)"
-                    className="w-full border p-2 rounded"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  />
+        {!showForm ? (
+          <>
+            <div className="hidden md:block w-full h-full md:w-[40%] relative overflow-hidden rounded-l-2xl">
+              <img src={leftImage} alt="Meeting" className="h-full w-full object-cover" />
+            </div>
+            <div className="flex flex-col items-center justify-start px-6 py-6 w-full md:w-[60%]">
+              <img src={logo} alt="Cybernest Logo" className="w-36 mb-4" />
+              <h2 className="text-2xl font-extrabold text-cyberred mb-1 text-center">Book a Free Meeting!</h2>
+              <p className="text-sm text-center text-gray-600 mb-6">Book your free session now—let’s talk about what you need!</p>
+              <div className={`rounded-2xl shadow-md flex flex-col gap-4 transition-all duration-300 bg-cyberlightred p-4 ${selectedDate ? 'bg-cyberlightred border border-cyberred w-full max-w-full sm:flex-row' : 'inline-block bg-cyberlightred border border-cyberred items-center'}`}>
+                <div className={`${!selectedDate ? 'flex justify-center' : 'flex-1'}`}>
+                  <AppointmentCalendar onDateClick={setSelectedDate} />
                 </div>
-              </div>
-            )}
-          </div>
-
-
-          {/* Right Side */}
-          <div
-            className="p-5 overflow-auto bg-gray-50 bg-cover bg-center"
-            >
-            {!selectedDate ? (
-              <>
-                <div className="text-center space-y-2 mb-4">
-                  <img src={logo} alt="Logo" className="w-25 mx-auto" />
-                  <h3 className="text-2xl font-bold text-cyberred">Book a free meeting!</h3>
-                  <p className="text-xs text-gray-600">
-                    Book your free session now—let’s talk about what you need!
-                  </p>
-                </div>
-                <AppointmentCalendar onDateClick={setSelectedDate} />
-              </>
-            ) : !showForm ? (
-              <>
-                <h3 className="text-lg font-semibold mb-2">
-                  Available Times on <span className="text-cyberred">{selectedDate}</span>
-                </h3>
-                {availability.length === 0 ? (
-                  <p className="text-sm text-gray-500">Loading or no availability.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {availability.map((slot, i) => {
-                      const disabled = slot.isBooked || isPastTime(slot.time);
-                      return (
-                        <li
-                          key={i}
-                          className={`px-4 py-2 rounded-lg border flex justify-between items-center ${
-                            slot.isBooked
-                              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                              : isPastTime(slot.time)
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : "bg-cyberred text-white hover:opacity-90 cursor-pointer"
-                          }`}
-                          onClick={() => !disabled && setSelectedTime(slot.time)}
-                        >
-                          <span>{slot.time}</span>
-                          {slot.isBooked && (
-                            <span className="ml-2 text-xs font-semibold">Booked</span>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-
-                {selectedTime && (
-                  <button
-                    onClick={() => setShowForm(true)}
-                    className="bg-cyberred text-white py-2 px-6 rounded-full mt-4 hover:opacity-90 transition"
-                  >
-                    Continue
-                  </button>
-                )}
-              </>
-            ) : (
-              <div className="mt-2">
-     
-                {/* Booking Receipt */}
-                <div className="bg-white border border-cyberred rounded-lg p-4 text-sm">
-                  <h4 className="text-lg font-bold text-center text-cyberred mb-2">Appointment Details</h4>
-                  <p className="text-center text-gray-600 mb-2">
-                    Let’s talk about what you need for Free!
-                  </p>
-                  <div className="bg-cyberred text-white rounded-md py-2 text-center font-semibold mb-4">
-                    <div>
-                      {new Date(selectedDate).toLocaleDateString(undefined, {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
+                {selectedDate && (
+                  <div className="flex-1 bg-white rounded-2xl p-4">
+                    <h4 className="text-md font-extrabold text-cyberred mb-2 text-center">Select your Schedule!</h4>
+                    <p className="text-xs text-gray-500 mb-3">Pick a time that works for you—you’ll be there!</p>
+                    <div className="space-y-2 max-h-52 overflow-y-auto pr-2">
+                      {availability.map((slot, i) => {
+                        const disabled = slot.isBooked || isPastTime(slot.time);
+                        const isSelected = selectedTime === slot.time;
+                        return (
+                          <button
+                            key={i}
+                            disabled={disabled}
+                            onClick={() => !disabled && setSelectedTime(slot.time)}
+                            className={`w-full py-4 rounded-xl text-sm font-bold border transition-all duration-200 ${disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : isSelected ? "bg-cyberred text-white" : "bg-cyberlightred hover:bg-gray-100 text-cyberred"}`}
+                          >
+                            {formatTimeRange(slot.time)}
+                            {disabled && <span className="text-xs text-gray-500 ml-2">(Fully Booked)</span>}
+                          </button>
+                        );
                       })}
                     </div>
-                    <div>{selectedTime}</div>
                   </div>
-                  <div className="space-y-2">
-                    <h5 className="font-semibold text-cyberred">Personal Details</h5>
-                    <p>{formData.clientName || ""}</p>
-                    <p>{formData.phone || ""}</p>
-                    <p>{formData.address || ""}</p>
-                    <p>{formData.email || ""}</p>
-                    <p>{formData.company || ""}</p>
-                    <p className="p-2 bg-cyberlightred" style={{borderRadius:"10px"}}>{formData.notes || "No additional notes"}</p>
-                  </div>
-                  <button
-                    onClick={handleBookingSubmit}
-                    disabled={loading}
-                    className={`w-full mt-4 bg-cyberred text-white py-2 rounded-full transition ${
-                      loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
-                    }`}
-                  >
-                    {loading ? "Booking..." : "Confirm Booking"}
-                  </button>
+                )}
+              </div>
+              {selectedDate && (
+                <button
+                  onClick={() => setShowForm(true)}
+                  disabled={!selectedTime || loading}
+                  className={`mt-6 py-2 px-8 text-sm font-semibold rounded-full transition-all duration-200 ${selectedTime && !loading ? "bg-cyberred text-white hover:opacity-90" : "bg-gray-300 text-white cursor-not-allowed"}`}
+                >
+                  {loading ? "Loading..." : "Continue"}
+                </button>
+              )}
+            </div>
+          </> 
+        ) : (
+          <div className="flex flex-col md:flex-row w-full md:h-[650px] bg-white opacity-90 p-5 m-[-10px]-">
+            <div className="w-full md:w-[60%] px-6 py-6 space-y-4 ">
+              <img src={logo} alt="Cybernest Logo" className="w-40 mb-6" />
+              <h1 className="text-3xl font-extrabold text-cyberred">Fill out the Details</h1>
+              <p className="text-md font-normal text-gray-600 mb-4">Book your free session now—let’s talk about what you need!</p>
+              <h4 className="text-lg font-extrabold text-cyberred mb-1">Personal Details <span className="text-xs font-normal">(Required)</span></h4>
+              {[{ label: "Fullname", key: "clientName", placeholder: "Enter your full name" },
+                { label: "Contact No.", key: "phone", placeholder: "09XXXXXXXXX" },
+                { label: "Address", key: "address", placeholder: "Enter your address" },
+                { label: "Email", key: "email", placeholder: "you@example.com" },
+                { label: "Company", key: "company", placeholder: "Company name" }].map(({ label, key, placeholder }) => (
+                  <div key={key} className="flex items-center gap-4">
+                  <label className="w-32 text-md font-normal ">{label}</label>
+                  <input
+                    type="text"
+                    placeholder={placeholder}
+                    className="flex-1 rounded-lg bg-cyberlightred px-4 py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred"
+                    value={formData[key as keyof typeof formData]}
+                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                  />
+                </div>
+
+                ))}
+              <div className="flex items-start gap-4">
+              <label className="w-32 pt-2 text-md ">Notes</label>
+              <textarea
+                rows={3}
+                placeholder="Anything else we should know?"
+                className="flex-1 rounded-lg bg-cyberlightred px-4 py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred"
+                value={formData.notes}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              />
+            </div>
+
+            </div>
+            <div className="w-full md:w-[40%] px-10 py-10 border-l border-cyberred md:mt-14 flex flex-col rounded-3xl">
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto space-y-4 pb-4">
+            <h4 className="text-center text-lg font-extrabold text-cyberred mb-1">Appointment Details</h4>
+            <p className="text-md text-center text-gray-500 mb-4">Let’s talk about what you need for Free!</p>
+            <div className="bg-cyberred text-white text-center rounded-lg py-2 mb-4">
+              <div className="font-extrabold text-3xl">
+                {selectedDate
+                  ? new Date(selectedDate).toLocaleDateString(undefined, {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "Select a Date"}
+              </div>
+              <div className="text-sm">{selectedTime ? formatTimeRange(selectedTime) : "Select a Time"}</div>
+            </div>
+
+            <h5 className="text-center font-bold text-cyberred text-sm mb-2">Personal Details</h5>
+            <div className="text-center text-sm space-y-1 mb-3">
+              <p>{formData.clientName}</p>
+              <p>{formData.phone}</p>
+              <p>{formData.address}</p>
+              <p className="underline">{formData.email}</p>
+              <p>{formData.company}</p>
+            </div>
+
+            <div
+                  className={`bg-cyberlightred/50 text-xs text-start ${
+                    formData.notes ? "bg-cyberlightred" : ""
+                  } text-gray-600 p-3 rounded mb-3`}
+                >
+                  {formData.notes && <>Notes: {formData.notes}</>}
                 </div>
               </div>
-            )}
+
+              {/* Sticky footer with buttons */}
+              <div className="pt-4 mt-auto flex justify-between gap-4">
+               <button
+                  onClick={onClose}
+                  className="w-1/2 border border-cyberred text-cyberred font-semibold py-2 rounded-full hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleBookingSubmit}
+                  disabled={loading}
+                  className={`w-1/2 bg-cyberred text-white py-2 rounded-full transition ${
+                    loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
+                  }`}
+                >
+                  {loading ? "Booking..." : "Confirm"}
+                </button>
+              </div>
+            </div>
+
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

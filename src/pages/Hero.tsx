@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { ArrowRight, BadgeCheck } from "lucide-react";
+import BookingModal from "../components/BookingModal";
 import laptop from "../assets/images/hero-laptop.png";
 import leftCard from "../assets/images/left-card.png";
 import rightCard from "../assets/images/right-card.png";
@@ -8,7 +10,9 @@ import tbidoLogo from "../assets/images/tbido-logo.png";
 import gridBox from "../assets/images/grid-box.png";
 import gridBg from "../assets/images/grid-bg.png";
 
-export default function Hero() {
+const Hero: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <section
       id="hero"
@@ -35,7 +39,7 @@ export default function Hero() {
           <BadgeCheck size={16} className="text-cyberred flex-shrink-0" />
         </div>
 
-        {/* Main Heading - Modified for better responsiveness */}
+        {/* Main Heading */}
         <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-extrabold leading-tight mb-4 sm:mb-6">
           <div className="flex items-center justify-center flex-wrap">
             <span className="text-cyberred mr-1">Always</span>
@@ -50,7 +54,9 @@ export default function Hero() {
                 lineHeight: "1",
               }}
             >
-              <span className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-[56px]">Flow</span>
+              <span className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-[56px]">
+                Flow
+              </span>
             </span>
             <span className="text-cyberviolet ml-1">Forward.</span>
           </div>
@@ -63,25 +69,20 @@ export default function Hero() {
           experiences in high-demand environments.
         </p>
 
-        {/* Buttons */}
+        {/* Call to Action */}
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-10 px-4 sm:px-0">
-          <a
-            href="https://calendly.com/tlvelardo-pup/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto"
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-cyberred slow-beat-animation cursor-pointer text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold shadow-md hover:opacity-90 flex items-center justify-center gap-2 transition w-full sm:w-auto"
           >
-            <button className="bg-cyberred slow-beat-animation cursor-pointer text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold shadow-md hover:opacity-90 flex items-center justify-center gap-2 transition w-full">
-              Get Started <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
-            </button>
-          </a>
+            Get Started <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+          </button>
         </div>
       </div>
 
-      {/* Visuals Only (Laptop + Cards) */}
+      {/* Visuals */}
       <div className="relative mx-auto max-w-7xl">
         <div className="flex justify-center items-center relative z-10 px-2 sm:px-4">
-          {/* Left Card */}
           <img
             src={leftCard}
             alt="Left Card"
@@ -91,7 +92,6 @@ export default function Hero() {
               -translate-y-[25px] sm:-translate-y-[40px] md:-translate-y-[60px] lg:-translate-y-[80px]"
           />
 
-          {/* Laptop Image */}
           <img
             src={laptop}
             alt="Laptop UI"
@@ -99,7 +99,6 @@ export default function Hero() {
             className="w-full max-w-[250px] xs:max-w-[320px] sm:max-w-[450px] md:max-w-[550px] lg:max-w-[700px] xl:max-w-[800px] z-10 relative"
           />
 
-          {/* Right Card */}
           <img
             src={rightCard}
             alt="Right Card"
@@ -111,6 +110,11 @@ export default function Hero() {
           />
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal show={showModal} onClose={() => setShowModal(false)} />
     </section>
   );
-}
+};
+
+export default Hero;

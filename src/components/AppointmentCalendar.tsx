@@ -28,7 +28,7 @@ export default function AppointmentCalendar({ onDateClick }: { onDateClick: (dat
   }, []);
 
   return (
-  <div className="p-4 bg-cyberlightred  rounded-2xl" style={{ border: "1px solid #DC3D50" }}>
+<div className="p-2 rounded-2xl text-sm mx-auto w-fit bg-white">
     <DayPicker
       mode="single"
       
