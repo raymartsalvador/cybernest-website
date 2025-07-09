@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Settings, Menu, X } from "lucide-react";
 import logo from "../assets/images/logo.png";
+import BookingModal from "../components/BookingModal";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const sections = ["hero", "products", "about", "purpose", "team", "contact"];
     const handler = () => {
@@ -60,10 +62,12 @@ export default function Navbar() {
 
         {/* CTA & Menu Toggle */}
         <div className="flex items-center gap-2">
-        <a href="https://calendly.com/tlvelardo-pup/30min" target="_blank">         
-          <button className="hidden cursor-pointer sm:flex px-4 py-1.5 bg-cyberred text-white text-xs font-semibold rounded-full shadow hover:opacity-90 transition">
+          <button className="hidden cursor-pointer sm:flex px-4 py-1.5 bg-cyberred text-white text-xs font-semibold rounded-full shadow hover:opacity-90 transition"
+          
+                onClick={() => setShowModal(true)}
+          >
             Get Started!
-          </button></a>
+          </button>
           <button
             className="md:hidden p-1"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -92,13 +96,16 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <button className="mt-2 w-full bg-cyberred text-white py-2 rounded-full text-xs font-semibold">
+              <button className="mt-2 w-full bg-cyberred text-white py-2 rounded-full text-xs font-semibold"
+                onClick={() => setShowModal(true)}
+              >
                 Get Started!
               </button>
             </li>
           </ul>
         </div>
       )}
+      <BookingModal show={showModal} onClose={() => setShowModal(false)} />
     </header>
   );
 }

@@ -33,3 +33,10 @@
 
   color: #dc3545;
 }
+.rdp {
+  font-size: 0.825rem; /* Reduce calendar font size */
+}
+
+.rdp-months {
+  gap: 0.3rem; /* Reduce spacing between months */
+}
