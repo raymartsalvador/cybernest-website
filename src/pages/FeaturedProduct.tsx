@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
+import BookingModal from "../components/BookingModal";
 import flowDot from "../assets/images/flow.png";
 import flowPlus from "../assets/images/flow-plus.png";
 import gridBox from "../assets/images/grid-box.png";
 
-export default function FeaturedProduct() {
+const FeaturedProduct: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <section id="products" className="px-4 sm:px-6 py-16 sm:py-20 font-montserrat text-gray-700 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -56,29 +60,16 @@ export default function FeaturedProduct() {
                 <p className="text-[9px] mb-2 text-gray-600 px-2">
                   Book a quick meeting with our team for more in depth inquiries.
                 </p>
-                <a
-                  href="https://calendly.com/tlvelardo-pup/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="text-[10px] slow-beat-animation sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberviolet text-white rounded-full font-bold w-full sm:w-auto"
                 >
-                  <button className="text-[10px] slow-beat-animation sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberviolet text-white rounded-full font-bold w-full sm:w-auto">
-                    Book a Meeting
-                  </button>
-                </a>
+                  Book a Meeting
+                </button>
               </div>
               <div className="w-3/5">
                 <ul className="space-y-2 text-xs sm:text-sm mb-4">
-                  {[
-                    "Queueing System",
-                    "Booking System",
-                    "Client Tracking",
-                    "Digital or Physical Kiosk",
-                    "Dashboard CRM",
-                    "Auto Assign Client",
-                    "Point of Sale (POS)",
-                    "Client Demographics",
-                    "Data Analytics",
-                  ].map((feature, i) => (
+                  {["Queueing System", "Booking System", "Client Tracking", "Digital or Physical Kiosk", "Dashboard CRM", "Auto Assign Client", "Point of Sale (POS)", "Client Demographics", "Data Analytics"].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2">
                       {i < 6 ? (
                         <CheckCircle size={16} className="text-green-500" />
@@ -107,29 +98,16 @@ export default function FeaturedProduct() {
                 <p className="text-[9px] mb-2 text-gray-600 px-2">
                   Book a quick meeting with our team for more in depth inquiries.
                 </p>
-                <a
-                  href="https://calendly.com/tlvelardo-pup/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="text-[10px] slow-beat-animation cursor-pointer sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberred text-white rounded-full font-bold w-full sm:w-auto"
                 >
-                  <button className="text-[10px] slow-beat-animation cursor-pointer sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberred text-white rounded-full font-bold w-full sm:w-auto">
-                    Book a Meeting
-                  </button>
-                </a>
+                  Book a Meeting
+                </button>
               </div>
               <div className="w-3/5">
                 <ul className="space-y-2 text-xs sm:text-sm mb-4">
-                  {[
-                    "Queueing System",
-                    "Booking System",
-                    "Client Tracking",
-                    "Digital or Physical Kiosk",
-                    "Dashboard CRM",
-                    "Auto Assign Client",
-                    "Point of Sale (POS)",
-                    "Client Demographics",
-                    "Data Analytics",
-                  ].map((feature, i) => (
+                  {["Queueing System", "Booking System", "Client Tracking", "Digital or Physical Kiosk", "Dashboard CRM", "Auto Assign Client", "Point of Sale (POS)", "Client Demographics", "Data Analytics"].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <CheckCircle size={16} className="text-green-500" />
                       <span className="text-[11px] sm:text-[13px]">{feature}</span>
@@ -141,6 +119,11 @@ export default function FeaturedProduct() {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal show={showModal} onClose={() => setShowModal(false)} />
     </section>
   );
-}
+};
+
+export default FeaturedProduct;

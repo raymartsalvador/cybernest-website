@@ -1,4 +1,7 @@
+@import 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css';
+@import 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css';
 @import "tailwindcss";
+
 
 body {
   font-family: 'Montserrat', sans-serif;
@@ -16,6 +19,7 @@ html {
 
 /* === Custom Color Variables === */
 :root {
+  --cyberlightred: #fbecee;
   --cyberred: #DC3D50;
   --cyberviolet: #473C59;
 }
@@ -40,6 +44,14 @@ body {
 .bg-cyberred {
   background-color: var(--cyberred);
 }
+.bg-cyberlightred {
+  background-color: var(--cyberlightred);
+}
+.border-cyberred {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--cyberred);
+ }
 
 .bg-cyberviolet {
   background-color: var(--cyberviolet);
@@ -57,4 +69,27 @@ body {
 
 .slow-beat-animation {
   animation: slowBeat 2s infinite;
+}
+
+
+/* Works on WebKit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffe5e5; /* light red background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #dc2626; /* Tailwind red-600 */
+  border-radius: 10px;
+  border: 2px solid #ffe5e5;
+}
+
+/* Firefox support (limited) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #dc2626 #ffe5e5;
 }
