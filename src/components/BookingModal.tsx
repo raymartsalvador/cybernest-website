@@ -136,7 +136,7 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
             <img src={leftImage} alt="Meeting" className="h-full w-full object-cover" />
           </motion.div>
 
-            <div className="flex flex-col items-center justify-start px-6 py-6 w-full md:w-[60%]">
+            <div className="flex flex-col items-center justify-start px-6 py-6 w-[85%] md:w-[60%]">
               <img src={logo} alt="Cybernest Logo" className="w-36 mb-4" />
               <h2 className="text-2xl font-extrabold text-cyberred mb-1 text-center">Book a Free Meeting!</h2>
               <p className="text-sm text-center text-gray-600 mb-6">Book your free session now—let’s talk about what you need!</p>
@@ -160,11 +160,11 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
                         const disabled = slot.isBooked || isPastTime(slot.time);
                         const isSelected = selectedTime === slot.time;
                         return (
-                          <button
+                          <button 
                             key={i}
                             disabled={disabled}
                             onClick={() => !disabled && setSelectedTime(slot.time)}
-                            className={`w-full py-4 rounded-xl text-sm font-bold border transition-all duration-200 ${disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : isSelected ? "bg-cyberred text-white" : "bg-cyberlightred hover:bg-gray-100 text-cyberred"}`}
+                            className={`cursor-pointer w-full py-4 rounded-xl text-sm font-bold border transition-all duration-200 ${disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : isSelected ? "bg-cyberred text-white" : "bg-cyberlightred hover:bg-gray-100 text-cyberred"}`}
                           >
                             {formatTimeRange(slot.time)}
                             {disabled && <span className="text-xs text-gray-500 ml-2">(Fully Booked)</span>}
@@ -187,42 +187,48 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
             </div>
           </> 
         ) : (
-          <div className="flex flex-col md:flex-row w-full md:h-[650px] bg-white opacity-90 p-5 m-[-10px]-">
-            <div className="w-full md:w-[60%] px-6 py-6 space-y-4 ">
-              <img src={logo} alt="Cybernest Logo" className="w-40 mb-6" />
-              <h1 className="text-3xl font-extrabold text-cyberred">Fill out the Details</h1>
-              <p className="text-md font-normal text-gray-600 mb-4">Book your free session now—let’s talk about what you need!</p>
-              <h4 className="text-lg font-extrabold text-cyberred mb-1">Personal Details <span className="text-xs font-normal">(Required)</span></h4>
-              {[{ label: "Fullname", key: "clientName", placeholder: "Enter your full name" },
-                { label: "Contact No.", key: "phone", placeholder: "09XXXXXXXXX" },
-                { label: "Address", key: "address", placeholder: "Enter your address" },
-                { label: "Email", key: "email", placeholder: "you@example.com" },
-                { label: "Company", key: "company", placeholder: "Company name" }].map(({ label, key, placeholder }) => (
-                  <div key={key} className="flex items-center gap-4">
-                  <label className="w-32 text-md font-normal ">{label}</label>
-                  <input
-                    type="text"
-                    placeholder={placeholder}
-                    className="flex-1 rounded-lg bg-cyberlightred px-4 py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred"
-                    value={formData[key as keyof typeof formData]}
-                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-                  />
-                </div>
-
-                ))}
-              <div className="flex items-start gap-4">
-              <label className="w-32 pt-2 text-md ">Notes</label>
+         <div className="flex flex-col  max-h-[100%] w-[55vh] md:flex-row  md:h-[650px] md:w-full bg-white opacity-90 p-2 sm:p-5 m-[-10px]">
+          <div className="w-full md:w-[60%] px-3 sm:px-6 py-3 sm:py-6 space-y-2 sm:space-y-4">
+            <img src={logo} alt="Cybernest Logo" className="w-28 sm:w-40 mb-3 sm:mb-6" />
+            <h1 className="text-xl sm:text-3xl font-extrabold text-cyberred">Fill out the Details</h1>
+            <p className="text-sm sm:text-md font-normal text-gray-600 mb-2 sm:mb-4">Book your free session now—let's talk about what you need!</p>
+            
+            <h4 className="text-md sm:text-lg font-extrabold text-cyberred mb-1">
+              Personal Details <span className="text-xs font-normal">(Required)</span>
+            </h4>
+            
+            {[
+              { label: "Fullname", key: "clientName", placeholder: "Enter your full name" },
+              { label: "Contact No.", key: "phone", placeholder: "09XXXXXXXXX" },
+              { label: "Address", key: "address", placeholder: "Enter your address" },
+              { label: "Email", key: "email", placeholder: "you@example.com" },
+              { label: "Company", key: "company", placeholder: "Company name" }
+            ].map(({ label, key, placeholder }) => (
+              <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                <label className="text-sm sm:text-md font-normal sm:w-32">{label}</label>
+                <input
+                  type="text"
+                  placeholder={placeholder}
+                  className="flex-1 rounded-lg bg-cyberlightred px-3 sm:px-4 py-1.5 sm:py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred text-sm"
+                  value={formData[key as keyof typeof formData]}
+                  onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                />
+              </div>
+            ))}
+            
+            <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4">
+              <label className="text-sm sm:text-md sm:w-32 sm:pt-2">Notes</label>
               <textarea
                 rows={3}
                 placeholder="Anything else we should know?"
-                className="flex-1 rounded-lg bg-cyberlightred px-4 py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred"
+                className="flex-1 rounded-lg bg-cyberlightred px-3 sm:px-4 py-1.5 sm:py-2 text-cyberdark placeholder-cyberred/50 focus:outline-none focus:ring-2 focus:ring-cyberred text-sm"
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               />
             </div>
-
-            </div>
-            <div className="w-full md:w-[40%] px-10 py-10 border-l border-cyberred md:mt-14 flex flex-col rounded-3xl">
+          </div>
+          
+          <div className="w-full md:w-[40%] px-4 sm:px-10 py-4 sm:py-10 border-t md:border-t-0 md:border-l border-cyberred md:mt-14 flex flex-col rounded-xl sm:rounded-3xl">
           {/* Scrollable content area */}
           <div className="flex-1 overflow-y-auto space-y-4 pb-4">
             <h4 className="text-center text-lg font-extrabold text-cyberred mb-1">Appointment Details</h4>
