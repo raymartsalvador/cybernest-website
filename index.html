@@ -1,54 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-PH">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/cybernest.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <!-- SEO Meta Tags -->
-    <title>Cybernest - Workflow Automation Solutions</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/cybernest.png" />
+    <link rel="apple-touch-icon" href="/cybernest-apple-touch.png" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Workflow Automation Solutions | Cybernest - Queue Management & Digital Transformation</title>
     <meta
       name="description"
-      content="Cybernest provides digital solutions for managing queues, services, and workflows. Built for institutions aiming to reduce delays, enhance coordination, and deliver seamless user experiences in high-demand environments."
+      content="Transform your business operations with Cybernest's workflow automation solutions. Reduce wait times by 40%, enhance coordination, and deliver seamless customer experiences. Book your free consultation today!"
     />
     <meta
       name="keywords"
-      content="Cybernest, Flow System, Queue Management, CRM Dashboard, Free Booking System, Kiosk, POS, Digital Transformation, Government Tech, Clinic Software, PUP PYLON TBI, TBIDO, Cybernest Flow, Partner Workflow Automation, Appointment System, CRM, Digital Solutions, Workflow Optimization"
+      content="Workflow Automation, Cybernest, Queue Management System, Digital Transformation, Appointment Booking System, CRM Dashboard, Free Booking System, Kiosk, POS, Government Tech, Clinic Software, PUP PYLON TBI, TBIDO, Cybernest Flow, Workflow Optimization"
     />
     <meta name="author" content="Cybernest Solutions" />
-
-    <!-- Open Graph (for social sharing) -->
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.cybernestsolution.com/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.cybernestsolution.com/" />
     <meta
       property="og:title"
-      content="Streamline Queues and Services with Cybernest's Digital Solutions"
+      content="Workflow Automation Solutions | Cybernest - Streamline Your Business"
     />
-
     <meta
       property="og:description"
-      content="Get a free appointment system, CRM dashboard, and more with Cybernest's Flow System. Book your session now!"
+      content="Get a free appointment system, CRM dashboard, and workflow automation tools with Cybernest's Flow System. Book your consultation now!"
     />
     <meta
       property="og:image"
-      content="https://www.cybernestsolution.com/og-cybernest-banner.png"
+      content="https://www.cybernestsolution.com/cybernest_banner.jpg"
     />
-    <meta property="og:url" content="https://www.cybernestsolution.com/" />
-    <meta property="og:type" content="website" />
-
-    <!-- Preconnect and Fonts -->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Cybernest Solutions" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.cybernestsolution.com/" />
+    <meta name="twitter:title" content="Workflow Automation Solutions | Cybernest" />
+    <meta
+      name="twitter:description"
+      content="Transform your business operations with Cybernest's workflow automation solutions. Book your free session now!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.cybernestsolution.com/cybernest_banner.jpg"
+    />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
+      media="print" onload="this.media='all'"
     />
-
-    <!-- Preload key image -->
-    <link rel="preload" as="image" href="/src/assets/images/123.png" />
-    <!-- Preload Key Hero/Popup Images -->
-    <link rel="preload" as="image" href="/src/assets/images/hero-laptop.png" />
+    
+    <!-- Preload key assets -->
+    <link rel="preload" as="image" href="/src/assets/images/hero-laptop.png" fetchpriority="high" />
     <link rel="preload" as="image" href="/src/assets/images/left-card.png" />
     <link rel="preload" as="image" href="/src/assets/images/right-card.png" />
+    
+    <!-- Additional important assets -->
     <link rel="preload" as="image" href="/src/assets/images/tbido-logo.png" />
     <link rel="preload" as="image" href="/src/assets/images/pup-logo.png" />
     <link rel="preload" as="image" href="/src/assets/images/dost-logo.png" />
@@ -56,12 +78,24 @@
     <link rel="preload" as="image" href="/src/assets/images/grid-bg.png" />
     <link rel="preload" as="image" href="/src/assets/images/flow.png" />
     <link rel="preload" as="image" href="/src/assets/images/right-image.png" />
-
+    
+    <!-- Sitemap reference -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
     <!-- Robots -->
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Structured Data -->
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Preconnect to analytics -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
   </body>
 </html>
