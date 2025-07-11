@@ -1,3 +1,63 @@
+/* --- FULL LAYOUT FIX FOR DAYPICKER TABLE --- */
+.rdp {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.rdp-months {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.rdp-month {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.rdp-caption_label {
+  text-align: center;
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.rdp-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  display: table;
+}
+
+.rdp-head {
+  display: table-header-group;
+}
+
+.rdp-tbody {
+  display: table-row-group;
+}
+
+.rdp-row {
+  display: table-row;
+}
+
+.rdp-cell {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.5rem;
+}
+
+
+.rdp-head,
+.rdp-tbody,
+.rdp-row {
+  display: table-row-group;
+}
+
+
 .my-selected {
   background-color: #4e366d;
   color: white;
@@ -25,18 +85,43 @@
   top: 4px;
   right: 6px;
 }
+
+/* Calendar Chevron and Caption Styles */
 .rdp-chevron {
   display: inline-block;
-  fill: #343a40 !important; /* dark gray */
-}
-.rdp-caption_label{
-
-  color: #dc3545;
-}
-.rdp {
-  font-size: 0.825rem; /* Reduce calendar font size */
+  fill: #343a40 !important;
 }
 
-.rdp-months {
-  gap: 0.3rem; /* Reduce spacing between months */
+
+@media (max-width: 768px) {
+  .rdp-months {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .rdp {
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
+  }
+
+  .rdp-caption_label {
+    font-size: 0.8rem;
+  }
+
+  .rdp-chevron {
+    width: 16px;
+    height: 16px;
+  }
+
+  .my-selected,
+  .my-fully-booked,
+  .my-disabled,
+  .my-today {
+    padding: 0.35rem;
+  }
 }

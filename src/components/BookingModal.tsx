@@ -10,10 +10,10 @@ import gridBg from "../assets/images/grid-bg.png";
 
 const baseAPIUrl = import.meta.env.VITE_API_URL;
 
-export default function BookingModal({ show, onClose }: { show: boolean; onClose: () => void }) {
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [availability, setAvailability] = useState<{ time: string; isBooked: boolean }[]>([]);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+export default function BookingModal({ show, onClose }) {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [availability, setAvailability] = useState([]);
+  const [selectedTime, setSelectedTime] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,12 +34,12 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
     onClose();
   };
 
-  const formatTimeRange = (start: string) => {
+  const formatTimeRange = (start) => {
     const [hour, minute] = start.split(":" ).map(Number);
     const startDate = new Date();
     startDate.setHours(hour, minute, 0);
     const endDate = new Date(startDate.getTime() + 30 * 60000);
-    const formatOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+    const formatOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
     return `${startDate.toLocaleTimeString([], formatOptions)} - ${endDate.toLocaleTimeString([], formatOptions)}`;
   };
 
@@ -52,7 +52,7 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
     }
   }, [selectedDate]);
 
-  const isPastTime = (time: string) => {
+  const isPastTime = (time) => {
     if (!selectedDate) return false;
     const now = new Date();
     const selected = new Date(selectedDate);
@@ -100,14 +100,16 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
     <AnimatePresence>
       {show && (
         <motion.div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-2"
+          className="fixed inset-0 z-50 bg-white flex flex-col p-0 overflow-y-auto overflow-x-hidden md:bg-black/80 md:items-center md:justify-center"
           onClick={handleClose}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white rounded-2xl shadow-xl w-full max-w-6xl p-0 md:p-4 flex flex-col md:flex-row relative"
+            // className="min-h-screen w-full md:h-auto md:w-full md:max-w-6xl md:rounded-2xl shadow-xl flex flex-col md:flex-row relative"
+
+            className="min-h-screen bg-white rounded-2xl shadow-xl w-full max-w-6xl p-0 md:p-4 flex flex-col md:flex-row relative md:min-h-0 "
             style={{ backgroundImage: `url(${gridBg})`, backgroundSize: "cover", backgroundPosition: "center" }}
             onClick={(e) => e.stopPropagation()}
             initial={{ y: 50, opacity: 0 }}
@@ -118,38 +120,36 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
             <button onClick={handleClose} className="absolute top-3 right-3 text-gray-600 hover:text-black z-10">
               <X size={24} />
             </button>
+            
+            {!showForm ? (
+              <>
+                <motion.div
+                  className="hidden md:block w-full h-full md:w-[40%] relative overflow-hidden rounded-l-2xl"
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -50, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                >
+                  <img src={leftImage} alt="Meeting" className="h-full w-full object-cover" />
+                </motion.div>
 
-        
-        <button onClick={handleClose} className="absolute top-3 right-3 text-gray-600 hover:text-black z-10">
-          <X size={24} />
-        </button>
-
-        {!showForm ? (
-          <>
-           <motion.div
-            className="hidden md:block w-full h-full md:w-[40%] relative overflow-hidden rounded-l-2xl"
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -50, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            <img src={leftImage} alt="Meeting" className="h-full w-full object-cover" />
-          </motion.div>
-
-            <div className="flex flex-col items-center justify-start px-6 py-6 w-[85%] md:w-[60%]">
-              <img src={logo} alt="Cybernest Logo" className="w-36 mb-4" />
+                <div className="flex flex-col items-center justify-start px-6 py-6 w-full md:w-[60%]">
+                   <img src={logo} alt="Cybernest Logo" className="w-36 mb-4" />
               <h2 className="text-2xl font-extrabold text-cyberred mb-1 text-center">Book a Free Meeting!</h2>
               <p className="text-sm text-center text-gray-600 mb-6">Book your free session now—let’s talk about what you need!</p>
-              <div className={`rounded-2xl shadow-md flex flex-col gap-4 transition-all duration-300 bg-cyberlightred p-4 ${selectedDate ? 'bg-cyberlightred border border-cyberred w-full max-w-full sm:flex-row' : 'inline-block bg-cyberlightred border border-cyberred items-center'}`}>
-                <motion.div
-                  className={`${!selectedDate ? 'flex justify-center' : 'flex-1'}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
+              <div className={`rounded-2xl shadow-md flex flex-col gap-4 transition-all duration-300 bg-cyberlightred p-3 ${selectedDate ? 'bg-cyberlightred border border-cyberred w-full max-w-full sm:flex-row' : 'inline-block bg-cyberlightred border border-cyberred items-center'}`}>
+              <motion.div
+                className={`${!selectedDate ? 'flex justify-center' : 'flex-1'} w-full max-w-full box-border`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                <div className="w-full max-w-full overflow-x-hidden px-1">
                   <AppointmentCalendar onDateClick={setSelectedDate} />
-                </motion.div>
+                </div>
+              </motion.div>
+
 
                 {selectedDate && (
                   <div className="flex-1 bg-white rounded-2xl p-4">
@@ -184,11 +184,11 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
                   {loading ? "Loading..." : "Continue"}
                 </button>
               )}
-            </div>
-          </> 
-        ) : (
-         <div className="flex flex-col  max-h-[100%] w-[55vh] md:flex-row  md:h-[650px] md:w-full bg-white opacity-90 p-2 sm:p-5 m-[-10px]">
-          <div className="w-full md:w-[60%] px-3 sm:px-6 py-3 sm:py-6 space-y-2 sm:space-y-4">
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col w-full max-w-full md:flex-row md:h-[650px] md:w-full bg-white opacity-90 p-4 sm:p-5">
+                <div className="w-full md:w-[60%] px-3 sm:px-6 py-3 sm:py-6 space-y-2 sm:space-y-4">
             <img src={logo} alt="Cybernest Logo" className="w-28 sm:w-40 mb-3 sm:mb-6" />
             <h1 className="text-xl sm:text-3xl font-extrabold text-cyberred">Fill out the Details</h1>
             <p className="text-sm sm:text-md font-normal text-gray-600 mb-2 sm:mb-4">Book your free session now—let's talk about what you need!</p>
@@ -267,7 +267,7 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
               {/* Sticky footer with buttons */}
               <div className="pt-4 mt-auto flex justify-between gap-4">
                <button
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="w-1/2 border border-cyberred text-cyberred font-semibold py-2 rounded-full hover:bg-gray-300"
                 >
                   Cancel
@@ -285,9 +285,8 @@ export default function BookingModal({ show, onClose }: { show: boolean; onClose
               </div>
             </div>
 
-          </div>
-        )}
-
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
