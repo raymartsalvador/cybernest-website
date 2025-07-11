@@ -4,8 +4,8 @@ import gridBox from "../assets/images/grid-box.png";
 
 export default function AboutUs() {
   return (
-    <section id="about" className="font-montserrat bg-white py-16 px-4 sm:px-6 lg:px-24">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+    <section id="about" className="font-montserrat bg-white py-16 px-4 sm:px-6 lg:px-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16 overflow-hidden">
         
         {/* TEXT SECTION */}
         <div className="w-full md:w-2/5 flex flex-col items-center md:items-start text-center md:text-left order-1 md:order-none">
@@ -35,25 +35,22 @@ export default function AboutUs() {
           </p>
         </div>
 
-        {/* IMAGE – goes between descriptions */}
+        {/* IMAGE */}
         <div data-aos="fade-up" className="w-full md:w-3/5 order-2 md:order-none">
           <img
             src={aboutPhoto}
             alt="About"
-            className="w-full max-w-[700px] rounded-lg mx-auto md:mx-0"
+            className="w-full max-w-full rounded-lg mx-auto md:mx-0"
           />
         </div>
 
-        {/* DESCRIPTION 2 + Button */}
+        {/* DESCRIPTION 2 */}
         <div className="w-full md:w-2/5 flex flex-col items-center md:items-start text-center md:text-left order-3 md:order-none">
-          {/* Description 2 */}
           <p data-aos="fade-left" className="text-base font-bold text-cyberviolet mb-1">What is Cybernest?</p>
           <p data-aos="fade-left" className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
             Cybernest IT Solutions helps private and government institutions deliver seamless digital transformation by
             providing an end-to-end Flow Management system that optimizes the movement of people, tasks, and data.
           </p>
-
-          {/* Button */}
         </div>
       </div>
     </section>
