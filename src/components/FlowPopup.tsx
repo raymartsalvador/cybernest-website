@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 import logo from "../assets/images/logo.png";
 import flow from "../assets/images/flow.png";
 import { CheckCircle } from "lucide-react";
@@ -10,21 +10,30 @@ const FlowPopup: React.FC = () => {
   const [open, setOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  // Disable horizontal scroll on body while open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflowX = "hidden";
+    } else {
+      document.body.style.overflowX = "";
+    }
+    return () => {
+      document.body.style.overflowX = "";
+    };
+  }, [open]);
+
   if (!open) return null;
 
   const stopPropagation = (e: MouseEvent<HTMLDivElement>) => e.stopPropagation();
 
   return (
     <div
-      className="absolute inset-0 z-80 flex items-center justify-center bg-black/80 p-4 md:fixed lg:fixed"
+      className="fixed inset-0 z-80 flex items-center justify-center bg-black/80 p-4 overflow-hidden"
       onClick={() => setOpen(false)}
     >
       <div
         data-aos="fade-right"
-        data-aos-anchor="#example-anchor"
-        data-aos-offset="500"
-        data-aos-duration="10000"
-        className="bg-white rounded-2xl shadow-xl w-full max-w-5xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center relative"
+        className="bg-white rounded-2xl shadow-xl w-full max-w-[95vw] md:max-w-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center relative overflow-hidden"
         onClick={stopPropagation}
         style={{
           backgroundImage: `url(${gridBG})`,
@@ -60,7 +69,7 @@ const FlowPopup: React.FC = () => {
                 ))}
               </ul>
               <div className="w-full flex justify-center mb-4">
-                <img src={rightImage} alt="Flow System Illustration" className="w-full max-w-[180px] h-auto rounded-xl" />
+                <img src={rightImage} alt="Flow System Illustration" className="w-full max-w-[200px] h-auto rounded-xl" />
               </div>
               <p className="text-xs mb-4 px-4 max-w-md mx-auto">
                 Book your appointment today! ELIMINATE the bottlenecks, OPTIMIZE your operations, and MOVE forward with FLOW!
@@ -110,11 +119,12 @@ const FlowPopup: React.FC = () => {
 
         <button
           onClick={() => setOpen(false)}
-          className="absolute left-1/2 -bottom-12 sm:-bottom-10 transform cursor-pointer -translate-x-1/2 text-white text-sm sm:text-sm px-4 sm:px-6 hover:text-[#DC3D50]"
+          className="absolute left-1/2 -bottom-12 sm:-bottom-10 transform cursor-pointer -translate-x-1/2 text-white text-sm px-4 sm:px-6 hover:text-[#DC3D50]"
         >
           Remind me Later
         </button>
       </div>
+
       <BookingModal show={showModal} onClose={() => setShowModal(false)} />
     </div>
   );

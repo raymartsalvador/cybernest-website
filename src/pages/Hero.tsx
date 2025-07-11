@@ -80,15 +80,15 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Visuals */}
-      <div className="relative mx-auto max-w-7xl">
+      {/* Visuals - wrapped with overflow-hidden to fix horizontal scroll */}
+      <div className="relative mx-auto max-w-7xl overflow-hidden">
         <div className="flex justify-center items-center relative z-10 px-2 sm:px-4">
           <img
             src={leftCard}
             alt="Left Card"
             data-aos="fade-right"
             className="absolute left-0 bottom-0 w-[100px] xs:w-[120px] sm:w-[180px] md:w-[220px] lg:w-[280px] xl:w-[320px] drop-shadow-xl z-20 transform 
-              translate-x-[15%] sm:translate-x-[5%] lg:translate-x-[10%] xl:translate-x-[15%] 
+              translate-x-[0%] sm:translate-x-[5%] lg:translate-x-[10%] xl:translate-x-[15%] 
               -translate-y-[25px] sm:-translate-y-[40px] md:-translate-y-[60px] lg:-translate-y-[80px]"
           />
 
@@ -105,7 +105,7 @@ const Hero: React.FC = () => {
             data-aos="fade-left"
             className="absolute right-0 bottom-0 w-[100px] xs:w-[120px] sm:w-[180px] md:w-[200px] lg:w-[240px] xl:w-[280px] 
               h-[150px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover drop-shadow-xl z-20 transform 
-              translate-x-[-15%] sm:translate-x-[-5%] lg:translate-x-[-15%] xl:translate-x-[-20%] 
+              translate-x-[0%] sm:translate-x-[-5%] lg:translate-x-[-15%] xl:translate-x-[-20%] 
               -translate-y-[25px] sm:-translate-y-[40px] md:-translate-y-[60px] lg:-translate-y-[80px]"
           />
         </div>
