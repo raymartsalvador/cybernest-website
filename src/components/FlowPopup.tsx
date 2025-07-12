@@ -33,7 +33,7 @@ const FlowPopup: React.FC = () => {
     >
       <div
         data-aos="fade-right"
-        className="bg-white rounded-2xl shadow-xl w-full max-w-[95vw] md:max-w-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center relative overflow-hidden"
+        className="bg-white rounded-2xl shadow-xl w-full max-w-[95vw] md:max-w-4xl 2xl:max-w-6xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center relative overflow-hidden"
         onClick={stopPropagation}
         style={{
           backgroundImage: `url(${gridBG})`,

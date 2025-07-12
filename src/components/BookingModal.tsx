@@ -109,7 +109,7 @@ export default function BookingModal({ show, onClose }) {
           <motion.div
             // className="min-h-screen w-full md:h-auto md:w-full md:max-w-6xl md:rounded-2xl shadow-xl flex flex-col md:flex-row relative"
 
-            className="min-h-screen bg-white rounded-2xl shadow-xl w-full max-w-6xl p-0 md:p-4 flex flex-col md:flex-row relative md:min-h-0 "
+            className="min-h-screen bg-white rounded-2xl shadow-xl w-full md:max-w-5xl 2xl:max-w-6xl p-0 md:p-4 flex flex-col md:flex-row relative md:min-h-0 "
             style={{ backgroundImage: `url(${gridBg})`, backgroundSize: "cover", backgroundPosition: "center" }}
             onClick={(e) => e.stopPropagation()}
             initial={{ y: 50, opacity: 0 }}
@@ -187,7 +187,7 @@ export default function BookingModal({ show, onClose }) {
                 </div>
               </>
             ) : (
-              <div className="flex flex-col w-full max-w-full md:flex-row md:h-[650px] md:w-full bg-white opacity-90 p-4 sm:p-5">
+              <div className="flex flex-col w-full max-w-full md:flex-row md:h-auto md:w-full bg-white opacity-90 p-4 sm:p-5">
                 <div className="w-full md:w-[60%] px-3 sm:px-6 py-3 sm:py-6 space-y-2 sm:space-y-4">
             <img src={logo} alt="Cybernest Logo" className="w-28 sm:w-40 mb-3 sm:mb-6" />
             <h1 className="text-xl sm:text-3xl font-extrabold text-cyberred">Fill out the Details</h1>
