@@ -195,6 +195,7 @@ export default function BookingModal({
           appointmentDate: appointmentDateISO, // ISO with correct local offset
           notes: formData.notes,
           slotId: selectedSlot.id,
+          slot: selectedSlot.slot,
         },
         companySlug,
         {
