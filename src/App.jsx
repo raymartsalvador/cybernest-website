@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import { Routes, Route } from "react-router-dom";
 
@@ -36,9 +35,9 @@ function App() {
         <OurPurpose />
       </section>
 
-      <section id="team">
+      {/* <section id="team">
         <Team />
-      </section>
+      </section> */}
 
       <section id="contact">
         <Contact />
