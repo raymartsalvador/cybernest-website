@@ -34,12 +34,25 @@ export interface CreateAppointmentPayload {
   clientName: string;
   email: string;
   phone: string;
-  appointmentDate: string; // ISO start of the chosen slot
+  appointmentDate: string; // YYYY-MM-DD format
+  slot: string; // required: "HH:mm-HH:mm" format
   address?: string;
   clientCompany?: string;
   notes?: string;
-  slot?: string; // fallback
-  slotId?: string; // preferred
+  slotId?: string; // preferred if known
+}
+
+export interface RequestHeaders {
+  Authorization?: string;
+  "X-Idempotency-Key"?: string;
+  "X-Client-TZ"?: string;
+}
+
+export interface CalendarDayStatus {
+  date: string;
+  availableCount: number;
+  totalCount: number;
+  isFullyBooked: boolean;
 }
 
 // ---- helpers --------------------------------------------------------------
@@ -97,7 +110,7 @@ export function getSlotStart(slot: string): string {
 }
 
 // Build ISO using local wall time (avoid client TZ drift)
-export function toLocalISO(dateYYYYMMDD: string, timeHHmm: string) {
+export function toLocalISO(dateYYYYMMDD: string, timeHHmm: string, _timezone?: string) {
   const [y, M, d] = dateYYYYMMDD.split("-").map(Number);
   const [h, m] = timeHHmm.split(":").map(Number);
   const dt = new Date(y, M - 1, d, h, m, 0, 0);
@@ -138,26 +151,71 @@ export function isPastTime(selectedDate: string | null, slot: string): boolean {
 export async function getAvailability(
   selectedDate: string,
   company: string = DEFAULT_COMPANY,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  timezone: string = DEFAULT_TZ,
+  authToken?: string
 ): Promise<AvailabilitySlot[]> {
   const url = joinUrl(
     company,
-    `/slots?date=${encodeURIComponent(
-      selectedDate
-    )}&timezone=${encodeURIComponent(DEFAULT_TZ)}`
+    `/slots?date=${encodeURIComponent(selectedDate)}&timezone=${encodeURIComponent(timezone)}`
   );
   try {
-    const res = await fetch(url, {
-      signal,
-      headers: { Accept: "application/json" },
-    });
-    if (!res.ok) throw new Error(`Failed to fetch slots: ${res.status}`);
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (authToken) {
+      headers.Authorization = `Bearer ${authToken}`;
+    }
+    const res = await fetch(url, { signal, headers });
+    if (!res.ok) {
+      const error = new Error(`Failed to fetch slots: ${res.status}`) as any;
+      error.status = res.status;
+      throw error;
+    }
     const json = await res.json();
     return normalizeSlots(json);
-  } catch (err) {
+  } catch (err: any) {
+    if (err?.name === "AbortError") throw err;
     console.error(err);
-    return [];
+    throw err;
   }
+}
+
+export async function getCalendarStatus(
+  month: string,
+  company: string = DEFAULT_COMPANY,
+  signal?: AbortSignal
+): Promise<CalendarDayStatus[]> {
+  // Fetch all slots for each day in the month and compute status
+  // Since backend doesn't have /calendarStatus, we build it from /slots
+  const [year, monthNum] = month.split("-").map(Number);
+  const daysInMonth = new Date(year, monthNum, 0).getDate();
+  const results: CalendarDayStatus[] = [];
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${year}-${String(monthNum).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const dateObj = new Date(year, monthNum - 1, day);
+
+    // Skip past dates
+    if (dateObj < today) continue;
+
+    try {
+      const slots = await getAvailability(dateStr, company, signal);
+      const availableCount = slots.filter(s => !s.isBooked).length;
+      const totalCount = slots.length;
+      results.push({
+        date: dateStr,
+        availableCount,
+        totalCount,
+        isFullyBooked: totalCount > 0 && availableCount === 0,
+      });
+    } catch {
+      // Skip dates with errors
+    }
+  }
+
+  return results;
 }
 
 /**
@@ -165,47 +223,73 @@ export async function getAvailability(
  * the server there performs the authoritative, race-safe lock.
  */
 export async function submitBooking(
-  a: string | BookingPayload,
-  b?: BookingPayload | string
+  payload: BookingPayload,
+  company: string = DEFAULT_COMPANY,
+  headers?: RequestHeaders
 ): Promise<{ message?: string } | void> {
-  let company = DEFAULT_COMPANY;
-  let payload: BookingPayload;
-
-  if (typeof a === "string") {
-    company = a || DEFAULT_COMPANY; // legacy: (company, payload)
-    payload = (b as BookingPayload) || ({} as BookingPayload);
-  } else {
-    payload = a; // new: (payload, company?)
-    if (typeof b === "string") company = b;
-  }
-
   const body = { timezone: DEFAULT_TZ, ...payload };
+
+  const fetchHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
+
+  if (headers?.Authorization) {
+    fetchHeaders.Authorization = headers.Authorization;
+  }
+  if (headers?.["X-Idempotency-Key"]) {
+    fetchHeaders["X-Idempotency-Key"] = headers["X-Idempotency-Key"];
+  }
+  if (headers?.["X-Client-TZ"]) {
+    fetchHeaders["X-Client-TZ"] = headers["X-Client-TZ"];
+  }
 
   const res = await fetch(joinUrl(company, "/slots/book"), {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: fetchHeaders,
     body: JSON.stringify(body),
   });
 
   if (!res.ok) {
     const msg = await res.text().catch(() => "");
-    throw new Error(`Booking failed: ${res.status} ${msg}`);
+    const error = new Error(`Booking failed: ${res.status} ${msg}`) as any;
+    error.status = res.status;
+    throw error;
   }
   return res.json().catch(() => ({}));
 }
 
 export async function createAppointment(
   payload: CreateAppointmentPayload,
-  company: string = DEFAULT_COMPANY
+  company: string = DEFAULT_COMPANY,
+  headers?: RequestHeaders
 ): Promise<{ id?: string; status?: string; data?: any; message?: string }> {
+  const fetchHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
+
+  if (headers?.Authorization) {
+    fetchHeaders.Authorization = headers.Authorization;
+  }
+  if (headers?.["X-Idempotency-Key"]) {
+    fetchHeaders["X-Idempotency-Key"] = headers["X-Idempotency-Key"];
+  }
+  if (headers?.["X-Client-TZ"]) {
+    fetchHeaders["X-Client-TZ"] = headers["X-Client-TZ"];
+  }
+
   const res = await fetch(joinUrl(company, "/appointments"), {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: fetchHeaders,
     body: JSON.stringify(payload),
   });
+
   if (!res.ok) {
     const msg = await res.text().catch(() => "");
-    throw new Error(`Failed to create appointment: ${res.status} ${msg}`);
+    const error = new Error(`Failed to create appointment: ${res.status} ${msg}`) as any;
+    error.status = res.status;
+    throw error;
   }
   return res.json().catch(() => ({}));
 }

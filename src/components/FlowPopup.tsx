@@ -22,6 +22,20 @@ const FlowPopup: React.FC = () => {
     };
   }, [open]);
 
+  // Handle escape key to close popup
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [open]);
+
   if (!open) return null;
 
   const stopPropagation = (e: MouseEvent<HTMLDivElement>) => e.stopPropagation();
