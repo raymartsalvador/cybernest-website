@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import cybernestIcon from "../assets/images/cybernest-icon.webp";
 
 export default function Footer() {
@@ -81,9 +82,15 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-white text-base sm:text-xl font-normal mt-8 sm:mt-12">
-          &copy; 2026 Cybernest Solutions. All Rights Reserved.
-        </p>
+        <div className="text-white text-base sm:text-xl font-normal mt-8 sm:mt-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <p>&copy; 2026 Cybernest Solutions. All Rights Reserved.</p>
+          <Link
+            to="/privacy"
+            className="text-white/90 hover:text-white hover:underline text-sm sm:text-base"
+          >
+            Privacy Notice
+          </Link>
+        </div>
       </div>
     </footer>
   );

@@ -21,7 +21,7 @@ if (process.env.VERCEL || process.env.SKIP_PRERENDER) {
   process.exit(0);
 }
 
-const ROUTES = ["/", "/products", "/about", "/contact"];
+const ROUTES = ["/", "/products", "/about", "/contact", "/privacy"];
 const PORT = 4173;
 
 function routeToFile(route) {

@@ -14,6 +14,7 @@ import Testimonials from "./pages/Testimonials";
 import Products from "./pages/Products";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
 import { HomeSkeleton } from "./components/Skeleton";
 import Seo from "./components/Seo";
 
@@ -72,6 +73,7 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/privacy" element={<Privacy />} />
     </Routes>
   )
 }

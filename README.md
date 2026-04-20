@@ -1,13 +1,33 @@
-# React + Vite
+# cybernest-website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing site for [Cybernest Solutions](https://www.cybernestsolution.com)
+— built with React + Vite, deployed on Vercel.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev       # start local dev server
+npm run build     # production build
+npm run lint      # run ESLint
+```
 
-## Expanding the ESLint configuration
+## Security & configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-"# cybernest-website" 
+This project uses `VITE_*` environment variables for **non-secret**
+configuration only. Anything prefixed `VITE_` is inlined into the client
+JS bundle at build time and is visible to every visitor — treat it as
+public. Real secrets (API keys, upstream credentials) live in Vercel
+environment variables and are accessed server-side via the `/api/*`
+Vercel serverless functions (see `api/book/[...path].ts` for the pattern).
+
+**Never commit `.env`.** Copy `.env.example` to `.env.local` for local
+development. The site's security policy and reporting channel are in
+[`SECURITY.md`](./SECURITY.md).
+
+## Notes
+
+- React Router v7, TailwindCSS, react-helmet-async for SEO.
+- The booking flow (`src/services/bookingService.ts`, `BookingModal`) is
+  gated behind `VITE_BOOKING_ENABLED` while the secure booking path is
+  being finalised — see `SECURITY-todo.md`.

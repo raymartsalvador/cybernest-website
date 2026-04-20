@@ -1,10 +1,19 @@
 // src/services/bookingService.ts
-// Lean client aligned to routes:
+// Lean client aligned to routes (served via the same-origin /api/book proxy):
 //  - GET  /:company/slots?date=YYYY-MM-DD[&timezone=...]
 //  - POST /:company/slots/book                 (optional; preflight only)
 //  - POST /:company/appointments               (authoritative; books via slotId)
 
-const RAW_BASE = (import.meta as any).env?.VITE_API_URL || ""; // e.g., https://.../api
+// AUTH MODEL: the client calls the same-origin /api/book/* Vercel proxy,
+// which injects any backend credentials server-side. No auth secret ever
+// reaches the browser. Set VITE_API_URL to override (e.g. to hit the Azure
+// backend directly from local dev without running `vercel dev`).
+//
+// CSRF POSTURE: Authorization: Bearer header + NO cookie auth. Do not
+// reintroduce cookie-based sessions here without also adding a CSRF token
+// — the Azure backend must reject cookie auth for /appointments OR
+// validate Origin against an allowlist. Confirm with backend before changes.
+const RAW_BASE = (import.meta as any).env?.VITE_API_URL || "/api/book";
 const BASE = RAW_BASE.replace(/\/$/, "");
 export const DEFAULT_COMPANY =
   (import.meta as any).env?.VITE_COMPANY_SLUG || "default";
