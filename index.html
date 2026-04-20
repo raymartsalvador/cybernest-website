@@ -8,53 +8,17 @@
     <link rel="icon" type="image/png" href="/cybernest.png" />
     <link rel="apple-touch-icon" href="/cybernest-apple-touch.png" />
     
-    <!-- Primary Meta Tags -->
-    <title>Flow | Cybernest </title>
+    <!-- Primary Meta Tags (default — per-route values injected by react-helmet-async via src/components/Seo.tsx) -->
+    <title>Cybernest Solutions — Workflow Automation & Digital Transformation</title>
     <meta
       name="description"
-      content="Transform your business operations with Cybernest's workflow automation solutions. Reduce wait times by 40%, enhance coordination, and deliver seamless customer experiences. Book your free consultation today!"
-    />
-    <meta
-      name="keywords"
-      content="Workflow Automation, Cybernest, Queue Management System, Digital Transformation, Appointment Booking System, CRM Dashboard, Free Booking System, Kiosk, POS, Government Tech, Clinic Software, PUP PYLON TBI, TBIDO, Cybernest Flow, Workflow Optimization"
+      content="Cybernest builds workflow automation, queueing, and digital transformation solutions for Philippine businesses and government offices."
     />
     <meta name="author" content="Cybernest Solutions" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.cybernestsolution.com/" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.cybernestsolution.com/" />
-    <meta
-      property="og:title"
-      content="Workflow Automation Solutions | Cybernest - Streamline Your Business"
-    />
-    <meta
-      property="og:description"
-      content="Get a free appointment system, CRM dashboard, and workflow automation tools with Cybernest's Flow System. Book your consultation now!"
-    />
-    <meta
-      property="og:image"
-      content="https://www.cybernestsolution.com/cybernest_banner.jpg"
-    />
+
+    <!-- OG image dimensions (static — used across all routes) -->
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Cybernest Solutions" />
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://www.cybernestsolution.com/" />
-    <meta name="twitter:title" content="Cybernest" />
-    <meta
-      name="twitter:description"
-      content="Transform your business operations with Cybernest's workflow automation solutions. Book your free session now!"
-    />
-    <meta
-      name="twitter:image"
-      content="https://www.cybernestsolution.com/cybernest_banner.jpg"
-    />
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,20 +29,6 @@
       media="print" onload="this.media='all'"
     />
     
-    <!-- Preload key assets -->
-    <link rel="preload" as="image" href="/src/assets/images/hero-laptop.png" fetchpriority="high" />
-    <link rel="preload" as="image" href="/src/assets/images/left-card.png" />
-    <link rel="preload" as="image" href="/src/assets/images/right-card.png" />
-    
-    <!-- Additional important assets -->
-    <link rel="preload" as="image" href="/src/assets/images/tbido-logo.png" />
-    <link rel="preload" as="image" href="/src/assets/images/pup-logo.png" />
-    <link rel="preload" as="image" href="/src/assets/images/dost-logo.png" />
-    <link rel="preload" as="image" href="/src/assets/images/grid-box.png" />
-    <link rel="preload" as="image" href="/src/assets/images/grid-bg.png" />
-    <link rel="preload" as="image" href="/src/assets/images/flow.png" />
-    <link rel="preload" as="image" href="/src/assets/images/right-image.png" />
-    
     <!-- Sitemap reference -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     
@@ -88,7 +38,50 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
     
-    <!-- Structured Data -->
+    <!-- Structured Data: Organization + WebSite (global, per-route Product/Breadcrumb schema injected via Seo component) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.cybernestsolution.com/#organization",
+          "name": "Cybernest Solutions",
+          "url": "https://www.cybernestsolution.com/",
+          "logo": "https://www.cybernestsolution.com/cybernest.png",
+          "description": "Cybernest builds workflow automation, queueing, and digital transformation solutions for Philippine businesses and government offices.",
+          "email": "cns@cybernestsolution.com",
+          "sameAs": [
+            "https://www.facebook.com/CybernestSolutions"
+          ],
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+63-976-179-1990",
+              "contactType": "customer support",
+              "areaServed": "PH",
+              "availableLanguage": ["en", "fil"]
+            },
+            {
+              "@type": "ContactPoint",
+              "telephone": "+63-928-901-0072",
+              "contactType": "sales",
+              "areaServed": "PH",
+              "availableLanguage": ["en", "fil"]
+            }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.cybernestsolution.com/#website",
+          "url": "https://www.cybernestsolution.com/",
+          "name": "Cybernest Solutions",
+          "publisher": { "@id": "https://www.cybernestsolution.com/#organization" },
+          "inLanguage": "en-PH"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

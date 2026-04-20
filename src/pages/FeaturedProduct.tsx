@@ -1,126 +1,117 @@
-import { useState } from "react";
-import { CheckCircle, XCircle } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Mail, TvMinimalPlay } from "lucide-react";
 import BookingModal from "../components/BookingModal";
-import flowDot from "../assets/images/flow.png";
-import flowPlus from "../assets/images/flow-plus.png";
-import gridBox from "../assets/images/grid-box.png";
+import { showPopup } from "../components/PopupService";
+import certifyLogo from "../assets/images/certify-logo.png";
+
+const featured = {
+  name: "Certify+",
+  topDescription:
+    "Discover the future of automated workflow management. FLOW is designed to bridge the gap between complex data and intuitive user experiences, making high-level operations accessible.",
+};
 
 const FeaturedProduct: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const handleWatchDemo = useCallback(() => {
+    showPopup({
+      icon: "info",
+      title: "Demo coming soon",
+      message: "A product demo video will be available here shortly.",
+      confirmText: "OK",
+    });
+  }, []);
+
   return (
-    <section id="products" className="px-4 sm:px-6 py-16 sm:py-20 font-montserrat text-gray-700 bg-white">
-      <div className="max-w-7xl mx-auto">
-        {/* Headings */}
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 text-center md:text-left mb-12 mx-2 sm:mx-20">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span
-                className="inline-flex items-center justify-center text-cyberred font-extrabold"
-                style={{
-                  backgroundImage: `url(${gridBox})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "100% 100%",
-                  width: "150px",
-                  height: "60px",
-                  lineHeight: "1",
-                }}
-              >
-                Featured
-              </span>{" "}
-              <span className="text-cyberviolet">Product</span>
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600">
-              Discover how our FLOW solutions help streamline your operations,
-              reduce wait times, and enhance client satisfaction—
-              whether you’re running a small clinic or a midsize institution.
-            </p>
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-sm sm:text-base text-gray-600">
-              Learn more about how Flow works and how it can help you in optimizing your queueing system.
-            </p>
+    <section
+      id="products"
+      className="relative py-16 sm:py-24 font-montserrat bg-white overflow-hidden"
+    >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <h2
+          data-aos="fade-up"
+          className="text-3xl sm:text-4xl md:text-[48px] font-bold text-cyberred text-center mb-4"
+        >
+          Featured Product
+        </h2>
+
+        <p
+          data-aos="fade-up"
+          data-aos-delay="100"
+          className="text-base sm:text-lg md:text-[24px] text-[#3f3f3f] text-center max-w-[1190px] mx-auto mb-12 sm:mb-16 font-normal leading-normal"
+        >
+          {featured.topDescription}
+        </p>
+
+        {/* Carousel-style showcase */}
+        <div
+          data-aos="fade-up"
+          className="relative w-full max-w-[1255px] mx-auto aspect-[4/3] sm:aspect-[1255/477] mb-8 sm:mb-10"
+        >
+          {/* Left side card */}
+          <div
+            aria-hidden="true"
+            className="absolute bg-cyberred border-2 border-cyberred rounded-[24px] left-[-6%] top-[7.34%] w-[28%] h-[85.32%] sm:left-0 sm:w-[40.08%]"
+          />
+          {/* Right side card */}
+          <div
+            aria-hidden="true"
+            className="absolute bg-cyberred border-2 border-cyberred rounded-[24px] right-[-6%] top-[7.34%] w-[28%] h-[85.32%] sm:right-auto sm:left-[59.92%] sm:w-[40.08%]"
+          />
+          {/* Center featured card */}
+          <div
+            className="absolute bg-white border-2 border-cyberred rounded-[24px] flex flex-col items-center justify-start left-[16%] top-0 w-[68%] h-full sm:left-[26.37%] sm:w-[47.01%]"
+          >
+            <img
+              src={certifyLogo}
+              alt={`${featured.name} logo`}
+              className="w-[70%] max-w-[395px] h-auto mt-[10%] sm:mt-[7.34%] sm:w-[60%] object-contain"
+            />
+            <span className="mt-3 sm:mt-4 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred">
+              <span className="inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-cyberred animate-pulse" aria-hidden="true" />
+              Coming Soon
+            </span>
           </div>
         </div>
 
-        {/* Comparison Cards */}
-        <div data-aos="fade-up" className="flex flex-col lg:flex-row justify-center gap-6 sm:gap-8">
-          {/* Basic Version */}
-          <div className="bg-white mb-4 shadow-lg rounded-xl overflow-hidden max-w-lg w-full border border-gray-200">
-            <div className="absolute bg-cyberviolet text-white text-xs font-bold px-10 py-2 rounded-t-2xl w-fit mx-6 mt-[-30px]">
-              Basic Version
-            </div>
-            <div className="p-6 text-left flex gap-20">
-              <div className="w-1/2">
-                <img src={flowDot} alt="Flow Basic" className="h-12 object-contain" />
-                <p className="text-[10px] mb-20 text-gray-600 px-2">
-                  Basic queuing system for small offices and clinics with
-                  simple registration and public queue display.
-                </p>
-                <p className="text-[9px] mb-2 text-gray-600 px-2">
-                  Book a quick meeting with our team for more in depth inquiries.
-                </p>
-                <button
-                  onClick={() => setShowModal(true)}
-                  className="text-[10px] slow-beat-animation sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberviolet text-white rounded-full font-bold w-full sm:w-auto"
-                >
-                  Book a Meeting
-                </button>
-              </div>
-              <div className="w-3/5">
-                <ul className="space-y-2 text-xs sm:text-sm mb-4">
-                  {["Queueing System", "Booking System", "Client Tracking", "Digital or Physical Kiosk", "Dashboard CRM", "Auto Assign Client", "Point of Sale (POS)", "Client Demographics", "Data Analytics"].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      {i < 6 ? (
-                        <CheckCircle size={16} className="text-green-500" />
-                      ) : (
-                        <XCircle size={16} className="text-red-400" />
-                      )}
-                      <span className="text-[11px] sm:text-[13px]">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+        {/* Pagination dots */}
+        <div
+          data-aos="fade-up"
+          className="flex items-center justify-center gap-3 mb-8 sm:mb-10"
+          role="tablist"
+          aria-label="Featured product slides"
+        >
+          <span className="w-3 h-3 rounded-full bg-gray-300" aria-hidden="true" />
+          <span
+            className="w-[60px] h-3 rounded-full bg-cyberred"
+            aria-hidden="true"
+          />
+          <span className="w-3 h-3 rounded-full bg-gray-300" aria-hidden="true" />
+        </div>
 
-          {/* Premium Version */}
-          <div className="bg-white mb-4 shadow-lg rounded-xl overflow-hidden max-w-lg w-full border border-gray-200">
-            <div className="absolute bg-cyberred text-white text-xs font-bold px-10 py-2 rounded-t-2xl w-fit mx-6 mt-[-30px]">
-              Premium Version
-            </div>
-            <div className="p-6 text-left flex gap-20">
-              <div className="w-1/2">
-                <img src={flowPlus} alt="Flow+" className="h-12 object-contain" />
-                <p className="text-[10px] mb-20 text-gray-600 px-2">
-                  Enhanced system with digital registration, automated tracking, and CRM for midsize institutions.
-                </p>
-                <p className="text-[9px] mb-2 text-gray-600 px-2">
-                  Book a quick meeting with our team for more in depth inquiries.
-                </p>
-                <button
-                  onClick={() => setShowModal(true)}
-                  className="text-[10px] slow-beat-animation cursor-pointer sm:text-xs px-6 sm:px-8 py-1.5 sm:py-2 bg-cyberred text-white rounded-full font-bold w-full sm:w-auto"
-                >
-                  Book a Meeting
-                </button>
-              </div>
-              <div className="w-3/5">
-                <ul className="space-y-2 text-xs sm:text-sm mb-4">
-                  {["Queueing System", "Booking System", "Client Tracking", "Digital or Physical Kiosk", "Dashboard CRM", "Auto Assign Client", "Point of Sale (POS)", "Client Demographics", "Data Analytics"].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <CheckCircle size={16} className="text-green-500" />
-                      <span className="text-[11px] sm:text-[13px]">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+        <div
+          data-aos="fade-up"
+          className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 max-w-[320px] sm:max-w-none mx-auto"
+        >
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[300px] h-[48px] sm:h-[60px] bg-cyberred text-white rounded-full font-bold text-sm sm:text-xl hover:opacity-90 transition shadow-sm"
+          >
+            <Mail className="w-4 h-4 sm:w-6 sm:h-6" />
+            Get a Quotation
+          </button>
+          <button
+            type="button"
+            onClick={handleWatchDemo}
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-[48px] sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
+          >
+            <TvMinimalPlay className="w-4 h-4 sm:w-6 sm:h-6" />
+            Watch Demo
+          </button>
         </div>
       </div>
 
-      {/* Booking Modal */}
       <BookingModal show={showModal} onClose={() => setShowModal(false)} />
     </section>
   );

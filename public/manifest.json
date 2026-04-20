@@ -1,0 +1,26 @@
+{
+  "name": "Cybernest Solutions",
+  "short_name": "Cybernest",
+  "description": "Workflow automation and digital transformation solutions by Cybernest.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#DC3D50",
+  "background_color": "#FFFFFF",
+  "lang": "en-PH",
+  "icons": [
+    {
+      "src": "/cybernest.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/cybernest.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

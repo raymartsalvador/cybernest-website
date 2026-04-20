@@ -1,78 +1,54 @@
-import logo from "../assets/images/logo.png";
-import { Facebook, Linkedin } from "lucide-react";
+import cybernestIcon from "../assets/images/cybernest-icon.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-white text-sm text-gray-600 font-montserrat px-4 sm:px-6 py-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 mb-6">
-        {/* Logo & Description */}
-        <div className="md:col-span-2 flex flex-col items-start">
-          <img src={logo} alt="Cybernest Logo" className="h-10 mb-4" />
-          <p className="text-xs mb-1">Enabling seamless digital transformation</p>
-          <p className="text-xs">Optimizing people, tasks, and data for efficient service delivery</p>
-          <div className="flex gap-4 mt-4">
-            <a
-              href="https://web.facebook.com/CybernestSolutions"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook className="h-5 w-5 cursor-pointer hover:text-cyberred transition" />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/cybernestsolutions/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin className="h-5 w-5 cursor-pointer hover:text-cyberred transition" />
-            </a>
-          </div>
-        </div>
-
-        {/* Links Section */}
-        <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {/* Company */}
-          <div>
-            <h4 className="font-bold text-cyberred mb-2">Company</h4>
-            <ul className="space-y-1 text-xs">
-              <li>
-                <a href="#about" className="hover:text-cyberred transition">About</a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-cyberred transition">FAQs</a>
-              </li>
-
-            </ul>
-          </div>
-
-          {/* Features */}
-          <div>
-            <h4 className="font-bold text-cyberred mb-2">Features</h4>
-            <ul className="space-y-1 text-xs">
-              <li>
-                <a href="#products" className="hover:text-cyberred transition">Flow</a>
-              </li>
-              <li>
-                <a href="#products" className="hover:text-cyberred transition">Flow+</a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contacts */}
-          <div className="text-xs">
-            <h4 className="font-bold text-cyberred mb-2 text-sm">Contacts</h4>
-            <p className="mb-2">
-              <span className="font-bold text-cyberred">Company Email:</span> cybernestsolutionph.com
-            </p>
-            <p>
-              <span className="font-bold text-cyberred">Company Address:</span> NALLRC TBIDO PUP, Anonas Street, Sta. Mesa, Manila, Philippines 1016.
-            </p>
+    <footer className="relative bg-white font-montserrat pt-32 sm:pt-36 pb-8 sm:pb-12">
+      {/* Cybernest icon + circles - centered, overlapping the red card */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 z-10 flex items-center justify-center">
+        {/* Outer circle */}
+        <div className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] rounded-full bg-gradient-to-b from-white to-gray-200 flex items-center justify-center shadow-md">
+          {/* Inner circle */}
+          <div className="w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] rounded-full bg-gradient-to-b from-white to-gray-100 flex items-center justify-center">
+            <img
+              src={cybernestIcon}
+              alt="Cybernest"
+              className="w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] object-contain"
+            />
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="text-center text-xs text-gray-500 mt-6">
-        Copyright © 2025 Cybernest Solutions. All Rights Reserved.
+      {/* Red card */}
+      <div className="relative mx-4 sm:mx-8 lg:mx-auto max-w-[1260px] bg-cyberred rounded-[24px] pt-28 sm:pt-32 pb-10 sm:pb-12 px-6 sm:px-12 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+          {/* Left side */}
+          <div className="text-white">
+            <h2 className="text-3xl sm:text-[40px] font-bold mb-3 leading-tight">
+              Lets Talk!
+            </h2>
+            <p className="text-base sm:text-xl font-normal leading-relaxed max-w-[466px]">
+              "In Cybernest, we ensure solutions that are not just functional — but exceptional"
+            </p>
+          </div>
+
+          {/* Right side - Contact info */}
+          <div className="text-white">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3">
+              Contact us at
+            </h3>
+            <div className="space-y-2 text-base sm:text-xl font-normal">
+              <p>cns@cybernestsolution.com</p>
+              <p>facebook.com/CybernestSolutions</p>
+              <p>cybernestsolutionph@gmail.com</p>
+              <p>0976-179-1990 | 0928-901-0072</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <p className="text-white text-base sm:text-xl font-normal mt-8 sm:mt-12">
+          &copy; 2026 Cybernest Solutions. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

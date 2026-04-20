@@ -1,6 +1,6 @@
 // src/components/BookingModal.tsx
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { X, Calendar, Clock, AlertCircle } from "lucide-react";
+import { X, Calendar, Clock, AlertCircle, Facebook, Mail, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { showPopup } from "./PopupService";
 import AppointmentCalendar from "./AppointmentCalendar";
@@ -54,6 +54,49 @@ function EmptySlotState() {
       <p className="text-xs text-gray-400 mt-1">
         Try selecting a different date
       </p>
+    </div>
+  );
+}
+
+// Alternative contact channels for users who'd rather not book online
+function AlternativeContacts() {
+  const channels = [
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/CybernestSolutions",
+      icon: Facebook,
+      ariaLabel: "Message us on Facebook",
+    },
+    {
+      label: "Email",
+      href: "mailto:cns@cybernestsolution.com",
+      icon: Mail,
+      ariaLabel: "Email cns@cybernestsolution.com",
+    },
+    {
+      label: "Call",
+      href: "tel:+639761791990",
+      icon: Phone,
+      ariaLabel: "Call 0976-179-1990",
+    },
+  ];
+
+  return (
+    <div className="w-full max-w-xl mt-3 flex items-center justify-center gap-2 flex-wrap">
+      <span className="text-[11px] text-gray-500">Or reach us:</span>
+      {channels.map(({ label, href, icon: Icon, ariaLabel }) => (
+        <a
+          key={label}
+          href={href}
+          target={href.startsWith("http") ? "_blank" : undefined}
+          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          aria-label={ariaLabel}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-cyberred/30 bg-white hover:bg-cyberlightred hover:border-cyberred transition-colors text-[11px] font-medium text-cyberred"
+        >
+          <Icon className="w-3.5 h-3.5" />
+          {label}
+        </a>
+      ))}
     </div>
   );
 }
@@ -641,6 +684,8 @@ export default function BookingModal({
                       Continue
                     </button>
                   )}
+
+                  <AlternativeContacts />
                 </div>
               </>
             ) : (
