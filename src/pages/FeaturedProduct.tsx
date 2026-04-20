@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { Mail, TvMinimalPlay } from "lucide-react";
 import BookingModal from "../components/BookingModal";
 import { showPopup } from "../components/PopupService";
-import certifyLogo from "../assets/images/certify-logo.png";
+import certifyLogo from "../assets/images/certify-logo.webp";
 
 const featured = {
   name: "Certify+",

@@ -6,11 +6,11 @@ import BookingModal from "../components/BookingModal";
 import { showPopup } from "../components/PopupService";
 import { ProductsSkeleton } from "../components/Skeleton";
 import Seo from "../components/Seo";
-import pointflowPreview from "../assets/images/pointflow-preview.png";
-import certifyLogo from "../assets/images/certify-logo.png";
+import pointflowPreview from "../assets/images/pointflow-preview.webp";
+import certifyLogo from "../assets/images/certify-logo.webp";
 import iotSolutionsImg from "../assets/images/services/iot-solutions.png";
 import trainingSeminarsImg from "../assets/images/services/training-seminars.png";
-import strategicAdvisoryImg from "../assets/images/services/strategic-advisory.png";
+import strategicAdvisoryImg from "../assets/images/services/strategic-advisory.webp";
 
 interface Product {
   name: string;

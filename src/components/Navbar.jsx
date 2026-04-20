@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Menu, CircleUserRound, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo.webp";
 import BookingModal from "../components/BookingModal";
 
 export default function Navbar() {

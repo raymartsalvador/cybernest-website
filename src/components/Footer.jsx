@@ -1,4 +1,4 @@
-import cybernestIcon from "../assets/images/cybernest-icon.png";
+import cybernestIcon from "../assets/images/cybernest-icon.webp";
 
 export default function Footer() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import gridBox from "../assets/images/grid-box.png";
+import gridBox from "../assets/images/grid-box.webp";
 
 export default function OurPurpose() {
   return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import contactImage from "../assets/images/Contact.jpg";
+import contactImage from "../assets/images/Contact.webp";
 import BookingModal from "../components/BookingModal";
 
 export default function Contact() {

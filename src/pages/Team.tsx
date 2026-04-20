@@ -1,14 +1,14 @@
 import { ExternalLink } from "lucide-react";
 
 // Images
-import tristan from "../assets/images/cybermest-team/tristanFormal.png";
-import froilan from "../assets/images/cybermest-team/froiFormal.jpg";
-import raymart from "../assets/images/cybermest-team/raymart.jpg";
-import kurt from "../assets/images/cybermest-team/kurtFormal.jpg";
-import kenneth from "../assets/images/cybermest-team/kenneth.png";
+import tristan from "../assets/images/cybermest-team/tristanFormal.webp";
+import froilan from "../assets/images/cybermest-team/froiFormal.webp";
+import raymart from "../assets/images/cybermest-team/raymart.webp";
+import kurt from "../assets/images/cybermest-team/kurtFormal.webp";
+import kenneth from "../assets/images/cybermest-team/kenneth.webp";
 import philip from "../assets/images/cybermest-team/doc-philip-formal.jpg";
 import airah from "../assets/images/cybermest-team/aira.jpg";
-import gridBox from "../assets/images/grid-box.png";
+import gridBox from "../assets/images/grid-box.webp";
 
 // ---- Portrait card
 function MemberCard({

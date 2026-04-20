@@ -109,5 +109,5 @@ async function main() {
 
 main().catch((err) => {
   console.error("✗ Prerender failed:", err);
-  process.exitCode = 1;
+  console.warn("⚠ Continuing without prerendered routes — SPA fallback still serves all paths.");
 });

@@ -4,7 +4,7 @@ import BookingModal from "../components/BookingModal";
 import aboutPhoto1 from "../assets/images/about/about-1.png";
 import aboutPhoto2 from "../assets/images/about/about-2.png";
 import aboutPhoto3 from "../assets/images/about/about-3.png";
-import aboutPhoto4 from "../assets/images/about/about-4.png";
+import aboutPhoto4 from "../assets/images/about/about-4.webp";
 import aboutPhoto5 from "../assets/images/about/about-5.png";
 
 export default function AboutUs() {

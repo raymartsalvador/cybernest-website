@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail } from "lucide-react";
 import BookingModal from "../components/BookingModal";
-import certifiedExcellencePhoto from "../assets/images/about/certified-excellence.png";
+import certifiedExcellencePhoto from "../assets/images/about/certified-excellence.webp";
 
 export default function CertifiedExcellence() {
   const [showModal, setShowModal] = useState(false);

@@ -13,9 +13,9 @@ import {
   AvailabilitySlot,
 } from "../services/bookingService";
 
-import leftImage from "../assets/images/123.png";
-import logo from "../assets/images/logo.png";
-import gridBg from "../assets/images/grid-bg.png";
+import leftImage from "../assets/images/123.webp";
+import logo from "../assets/images/logo.webp";
+import gridBg from "../assets/images/grid-bg.webp";
 
 interface BookingModalProps {
   show: boolean;

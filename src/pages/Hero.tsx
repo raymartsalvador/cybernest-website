@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import BookingModal from "../components/BookingModal";
-import heroAsset from "../assets/images/hero-asset2.png";
+import heroAsset from "../assets/images/hero-asset2.webp";
 import { BadgeCheck, Puzzle, Package } from "lucide-react";
 
 const Hero: React.FC = () => {
