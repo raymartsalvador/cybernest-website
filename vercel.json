@@ -8,7 +8,7 @@
     { "source": "/Contact", "destination": "/contact", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/((?!api|assets|_next).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
