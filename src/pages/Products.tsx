@@ -327,14 +327,26 @@ export default function Products() {
 
   const productSchema = products.map((p) => ({
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "SoftwareApplication",
     name: p.name,
     description: p.description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
     brand: {
       "@type": "Brand",
       name: "Cybernest Solutions",
     },
-    category: "Business Software",
+    offers: {
+      "@type": "Offer",
+      url: "https://www.cybernestsolution.com/contact",
+      priceCurrency: "PHP",
+      price: "0",
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "Cybernest Solutions",
+      },
+    },
   }));
 
   const breadcrumbItems = [
