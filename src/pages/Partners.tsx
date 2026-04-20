@@ -56,8 +56,11 @@ export default function Partners() {
             >
               <img
                 src={partner.logo}
-                alt={partner.name}
+                alt={`${partner.name} logo`}
+                width={200}
+                height={200}
                 loading="lazy"
+                decoding="async"
                 className="max-h-full max-w-full object-contain select-none"
                 draggable={false}
               />

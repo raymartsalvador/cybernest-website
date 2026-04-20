@@ -76,7 +76,11 @@ const Hero: React.FC = () => {
         <div className="flex justify-center">
           <img
             src={heroAsset}
-            alt="Cybernest hero — woman with floating UI cards"
+            alt="Cybernest workflow automation dashboard with queueing and appointment UI"
+            width={3000}
+            height={2004}
+            fetchPriority="high"
+            decoding="async"
             data-aos="fade-up"
             className="w-full max-w-[500px] sm:max-w-[700px] md:max-w-[900px] lg:max-w-[1200px] h-auto"
           />

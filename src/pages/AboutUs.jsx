@@ -29,6 +29,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto1}
               alt="Cybernest team on site"
+              width={2048}
+              height={1536}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -37,6 +41,10 @@ export default function AboutUs() {
               <img
                 src={aboutPhoto2}
                 alt="Cybernest partnership meeting"
+                width={2048}
+                height={1536}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -44,6 +52,10 @@ export default function AboutUs() {
               <img
                 src={aboutPhoto3}
                 alt="Big idea showcase"
+                width={2048}
+                height={1536}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -51,6 +63,10 @@ export default function AboutUs() {
               <img
                 src={aboutPhoto4}
                 alt="Startup roadshow"
+                width={1536}
+                height={2048}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -58,6 +74,10 @@ export default function AboutUs() {
               <img
                 src={aboutPhoto5}
                 alt="Team gathering"
+                width={2048}
+                height={1536}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -73,6 +93,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto1}
               alt="Cybernest team on site"
+              width={2048}
+              height={1536}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -80,6 +104,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto2}
               alt="Cybernest partnership meeting"
+              width={2048}
+              height={1536}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -87,6 +115,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto3}
               alt="Big idea showcase"
+              width={2048}
+              height={1536}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -94,6 +126,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto4}
               alt="Startup roadshow"
+              width={1536}
+              height={2048}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
@@ -101,6 +137,10 @@ export default function AboutUs() {
             <img
               src={aboutPhoto5}
               alt="Team gathering"
+              width={2048}
+              height={1536}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>

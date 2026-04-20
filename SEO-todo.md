@@ -61,12 +61,14 @@ The site ships useful meta tags but has structural SEO problems that will **acti
   - `/products` — `Products — Certify+, PointFlow+ & Flow | Cybernest Solutions`
   - `/about` — `About Cybernest — Our Story, Milestones & Certifications`
 
-### 7. No SSR / prerendering → social crawlers see stale meta
-- Facebook, LinkedIn, Slack, Discord, and many others do **not** run JS. react-helmet-async alone is not enough.
-- Add one of:
-  - `vite-plugin-ssr` / `vike`, or
-  - `react-snap` / `vite-plugin-prerender` for static prerendering of known routes, or
-  - Migrate to Next.js / Remix if this becomes a growth channel.
+### 7. No SSR / prerendering → social crawlers see stale meta — **DONE 2026-04-20**
+- Added `scripts/prerender.mjs` — vendor-agnostic post-build step using `puppeteer` + `vite preview`. Snapshots pristine `dist/index.html`, then renders each route in headless Chromium, waits for react-helmet-async to inject per-route canonical, and writes `dist/<route>/index.html`.
+- `package.json` `build` script now runs `vite build && node scripts/prerender.mjs`. Also added `build:only` (vite-only) and `prerender` (prerender-only) scripts for debugging.
+- Verified: `dist/index.html`, `dist/products/index.html`, `dist/about/index.html` each contain their own `<title>`, `<meta description>`, `<link rel="canonical">`, OG, Twitter, and JSON-LD tags. Social crawlers without JS now see per-route meta.
+- **Follow-ups:**
+  - Duplicate `<title>` tags appear (helmet's + default from `index.html`). Browsers/Googlebot use the first (helmet's) — cosmetic only. Can strip the default in the prerender script later.
+  - Add hosting-level config (Vercel `vercel.json` / Netlify `_redirects`) so unknown routes still fall back to `dist/index.html`.
+  - Wire prerender into CI so every deploy regenerates static HTML.
 
 ### 8. No structured data (JSON-LD) — **DONE 2026-04-20**
 - Added `Organization` + `WebSite` `@graph` schema as a static `<script type="application/ld+json">` in `index.html` (includes phone ContactPoints, Facebook `sameAs`, and `inLanguage: en-PH`).
@@ -93,9 +95,18 @@ The site ships useful meta tags but has structural SEO problems that will **acti
 - `Products.tsx:320` already had an H1 ("Other Products").
 - `AboutUs.jsx:19` promoted from `<h2>` to `<h1>` ("About Us"). Styling preserved.
 
-### 14. Missing image dimensions → CLS risk
-- `<img>` tags across Hero, FeaturedProduct, etc. have no `width`/`height` attributes.
-- Add intrinsic dimensions to prevent layout shift (affects Core Web Vitals → ranking signal).
+### 14. Missing image dimensions → CLS risk — **DONE 2026-04-20**
+- Added `width`, `height`, and `decoding="async"` (plus `loading="lazy"` below the fold) to all active-route `<img>` tags across:
+  - `Hero.tsx` (hero LCP image — `fetchPriority="high"`, alt text also rewritten for keyword relevance, resolving P2 #21 for hero)
+  - `Navbar.jsx`, `Footer.jsx`
+  - `FeaturedProduct.tsx`
+  - `Partners.tsx` (all partner logos, also improved alt to `"{name} logo"`)
+  - `Products.tsx` (carousel images + service tiles)
+  - `CertifiedExcellence.tsx`
+  - `AboutUs.jsx` (all 10 img blocks in both mobile + desktop layouts)
+- Skipped: `Team.tsx` and `Contact.tsx` — not currently routed.
+- Build + prerender verified passing after changes.
+- Also resolves part of **P2 #18** (lazy-loading below the fold) and part of **P2 #21** (hero alt text).
 
 ### 15. No Google Search Console / Bing verification
 - No `<meta name="google-site-verification">` tag.

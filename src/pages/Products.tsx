@@ -7,6 +7,7 @@ import { showPopup } from "../components/PopupService";
 import { ProductsSkeleton } from "../components/Skeleton";
 import Seo from "../components/Seo";
 import pointflowPreview from "../assets/images/pointflow-preview.png";
+import certifyLogo from "../assets/images/certify-logo.png";
 import iotSolutionsImg from "../assets/images/services/iot-solutions.png";
 import trainingSeminarsImg from "../assets/images/services/training-seminars.png";
 import strategicAdvisoryImg from "../assets/images/services/strategic-advisory.png";
@@ -16,6 +17,7 @@ interface Product {
   description: string;
   features: string[];
   images?: string[];
+  comingSoon?: boolean;
 }
 
 const CAROUSEL_INTERVAL_MS = 4000;
@@ -70,6 +72,8 @@ const products: Product[] = [
       "Bulk Email Delivery",
       "Customizable Templates",
     ],
+    images: [certifyLogo],
+    comingSoon: true,
   },
   {
     name: "PointFlow+",
@@ -122,9 +126,11 @@ function PaginationDots({
 function ProductCarousel({
   images,
   name,
+  comingSoon,
 }: {
   images: string[];
   name: string;
+  comingSoon?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -164,11 +170,21 @@ function ProductCarousel({
           src={src}
           alt={`${name} preview ${i + 1}`}
           aria-hidden={i !== index}
+          width={1725}
+          height={1666}
+          loading="lazy"
+          decoding="async"
           className={`absolute inset-0 m-auto max-w-[80%] max-h-[80%] object-contain transition-opacity duration-700 ease-in-out ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
         />
       ))}
+      {comingSoon && (
+        <span className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred backdrop-blur-sm">
+          <span className="inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-cyberred animate-pulse" aria-hidden="true" />
+          Coming Soon
+        </span>
+      )}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
         <PaginationDots
           count={images.length}
@@ -206,7 +222,11 @@ function ProductRow({
   const isMobile = useIsBelowLg();
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center">
-      <ProductCarousel images={product.images ?? []} name={product.name} />
+      <ProductCarousel
+        images={product.images ?? []}
+        name={product.name}
+        comingSoon={product.comingSoon}
+      />
 
       <div data-aos={isMobile ? "fade-up" : "fade-left"} className="flex flex-col gap-4 sm:gap-5 lg:gap-[22px]">
         <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-bold text-cyberred leading-tight">
@@ -260,7 +280,11 @@ function ServiceCard({
       <div className="w-full aspect-[337/262] overflow-hidden rounded-[10px] sm:rounded-[12px]">
         <img
           src={service.image}
-          alt={service.name}
+          alt={`${service.name} illustration`}
+          width={337}
+          height={262}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
         />
       </div>

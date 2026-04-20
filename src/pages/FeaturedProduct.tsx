@@ -65,6 +65,10 @@ const FeaturedProduct: React.FC = () => {
             <img
               src={certifyLogo}
               alt={`${featured.name} logo`}
+              width={3000}
+              height={3000}
+              loading="lazy"
+              decoding="async"
               className="w-[70%] max-w-[395px] h-auto mt-[10%] sm:mt-[7.34%] sm:w-[60%] object-contain"
             />
             <span className="mt-3 sm:mt-4 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred">

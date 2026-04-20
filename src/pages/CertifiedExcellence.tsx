@@ -61,6 +61,10 @@ export default function CertifiedExcellence() {
             <img
               src={certifiedExcellencePhoto}
               alt="Certified Cybernest professional with trophy and graduation cap"
+              width={2155}
+              height={2018}
+              loading="lazy"
+              decoding="async"
               className="w-full max-w-[637px] h-auto object-contain"
             />
           </div>

@@ -12,6 +12,10 @@ export default function Footer() {
             <img
               src={cybernestIcon}
               alt="Cybernest"
+              width={4096}
+              height={4096}
+              loading="lazy"
+              decoding="async"
               className="w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] object-contain"
             />
           </div>

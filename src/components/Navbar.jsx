@@ -129,6 +129,9 @@ export default function Navbar() {
             <img
               src={logo}
               alt="Cybernest Logo"
+              width={2693}
+              height={740}
+              decoding="async"
               className="h-8 md:h-[50px] w-auto"
             />
           </a>
