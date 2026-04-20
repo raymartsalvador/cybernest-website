@@ -8,6 +8,41 @@ Legend: **P0** blocker · **P1** high · **P2** medium · **P3** low/polish
 
 ---
 
+## Deployment Status — 2026-04-21
+
+All SEO work is deployed to production on Vercel. Live verification:
+
+```
+https://www.cybernestsolution.com/          → 200
+https://www.cybernestsolution.com/products  → 200
+https://www.cybernestsolution.com/about     → 200
+https://www.cybernestsolution.com/contact   → 200
+```
+
+**Commits shipped:**
+- `d4b236f` feat(seo): deploy prerender pipeline, per-route canonical, Contact route
+- `0626dcd` fix(seo): simplify Vercel SPA rewrite pattern (first attempt, didn't fix)
+- `70fca45` fix(seo): use idiomatic `:path*` rewrite and drop cleanUrls (this fixed 404s)
+- `4258ed0` fix(seo): add offers + switch Product to SoftwareApplication schema
+
+**Known trade-off (prerender disabled on Vercel):** `scripts/prerender.mjs:19-22` intentionally skips on Vercel (`process.env.VERCEL`) to avoid flaky puppeteer-in-CI. Consequence: all routes serve `dist/index.html` (homepage raw HTML), and React Helmet injects per-route title/canonical/JSON-LD **client-side**.
+- **Googlebot** executes JS → correctly picks up per-route meta + schema (confirmed: GSC detected `PointFlow+` and `Certify+` Product schemas on `/products`).
+- **Social crawlers** (Facebook, LinkedIn, Slack, Discord) don't execute JS → share previews show homepage OG tags for all routes. Acceptable trade-off to unblock indexing; revisit when social sharing becomes a priority.
+
+**Vercel config gotcha (learned the hard way):**
+- Negative-lookahead regex `/((?!api|assets|_next).*)` **does not match** in Vercel's path-to-regexp — all sub-routes 404.
+- Canonical pattern `/(.*)` combined with `cleanUrls: true` also 404s.
+- The working pattern is `{ "source": "/:path*", "destination": "/index.html" }` with `cleanUrls` removed.
+
+**Search Console status (2026-04-21):** `/products` crawled successfully. Rich Results Test flagged 2 Product warnings (missing offers) — resolved in commit `4258ed0` by switching to `SoftwareApplication` with `offers` block.
+
+**Next actions (you):**
+- In GSC, re-run URL Inspection + Live Test on `/products`, `/about`, `/contact` → request indexing.
+- Verify Rich Results warnings cleared after the `4258ed0` deploy.
+- Set `www.cybernestsolution.com` as primary in Vercel project settings; redirect apex `cybernestsolution.com` → `www`.
+
+---
+
 ## Executive Summary
 
 The site ships useful meta tags but has structural SEO problems that will **actively hurt ranking and social sharing**:
