@@ -4,7 +4,7 @@ import pupLogo from "../assets/images/partners/pup-logo.webp";
 import dostPylon from "../assets/images/partners/dost-pylon-logo.webp";
 import eneda from "../assets/images/partners/eneda-logo.webp";
 import aerocenzi from "../assets/images/partners/aerocenzi-logo.webp";
-import cybercafe from "../assets/images/partners/cybercafe-logo.png";
+import cybercafe from "../assets/images/partners/cybercafe-logo.webp";
 import scalencr from "../assets/images/partners/scalencr-logo.png";
 import bploBinan from "../assets/images/partners/bplo-binan-logo.png";
 import orbit360 from "../assets/images/partners/orbit-360.jpeg";
