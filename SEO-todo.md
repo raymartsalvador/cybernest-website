@@ -108,45 +108,70 @@ The site ships useful meta tags but has structural SEO problems that will **acti
 - Build + prerender verified passing after changes.
 - Also resolves part of **P2 #18** (lazy-loading below the fold) and part of **P2 #21** (hero alt text).
 
-### 15. No Google Search Console / Bing verification
+### 15. No Google Search Console / Bing verification — **PENDING USER ACTION**
 - No `<meta name="google-site-verification">` tag.
-- Register the domain in GSC and add the verification tag (or verify via DNS).
+- **User action:** register domain at https://search.google.com/search-console + Bing Webmaster Tools. Then paste the verification token and I'll add `<meta name="google-site-verification" content="...">` + `<meta name="msvalidate.01" content="...">` to `index.html`.
+- DNS verification also works (TXT record at domain registrar) and is more durable — prefer that if you have DNS access.
 
 ---
 
 ## P2 — Medium Priority
 
-### 16. Preconnect to GTM / GA without the script
-- `index.html:98-99` preconnects to `googletagmanager.com` and `google-analytics.com` but no GA/GTM tag is actually embedded. Wasted handshake + no analytics data.
-- Either install GA4 / GTM properly, or remove the preconnect hints.
+### 16. Preconnect to GTM / GA without the script — **DONE 2026-04-20** (GA4 installed)
+- Installed GA4 in `index.html` with measurement ID `G-Z6PMNMXP7W`:
+  - Re-added `preconnect` hints to `googletagmanager.com` and `google-analytics.com` (crossorigin).
+  - Added async `gtag.js` script + `dataLayer` + `gtag('config', 'G-Z6PMNMXP7W')` initialization.
+- **Follow-ups:**
+  - Verify in GA4 Realtime dashboard after first deploy that hits are flowing.
+  - Consider adding consent mode / cookie banner if targeting EU / EEA traffic.
+  - Optional: move to GTM later if non-GA tags (Meta Pixel, LinkedIn Insight) are added.
 
-### 17. Hero image not responsive
-- `Hero.tsx:77-82` — single PNG, no `srcset` / `sizes`, no modern format.
-- Export WebP/AVIF versions and use `<picture>` or `srcset`. Largest hero asset should be the LCP element.
+### 17. Hero image not responsive — **DONE 2026-04-20**
+- ~~`Hero.tsx:77-82` — single PNG, no `srcset` / `sizes`, no modern format.~~
+- Generated 5 responsive WebP variants from `hero-asset2.webp` (original 3000×2004, 844 KB) via `scripts/one_off_seo_images.py`:
+  - 600w / 900w / 1200w / 1600w / 2000w (35 KB → 242 KB). Original kept as 3000w fallback.
+- `Hero.tsx` now renders `<img>` with `srcSet` covering all six widths and `sizes="(max-width: 640px) 500px, (max-width: 768px) 700px, (max-width: 1024px) 900px, 1200px"` mapping to the Tailwind breakpoints already on the `className`.
+- `fetchPriority="high"` retained on the hero (LCP element). Build + prerender verified passing.
+- **Follow-up:** consider AVIF variants for another ~20–30% savings; current WebP set is already a ~65% LCP byte reduction for mobile.
 
 ### 18. No `loading="lazy"` on below-fold images
 - Partner logos, milestone images, service tiles — all eager-load.
 - Add `loading="lazy"` + `decoding="async"` to everything below the fold.
 
-### 19. Footer social "links" are plain text
-- `Footer.jsx:41` renders `facebook.com/CybernestSolutions` as text, not `<a>`.
-- Make them real `<a href>` with `rel="noopener"`, so crawlers can follow them and Organization JSON-LD `sameAs` has confirmation.
+### 19. Footer social "links" are plain text — **DONE 2026-04-20**
+- ~~`Footer.jsx:41` rendered `facebook.com/CybernestSolutions` as text, not `<a>`.~~
+- Converted all contact entries in `Footer.jsx` to real anchors: `mailto:` for both emails, `tel:` for both phones, and the Facebook link with `target="_blank" rel="noopener noreferrer"`.
+- Organization JSON-LD `sameAs` now has crawler-confirmable linkage.
 
-### 20. `Contact.tsx` exists but isn't routed
-- `App.jsx` has no `/contact` route. Booking is modal-only.
-- Add a real `/contact` page with NAP info, embedded form, and JSON-LD `ContactPoint`. Improves local SEO and gives a deep-linkable conversion target.
+### 20. `Contact.tsx` exists but isn't routed — **DONE 2026-04-20**
+- ~~`App.jsx` had no `/contact` route. Booking was modal-only.~~
+- Rewrote `Contact.tsx` into a full page: NavBar + Footer + Seo + Breadcrumbs + placeholder form + BookingModal CTA.
+- Added `ContactPage` + `ContactPoint` JSON-LD (support + sales phones, email, PH language coverage).
+- Wired `/contact` route in `App.jsx`, added Contact link to `Navbar.jsx` desktop + mobile nav.
+- Added `/contact` entry to `public/sitemap.xml` (priority 0.8, monthly).
+- Added `/contact` to `scripts/prerender.mjs` `ROUTES` array.
+- **Caveats / follow-ups:**
+  - Form has no submit handler yet — currently shows a confirmation state on client-side submit only. Wire to Formspree / Resend / email endpoint when decided.
+  - No street address yet — page shows "Philippines · serving businesses and government offices nationwide". Replace with real NAP once public. Needed for `LocalBusiness` schema upgrade (P1 #8 follow-up).
+  - ~~**`src/assets/images/Contact.webp` is 11 MB** — huge for a hero image. Must be compressed / resized before production.~~ **DONE 2026-04-20** — recompressed via `scripts/one_off_seo_images.py` from 5600×3733 / 10.76 MB to 1920×1280 / 404 KB @ q=82 (96.3% saved). Bundled output is now 414 KB.
 
-### 21. Hero image alt text is weak
-- `Hero.tsx:79` — `alt="Cybernest hero — woman with floating UI cards"`.
-- Should describe the business outcome, not the visual: e.g.
-  `"Cybernest workflow automation dashboard with queueing and appointment UI"`.
+### 21. Hero image alt text is weak — **DONE 2026-04-20** (resolved via P1 #14)
+- `Hero.tsx` hero alt is now `"Cybernest workflow automation dashboard with queueing and appointment UI"` — matches the recommended outcome-focused copy.
 
-### 22. Favicon set is incomplete
-- Only `/cybernest.png` + Apple touch. Missing `favicon.ico`, 16×16, 32×32, 192, 512, and manifest-linked PWA icons.
-- Generate a full set (realfavicongenerator.net) and drop into `public/`.
+### 22. Favicon set is incomplete — **DONE 2026-04-20**
+- Generated full favicon set from `public/cybernest.png` via `scripts/one_off_seo_images.py`:
+  - `favicon.ico` (multi-size 16/32/48, 5.3 KB)
+  - `favicon-16x16.png`, `favicon-32x32.png`
+  - `cybernest-apple-touch.png` (180×180, previously 404 — link in `index.html` was broken)
+  - `cybernest-192.png`, `cybernest-512.png` (PWA)
+- `index.html` updated to link `favicon.ico` + 16×16 + 32×32 + 180×180 apple-touch.
+- `public/manifest.json` icons now point at the proper 192 and 512 PNGs (were both pointing at the same `/cybernest.png`).
+- **Follow-up:** consider generating a dedicated maskable-safe icon with padding so Android's adaptive-icon mask doesn't clip the logo.
 
-### 23. Meta description contains unverified claim
-- "Reduce wait times by 40%" — make sure there is a case study / data source backing this, or soften the claim. Regulators (PH DTI Fair Advertising Rules) and trust signals both matter.
+### 23. Meta description contains unverified claim — **DONE 2026-04-20**
+- ~~"Reduce wait times by 40%" — regulators (PH DTI Fair Advertising) + trust signals at risk.~~
+- Audited current copy: claim is **not present** in any live route's title, description, OG text, or hero/product copy (it was already removed when per-route meta was rewritten under P1 #5 / #10). Only stale reference was in audit docs.
+- **Follow-up:** if the 40% stat returns (e.g., in a case study page), back it with a linked source or soften to qualitative language.
 
 ### 24. Keyword cluster misalignment
 - Homepage targets "workflow automation" but also "Queue Management System", "Appointment Booking System", "Kiosk", "POS", "Government Tech", "Clinic Software" in meta keywords.
@@ -160,38 +185,52 @@ The site ships useful meta tags but has structural SEO problems that will **acti
 - Hero + stats + featured product + footer = <300 words indexable copy.
 - Add an "Industries we serve" / "How it works" / "Why Cybernest" section with keyword-rich prose (~600-800 words total on `/`).
 
-### 26. No breadcrumbs
-- Sub-pages have no breadcrumb UI or `BreadcrumbList` schema.
-- Add both — improves SERP appearance.
+### 26. No breadcrumbs — **DONE 2026-04-20**
+- `BreadcrumbList` schema was already emitted via `Seo.tsx` under P1 #8.
+- Added UI counterpart: new `src/components/Breadcrumbs.tsx` — accessible `<nav aria-label="Breadcrumb">` with `aria-current="page"` on the last item.
+- Wired into `/products`, `/about`, and new `/contact` routes using the same breadcrumb array passed to `Seo`.
 
 ---
 
 ## P3 — Polish
 
-### 27. `meta keywords` tag
-- Ignored by Google since 2009. Can remove to reduce noise, or keep minimal.
+### 27. `meta keywords` tag — **DONE 2026-04-20**
+- Confirmed: `index.html` no longer contains a `<meta name="keywords">` tag (already removed when per-route meta was introduced in P1 #5).
 
 ### 28. HTML lang subtag
 - `en-PH` is valid but rare. Confirm intent; `en` is broader, `en-PH` signals geo to some crawlers.
 
-### 29. Duplicate case-sensitive routes
-- `App.jsx:50-53` registers both `/Products` and `/products`, `/About` and `/about`. Creates duplicate-content risk if both get linked externally.
-- Keep lowercase only and redirect capitalized variants at the hosting layer (Vercel/Netlify `_redirects` or `vercel.json`).
+### 29. Duplicate case-sensitive routes — **DONE 2026-04-20**
+- ~~`App.jsx` registered both `/Products` + `/products` and `/About` + `/about`.~~
+- Removed capitalized variants from `App.jsx`. Routes are now lowercase-only: `/`, `/products`, `/about`, `/contact`.
+- Added `vercel.json` with 301 redirects `/Products → /products`, `/About → /about`, `/Contact → /contact` + SPA rewrite fallback.
 
 ### 30. Fonts: only Montserrat, loaded via print-swap trick
 - Good for perf, but make sure `font-display: swap` is set (Google Fonts `&display=swap` URL already does this — OK).
 - Consider self-hosting for privacy + slightly faster first paint.
 
-### 31. No security/trust headers
-- Not directly SEO, but HSTS, CSP, `X-Content-Type-Options` boost trust signals and HTTPS quality scoring. Configure at host.
+### 31. No security/trust headers — **DONE 2026-04-20** (via `vercel.json`)
+- Added in `vercel.json` `headers` for `/(.*)`:
+  - `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`
+  - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: SAMEORIGIN`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- Asset cache: `/assets/(.*)` gets `Cache-Control: public, max-age=31536000, immutable`.
+- **Follow-up:** add a `Content-Security-Policy` once GA4/GTM/embedded fonts/iframes are finalized. CSP is easy to misconfigure — leave for a dedicated pass.
 
 ### 32. Domain confusion
 - Site uses `cybernestsolution.com` (singular). Emails use `cybernestsolution.com` **and** `cybernestsolutionph@gmail.com`. Facebook handle is `CybernestSolutions` (plural).
 - Decide canonical brand string ("Cybernest Solutions" vs "Cybernest") and align across title, OG, footer, Schema, social.
 - Make sure `cybernestsolutions.com` (plural) either redirects to singular, or register it defensively.
 
-### 33. Non-www / HTTP redirects
-- Verify `http://` and non-`www` variants 301 to `https://www.cybernestsolution.com/`. Canonical only works if server agrees.
+### 33. Non-www / HTTP redirects — **PARTIAL 2026-04-20**
+- `vercel.json` now carries 301 redirects for `/Products`, `/About`, `/Contact` case variants + SPA fallback rewrite.
+- **Still needed at DNS / Vercel project level:**
+  - Set `www.cybernestsolution.com` as production domain in Vercel project settings.
+  - Add `cybernestsolution.com` (apex) as alias that **permanently redirects** to `www.cybernestsolution.com`.
+  - Verify `http://` variants auto-301 to `https://` (Vercel does this by default once the domain is attached).
+- Verification (post-deploy): `curl -I http://cybernestsolution.com/` should return 301 → `https://www.cybernestsolution.com/`.
 
 ### 34. AOS animations & `data-aos` on critical content
 - AOS gates visibility via CSS until scripted in. Crawlers see the HTML so ranking isn't hurt, but LCP on the stats banner might suffer. Audit LCP element in Lighthouse.

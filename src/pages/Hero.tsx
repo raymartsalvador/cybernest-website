@@ -2,6 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import BookingModal from "../components/BookingModal";
 import heroAsset from "../assets/images/hero-asset2.webp";
+import heroAsset600 from "../assets/images/hero-asset2-600w.webp";
+import heroAsset900 from "../assets/images/hero-asset2-900w.webp";
+import heroAsset1200 from "../assets/images/hero-asset2-1200w.webp";
+import heroAsset1600 from "../assets/images/hero-asset2-1600w.webp";
+import heroAsset2000 from "../assets/images/hero-asset2-2000w.webp";
 import { BadgeCheck, Puzzle, Package } from "lucide-react";
 
 const Hero: React.FC = () => {
@@ -46,7 +51,7 @@ const Hero: React.FC = () => {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg md:text-2xl text-cyberviolet font-normal max-w-3xl mx-auto leading-normal mb-4 sm:mb-6 px-2 sm:px-0">
+        <p className="text-base sm:text-lg md:text-2xl text-cyberviolet font-normal max-w-5xl mx-auto leading-normal mb-4 sm:mb-6 px-2 sm:px-0">
           Cybernest streamlines traditional workflows through AI solutions, turning
           <br className="hidden sm:inline" />
           complex legacy operations into seamless digital experiences.
@@ -75,7 +80,9 @@ const Hero: React.FC = () => {
       <div className="relative mx-auto max-w-7xl z-10">
         <div className="flex justify-center">
           <img
-            src={heroAsset}
+            src={heroAsset1200}
+            srcSet={`${heroAsset600} 600w, ${heroAsset900} 900w, ${heroAsset1200} 1200w, ${heroAsset1600} 1600w, ${heroAsset2000} 2000w, ${heroAsset} 3000w`}
+            sizes="(max-width: 640px) 500px, (max-width: 768px) 700px, (max-width: 1024px) 900px, 1200px"
             alt="Cybernest workflow automation dashboard with queueing and appointment UI"
             width={3000}
             height={2004}

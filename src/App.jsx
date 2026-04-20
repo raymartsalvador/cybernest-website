@@ -13,6 +13,7 @@ import Partners from "./pages/Partners";
 import Testimonials from "./pages/Testimonials";
 import Products from "./pages/Products";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import { HomeSkeleton } from "./components/Skeleton";
 import Seo from "./components/Seo";
 
@@ -68,10 +69,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Products" element={<Products />} />
       <Route path="/products" element={<Products />} />
-      <Route path="/About" element={<About />} />
       <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
     </Routes>
   )
 }

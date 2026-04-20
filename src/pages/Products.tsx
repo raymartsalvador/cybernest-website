@@ -6,6 +6,7 @@ import BookingModal from "../components/BookingModal";
 import { showPopup } from "../components/PopupService";
 import { ProductsSkeleton } from "../components/Skeleton";
 import Seo from "../components/Seo";
+import Breadcrumbs from "../components/Breadcrumbs";
 import pointflowPreview from "../assets/images/pointflow-preview.webp";
 import certifyLogo from "../assets/images/certify-logo.webp";
 import iotSolutionsImg from "../assets/images/services/iot-solutions.png";
@@ -336,15 +337,17 @@ export default function Products() {
     category: "Business Software",
   }));
 
+  const breadcrumbItems = [
+    { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
+  ];
+
   const seo = (
     <Seo
       title="Products — Certify+, PointFlow+ & Flow | Cybernest Solutions"
       description="Explore Cybernest's workflow automation products: Certify+ for bulk certificate generation, PointFlow+ for queue & appointment management, and Flow for end-to-end digital transformation."
       path="/products"
-      breadcrumbs={[
-        { name: "Home", path: "/" },
-        { name: "Products", path: "/products" },
-      ]}
+      breadcrumbs={breadcrumbItems}
       jsonLd={productSchema}
     />
   );
@@ -358,6 +361,7 @@ export default function Products() {
 
       <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24">
         <div className="max-w-7xl mx-auto">
+          <Breadcrumbs items={breadcrumbItems} className="mb-6 sm:mb-8" />
           <h1
             data-aos="fade-up"
             className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] font-bold text-cyberred mb-3 sm:mb-4"

@@ -41,10 +41,41 @@ export default function Footer() {
               Contact us at
             </h3>
             <div className="space-y-2 text-base sm:text-xl font-normal">
-              <p>cns@cybernestsolution.com</p>
-              <p>facebook.com/CybernestSolutions</p>
-              <p>cybernestsolutionph@gmail.com</p>
-              <p>0976-179-1990 | 0928-901-0072</p>
+              <p>
+                <a
+                  href="mailto:cns@cybernestsolution.com"
+                  className="hover:underline"
+                >
+                  cns@cybernestsolution.com
+                </a>
+              </p>
+              <p>
+                <a
+                  href="https://www.facebook.com/CybernestSolutions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  facebook.com/CybernestSolutions
+                </a>
+              </p>
+              <p>
+                <a
+                  href="mailto:cybernestsolutionph@gmail.com"
+                  className="hover:underline"
+                >
+                  cybernestsolutionph@gmail.com
+                </a>
+              </p>
+              <p>
+                <a href="tel:+639761791990" className="hover:underline">
+                  0976-179-1990
+                </a>
+                {" | "}
+                <a href="tel:+639289010072" className="hover:underline">
+                  0928-901-0072
+                </a>
+              </p>
             </div>
           </div>
         </div>

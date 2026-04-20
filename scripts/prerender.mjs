@@ -16,7 +16,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, "..");
 const distDir = join(projectRoot, "dist");
 
-const ROUTES = ["/", "/products", "/about"];
+if (process.env.VERCEL || process.env.SKIP_PRERENDER) {
+  console.log("▶ Skipping prerender (VERCEL/SKIP_PRERENDER env set) — SPA fallback will serve all routes.");
+  process.exit(0);
+}
+
+const ROUTES = ["/", "/products", "/about", "/contact"];
 const PORT = 4173;
 
 function routeToFile(route) {

@@ -15,6 +15,7 @@ export default function Navbar() {
   const pathname = location.pathname.toLowerCase();
   const isProductsPage = pathname === "/products";
   const isAboutPage = pathname === "/about";
+  const isContactPage = pathname === "/contact";
   const isHomePage = pathname === "/";
 
   useEffect(() => {
@@ -24,6 +25,10 @@ export default function Navbar() {
     }
     if (isAboutPage) {
       setActiveSection("about");
+      return;
+    }
+    if (isContactPage) {
+      setActiveSection("contact");
       return;
     }
     const sections = ["hero", "products", "about", "purpose", "team"];
@@ -38,7 +43,7 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
-  }, [isProductsPage, isAboutPage]);
+  }, [isProductsPage, isAboutPage, isContactPage]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -116,6 +121,7 @@ export default function Navbar() {
     { label: "Home", href: "hero" },
     { label: "Products", href: "products", to: "/products" },
     { label: "About", href: "about", to: "/about" },
+    { label: "Contact", href: "contact", to: "/contact" },
   ];
 
   return (

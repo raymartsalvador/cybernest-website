@@ -6,6 +6,12 @@ import CertifiedExcellence from "./CertifiedExcellence";
 import KeyMilestones from "./KeyMilestones";
 import { AboutSkeleton } from "../components/Skeleton";
 import Seo from "../components/Seo";
+import Breadcrumbs from "../components/Breadcrumbs";
+
+const breadcrumbItems = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+];
 
 export default function About() {
   const [loading, setLoading] = useState(true);
@@ -20,10 +26,7 @@ export default function About() {
       title="About Cybernest — Our Story, Milestones & Certifications"
       description="Cybernest Solutions is a Philippine technology company building workflow automation and digital transformation products. Meet the team, milestones, and certifications behind our work."
       path="/about"
-      breadcrumbs={[
-        { name: "Home", path: "/" },
-        { name: "About", path: "/about" },
-      ]}
+      breadcrumbs={breadcrumbItems}
     />
   );
 
@@ -35,6 +38,9 @@ export default function About() {
       <NavBar />
 
       <main className="bg-white pt-32 sm:pt-40 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 mb-6 sm:mb-8">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
         <AboutUs />
         <KeyMilestones />
         <CertifiedExcellence />

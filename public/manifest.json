@@ -11,13 +11,13 @@
   "lang": "en-PH",
   "icons": [
     {
-      "src": "/cybernest.png",
+      "src": "/cybernest-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/cybernest.png",
+      "src": "/cybernest-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

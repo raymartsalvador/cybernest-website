@@ -5,6 +5,8 @@
 **Last synced:** 2026-04-20
 **Companion doc:** `SEO-todo.md` (audit + remediation tracker)
 
+**Analytics:** GA4 property `G-Z6PMNMXP7W` (installed in `index.html`, all routes).
+
 ---
 
 ## 1. Canonical Identity
@@ -52,6 +54,14 @@
 - **Primary keywords:** brand/trust queries, "Cybernest Solutions Philippines"
 - **Canonical:** `https://www.cybernestsolution.com/about`
 - **Extra schema:** `BreadcrumbList`
+
+### `/contact` — Contact
+- **File:** `src/pages/Contact.tsx` (full-page route, not a section)
+- **Title:** `Contact Cybernest Solutions — Talk to Our Team`
+- **Description:** `Get in touch with Cybernest Solutions for workflow automation, queueing, and digital transformation projects across the Philippines. Email, call, or book a free consultation.`
+- **Primary keywords:** "contact cybernest", "cybernest philippines contact", "workflow automation consultation"
+- **Canonical:** `https://www.cybernestsolution.com/contact`
+- **Extra schema:** `ContactPage` + `ContactPoint` (support + sales phones, email, PH) + `BreadcrumbList`
 
 ### `index.html` fallback (used by social crawlers before prerender, or for unknown routes)
 - **Title:** `Cybernest Solutions — Workflow Automation & Digital Transformation`
