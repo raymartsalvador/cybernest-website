@@ -1,15 +1,14 @@
 /**
  * Prerender static HTML for each public route after `vite build`.
  *
- * Loads `/` via `vite preview`, then drives client-side route changes via
- * history.pushState to avoid needing SPA fallback in the preview server.
- * Waits for react-helmet-async to inject per-route meta, then writes the
+ * Runs `vite preview` (sirv with SPA fallback), drives it with Puppeteer,
+ * waits for react-helmet-async to inject per-route meta, then writes the
  * final HTML to dist/<route>/index.html so social crawlers (Facebook,
- * LinkedIn, Slack) that don't execute JS still see correct title / OG tags.
+ * LinkedIn, Slack) that don't execute JS still see the correct title / OG tags.
  */
 import { preview } from "vite";
 import puppeteer from "puppeteer";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,30 +24,59 @@ function routeToFile(route) {
   return join(distDir, route.replace(/^\//, ""), "index.html");
 }
 
-async function navigateAndCapture(page, route) {
-  await page.evaluate((path) => {
-    window.history.pushState({}, "", path);
-    window.dispatchEvent(new PopStateEvent("popstate"));
-  }, route);
+function expectedCanonicalTail(route) {
+  return route === "/" ? "cybernestsolution.com/" : route;
+}
+
+async function renderRoute(browser, route) {
+  const page = await browser.newPage();
+  // Surface any in-page errors so we can diagnose.
+  page.on("pageerror", (e) => console.error(`    [pageerror ${route}]`, e.message));
+  page.on("console", (m) => {
+    if (m.type() === "error") console.error(`    [console ${route}]`, m.text());
+  });
+
+  const url = `http://localhost:${PORT}${route}`;
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
 
   await page.waitForFunction(
-    (path) => {
-      const link = document.querySelector('link[rel="canonical"]');
-      const href = link?.getAttribute("href") ?? "";
-      const tail = path === "/" ? "/" : path;
-      return href.endsWith(tail);
+    (tail) => {
+      const links = document.querySelectorAll('link[rel="canonical"]');
+      for (const link of links) {
+        if (link.getAttribute("href")?.endsWith(tail)) return true;
+      }
+      return false;
     },
-    { timeout: 10_000 },
-    route,
+    { timeout: 15_000 },
+    expectedCanonicalTail(route),
   );
 
-  // Small settle delay so any trailing helmet updates flush.
-  await new Promise((r) => setTimeout(r, 100));
+  // Settle for any trailing helmet updates.
+  await new Promise((r) => setTimeout(r, 150));
 
-  return page.content();
+  const html = await page.content();
+  await page.close();
+  return html;
 }
 
 async function main() {
+  // Snapshot the pristine Vite-built index.html so reruns start clean.
+  // On first run: save it. On subsequent runs: restore it before we
+  // let sirv serve it (otherwise yesterday's prerendered canonical
+  // leaks into today's helmet wait).
+  const indexPath = join(distDir, "index.html");
+  const snapshotPath = join(distDir, ".prerender-original.html");
+  try {
+    await readFile(snapshotPath, "utf8").then((snapshot) =>
+      writeFile(indexPath, snapshot, "utf8"),
+    );
+    console.log("▶ Restored pristine dist/index.html from snapshot");
+  } catch {
+    const pristine = await readFile(indexPath, "utf8");
+    await writeFile(snapshotPath, pristine, "utf8");
+    console.log("▶ Saved pristine dist/index.html snapshot");
+  }
+
   console.log("▶ Starting vite preview server...");
   const server = await preview({
     root: projectRoot,
@@ -59,32 +87,17 @@ async function main() {
   const browser = await puppeteer.launch({ headless: true });
 
   const writes = [];
-
   try {
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${PORT}/`, {
-      waitUntil: "networkidle0",
-      timeout: 30_000,
-    });
-    // Wait for initial helmet injection on the home route.
-    await page.waitForFunction(
-      () => !!document.querySelector('link[rel="canonical"]'),
-      { timeout: 10_000 },
-    );
-
     for (const route of ROUTES) {
       console.log(`  → Rendering ${route}`);
-      const html = await navigateAndCapture(page, route);
+      const html = await renderRoute(browser, route);
       writes.push([routeToFile(route), html]);
     }
-
-    await page.close();
   } finally {
     await browser.close();
     await new Promise((r) => server.httpServer.close(r));
   }
 
-  // Write after the server has closed so we don't race with sirv's cache.
   for (const [outPath, html] of writes) {
     await mkdir(dirname(outPath), { recursive: true });
     await writeFile(outPath, html, "utf8");

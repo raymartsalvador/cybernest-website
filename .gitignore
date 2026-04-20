@@ -25,4 +25,8 @@ dist-ssr
 .claude/settings.local.json
 .claude/.bootstrapped
 
+# Python bytecode (from .claude skill scripts)
+__pycache__/
+*.pyc
+
 .vercel
