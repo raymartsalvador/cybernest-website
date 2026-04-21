@@ -125,7 +125,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-40 flex justify-center py-3 font-montserrat">
+    <header className="fixed top-0 left-0 right-0 z-40 flex justify-center py-3 font-montserrat">
       <nav
         className="relative flex items-center w-full max-w-6xl mx-auto px-6 md:px-10 bg-white rounded-full h-[70px] md:h-[90px] border-2 border-cyberred"
       >
