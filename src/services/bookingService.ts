@@ -49,6 +49,10 @@ export interface CreateAppointmentPayload {
   clientCompany?: string;
   notes?: string;
   slotId?: string; // preferred if known
+  // RA 10173 §12(a) consent evidence — backend must persist these alongside
+  // the booking row so we can demonstrate proof-of-consent to NPC on demand.
+  consentedAt?: string; // ISO 8601 timestamp captured when the user ticked the box
+  privacyNoticeVersion?: string; // semver/date of the notice shown at consent
 }
 
 export interface RequestHeaders {

@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 import cybernestIcon from "../assets/images/cybernest-icon.webp";
 
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "Products", to: "/products" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
+];
+
+const legalLinks = [
+  { label: "Privacy Notice", to: "/privacy" },
+];
+
 export default function Footer() {
   return (
     <footer className="relative bg-white font-montserrat pt-32 sm:pt-36 pb-8 sm:pb-12">
@@ -25,71 +36,127 @@ export default function Footer() {
 
       {/* Red card */}
       <div className="relative mx-4 sm:mx-8 lg:mx-auto max-w-[1260px] bg-cyberred rounded-[24px] pt-28 sm:pt-32 pb-10 sm:pb-12 px-6 sm:px-12 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
-          {/* Left side */}
-          <div className="text-white">
-            <h2 className="text-3xl sm:text-[40px] font-bold mb-3 leading-tight">
-              Lets Talk!
-            </h2>
-            <p className="text-base sm:text-xl font-normal leading-relaxed max-w-[466px]">
-              "In Cybernest, we ensure solutions that are not just functional — but exceptional"
-            </p>
+        {/* Tagline */}
+        <div className="text-white mb-10 sm:mb-14 max-w-[640px]">
+          <h2 className="text-3xl sm:text-[40px] font-bold mb-3 leading-tight">
+            Let's Talk!
+          </h2>
+          <p className="text-base sm:text-xl font-normal leading-relaxed">
+            "In Cybernest, we ensure solutions that are not just functional — but exceptional."
+          </p>
+        </div>
+
+        {/* Link columns */}
+        <nav
+          aria-label="Footer"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 text-white"
+        >
+          <div>
+            <h3 className="text-base sm:text-lg font-bold mb-3 uppercase tracking-wide">
+              Explore
+            </h3>
+            <ul className="space-y-2 text-sm sm:text-base font-normal">
+              {navLinks.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    className="text-white/90 hover:text-white hover:underline transition"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Right side - Contact info */}
-          <div className="text-white">
-            <h3 className="text-xl sm:text-2xl font-bold mb-3">
-              Contact us at
+          <div>
+            <h3 className="text-base sm:text-lg font-bold mb-3 uppercase tracking-wide">
+              Contact
             </h3>
-            <div className="space-y-2 text-base sm:text-xl font-normal">
-              <p>
+            <ul className="space-y-2 text-sm sm:text-base font-normal">
+              <li>
                 <a
                   href="mailto:cns@cybernestsolution.com"
-                  className="hover:underline"
+                  className="text-white/90 hover:text-white hover:underline transition"
                 >
                   cns@cybernestsolution.com
                 </a>
-              </p>
-              <p>
+              </li>
+              <li>
+                <a
+                  href="mailto:cybernestsolutionph@gmail.com"
+                  className="text-white/90 hover:text-white hover:underline transition"
+                >
+                  cybernestsolutionph@gmail.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+639761791990"
+                  className="text-white/90 hover:text-white hover:underline transition"
+                >
+                  0976-179-1990 (Support)
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+639289010072"
+                  className="text-white/90 hover:text-white hover:underline transition"
+                >
+                  0928-901-0072 (Sales)
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-base sm:text-lg font-bold mb-3 uppercase tracking-wide">
+              Connect
+            </h3>
+            <ul className="space-y-2 text-sm sm:text-base font-normal">
+              <li>
                 <a
                   href="https://www.facebook.com/CybernestSolutions"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  className="text-white/90 hover:text-white hover:underline transition"
                 >
-                  facebook.com/CybernestSolutions
+                  Facebook
                 </a>
-              </p>
-              <p>
-                <a
-                  href="mailto:cybernestsolutionph@gmail.com"
-                  className="hover:underline"
-                >
-                  cybernestsolutionph@gmail.com
-                </a>
-              </p>
-              <p>
-                <a href="tel:+639761791990" className="hover:underline">
-                  0976-179-1990
-                </a>
-                {" | "}
-                <a href="tel:+639289010072" className="hover:underline">
-                  0928-901-0072
-                </a>
-              </p>
-            </div>
+              </li>
+            </ul>
           </div>
-        </div>
+
+          <div>
+            <h3 className="text-base sm:text-lg font-bold mb-3 uppercase tracking-wide">
+              Legal
+            </h3>
+            <ul className="space-y-2 text-sm sm:text-base font-normal">
+              {legalLinks.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    className="text-white/90 hover:text-white hover:underline transition"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <a
+                  href="mailto:privacy@cybernestsolution.com"
+                  className="text-white/90 hover:text-white hover:underline transition"
+                >
+                  Data Protection Officer
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
         {/* Copyright */}
-        <div className="text-white text-base sm:text-xl font-normal mt-8 sm:mt-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="text-white/90 text-sm sm:text-base font-normal mt-10 sm:mt-14 pt-6 border-t border-white/20">
           <p>&copy; 2026 Cybernest Solutions. All Rights Reserved.</p>
-          <Link
-            to="/privacy"
-            className="text-white/90 hover:text-white hover:underline text-sm sm:text-base"
-          >
-            Privacy Notice
-          </Link>
         </div>
       </div>
     </footer>

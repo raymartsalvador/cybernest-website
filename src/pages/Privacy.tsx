@@ -11,6 +11,7 @@ const breadcrumbItems = [
   { name: "Privacy", path: "/privacy" },
 ];
 
+export const PRIVACY_NOTICE_VERSION = "2026-04-21";
 const LAST_UPDATED = "21 April 2026";
 
 export default function Privacy() {
@@ -178,12 +179,48 @@ export default function Privacy() {
               </ul>
             </section>
 
+            <section aria-labelledby="locations">
+              <h2
+                id="locations"
+                className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
+              >
+                6. Where your data is stored (data locations)
+              </h2>
+              <p className="text-base leading-relaxed mb-3">
+                We process and store your personal information with the
+                following providers and regions:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 text-base leading-relaxed">
+                <li>
+                  <strong>Application backend:</strong> Microsoft Azure
+                  Container Apps,{" "}
+                  <em>Southeast Asia</em> region (Singapore).
+                </li>
+                <li>
+                  <strong>Website &amp; serverless functions:</strong> Vercel
+                  edge network, with primary egress serving Philippine
+                  visitors from APAC points of presence.
+                </li>
+                <li>
+                  <strong>Analytics:</strong> Google Analytics 4 (Google LLC,
+                  United States), with IP anonymisation enabled.
+                </li>
+              </ul>
+              <p className="text-base leading-relaxed mt-3">
+                Cross-border transfers are protected by our providers'
+                standard contractual clauses and data-processing addenda. If
+                your engagement requires in-country data residency (e.g.,
+                Philippine-government procurement requirements), contact us
+                — we can scope a Philippines-resident deployment option.
+              </p>
+            </section>
+
             <section aria-labelledby="retention">
               <h2
                 id="retention"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                6. How long we keep it
+                7. How long we keep it
               </h2>
               <ul className="list-disc pl-6 space-y-2 text-base leading-relaxed">
                 <li>
@@ -210,7 +247,7 @@ export default function Privacy() {
                 id="security"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                7. How we protect it
+                8. How we protect it
               </h2>
               <p className="text-base leading-relaxed">
                 We use TLS (HTTPS) for all site traffic, restrict access to
@@ -227,7 +264,7 @@ export default function Privacy() {
                 id="your-rights"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                8. Your rights under RA 10173
+                9. Your rights under RA 10173
               </h2>
               <p className="text-base leading-relaxed mb-3">
                 Subject to the limits of the Act, you have the right to:
@@ -270,7 +307,7 @@ export default function Privacy() {
                 id="cookies"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                9. Cookies and analytics
+                10. Cookies and analytics
               </h2>
               <p className="text-base leading-relaxed">
                 We use a small number of cookies and analytics tools (including
@@ -286,7 +323,7 @@ export default function Privacy() {
                 id="changes"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                10. Changes to this notice
+                11. Changes to this notice
               </h2>
               <p className="text-base leading-relaxed">
                 We may update this notice from time to time. The "last updated"
@@ -304,7 +341,7 @@ export default function Privacy() {
                 id="contact"
                 className="text-xl sm:text-2xl font-bold text-cyberviolet mb-3"
               >
-                11. Contact our Data Protection Officer
+                12. Contact our Data Protection Officer
               </h2>
               <p className="text-base leading-relaxed mb-4">
                 For privacy questions, data-subject requests, or to report a

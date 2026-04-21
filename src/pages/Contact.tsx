@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Mail, Phone, Facebook, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Seo from "../components/Seo";
@@ -52,6 +53,7 @@ export default function Contact() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [consented, setConsented] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 650);
@@ -72,6 +74,7 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consented) return;
     setSubmitted(true);
   };
 
@@ -287,9 +290,37 @@ export default function Contact() {
                       />
                     </div>
 
+                    <label
+                      htmlFor="contact-consent"
+                      className="flex items-start gap-2.5 text-sm text-cyberviolet cursor-pointer"
+                    >
+                      <input
+                        id="contact-consent"
+                        type="checkbox"
+                        checked={consented}
+                        onChange={(e) => setConsented(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 accent-cyberred shrink-0 cursor-pointer"
+                      />
+                      <span className="leading-snug">
+                        I've read the{" "}
+                        <Link
+                          to="/privacy"
+                          className="text-cyberred underline hover:opacity-80"
+                        >
+                          Privacy Notice
+                        </Link>{" "}
+                        and consent to Cybernest processing my message.
+                      </span>
+                    </label>
+
                     <button
                       type="submit"
-                      className="w-full inline-flex items-center justify-center gap-2 bg-cyberred text-white px-6 py-3 rounded-full font-semibold shadow-md hover:opacity-90 transition"
+                      disabled={!consented}
+                      className={`w-full inline-flex items-center justify-center gap-2 bg-cyberred text-white px-6 py-3 rounded-full font-semibold shadow-md transition ${
+                        consented
+                          ? "hover:opacity-90"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
                     >
                       Send message <ArrowRight size={18} />
                     </button>

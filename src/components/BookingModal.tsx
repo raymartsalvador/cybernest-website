@@ -16,6 +16,15 @@ import {
 import leftImage from "../assets/images/123.webp";
 import logo from "../assets/images/logo.webp";
 import gridBg from "../assets/images/grid-bg.webp";
+import { PRIVACY_NOTICE_VERSION } from "../pages/Privacy";
+
+// Booking is gated behind a build-time flag while we migrate the backend
+// auth model off a client-exposed API key. Default: off. Set
+// VITE_BOOKING_ENABLED=true in the environment to re-enable.
+const BOOKING_ENABLED =
+  ((import.meta as any).env?.VITE_BOOKING_ENABLED ?? "false")
+    .toString()
+    .toLowerCase() === "true";
 
 interface BookingModalProps {
   show: boolean;
@@ -181,8 +190,7 @@ export default function BookingModal({
     "Asia/Manila";
 
   const companySlug = company || defaultCompany;
-  const bearer =
-    authToken ?? localStorage.getItem("cybernest_jwt") ?? undefined;
+  const bearer = authToken ?? undefined;
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
@@ -203,6 +211,7 @@ export default function BookingModal({
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [consented, setConsented] = useState(false);
 
   // Generate idempotency key per modal session
   const [idemKey] = useState<string>(() =>
@@ -386,6 +395,7 @@ export default function BookingModal({
     });
     setFormErrors({});
     setTouched({});
+    setConsented(false);
     setError(null);
   }, []);
 
@@ -416,6 +426,19 @@ export default function BookingModal({
       });
       return;
     }
+
+    if (!consented) {
+      showPopup({
+        icon: "warning",
+        title: "Consent Required",
+        message:
+          "Please review and accept the Privacy Notice before confirming your booking.",
+        confirmText: "OK",
+      });
+      return;
+    }
+
+    const consentedAt = new Date().toISOString();
 
     setLoading(true);
     setError(null);
@@ -458,6 +481,8 @@ export default function BookingModal({
           slot: selectedSlot.slot,
           notes: formData.notes,
           slotId: selectedSlot.id,
+          consentedAt,
+          privacyNoticeVersion: PRIVACY_NOTICE_VERSION,
         },
         companySlug,
         headers
@@ -542,7 +567,23 @@ export default function BookingModal({
               <X size={24} />
             </button>
 
-            {!showForm ? (
+            {!BOOKING_ENABLED ? (
+              <div className="flex flex-col items-center justify-center w-full px-6 py-10 sm:py-14 text-center">
+                <img src={logo} alt="Cybernest Logo" className="w-36 mb-4" />
+                <h2
+                  id="booking-modal-title"
+                  className="text-2xl font-extrabold text-cyberred mb-2"
+                >
+                  Online booking is temporarily unavailable
+                </h2>
+                <p className="text-sm text-gray-600 max-w-md mb-4">
+                  We&rsquo;re upgrading our scheduling system. In the meantime,
+                  please reach us directly and we&rsquo;ll get back to you within
+                  one business day.
+                </p>
+                <AlternativeContacts />
+              </div>
+            ) : !showForm ? (
               <>
                 {/* Left image (md+) */}
                 <motion.div
@@ -826,6 +867,32 @@ export default function BookingModal({
                       )}
                     </div>
 
+                    <label
+                      htmlFor="booking-consent"
+                      className="flex items-start gap-2.5 pt-4 text-xs text-gray-700 cursor-pointer"
+                    >
+                      <input
+                        id="booking-consent"
+                        type="checkbox"
+                        checked={consented}
+                        onChange={(e) => setConsented(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 accent-cyberred shrink-0 cursor-pointer"
+                      />
+                      <span className="leading-snug">
+                        I've read the{" "}
+                        <a
+                          href="/privacy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyberred underline hover:opacity-80"
+                        >
+                          Privacy Notice
+                        </a>{" "}
+                        and consent to Cybernest processing my data for this
+                        booking.
+                      </span>
+                    </label>
+
                     <div className="pt-4 mt-auto flex justify-between gap-4">
                       <button
                         onClick={() => setShowForm(false)}
@@ -835,9 +902,9 @@ export default function BookingModal({
                       </button>
                       <button
                         onClick={handleBookingSubmit}
-                        disabled={loading || !selectedSlot}
+                        disabled={loading || !selectedSlot || !consented}
                         className={`w-1/2 bg-cyberred text-white py-2 rounded-full transition-colors ${
-                          loading || !selectedSlot
+                          loading || !selectedSlot || !consented
                             ? "opacity-50 cursor-not-allowed"
                             : "hover:opacity-90"
                         }`}
