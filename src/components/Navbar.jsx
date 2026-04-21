@@ -3,11 +3,13 @@ import { Menu, CircleUserRound, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.webp";
 import BookingModal from "../components/BookingModal";
+import AdminLoginModal from "../components/AdminLoginModal";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
   const menuRef = useRef(null);
   const menuButtonRef = useRef(null);
   const navigate = useNavigate();
@@ -169,7 +171,8 @@ export default function Navbar() {
         <div className="flex items-center gap-4 ml-auto">
           <button
             type="button"
-            aria-label="Account"
+            aria-label="Admin sign in"
+            onClick={() => setShowAdminLogin(true)}
             className="hidden sm:inline-flex text-cyberred hover:opacity-80 transition"
           >
             <CircleUserRound size={28} strokeWidth={2} />
@@ -233,6 +236,10 @@ export default function Navbar() {
       </div>
 
       <BookingModal show={showModal} onClose={() => setShowModal(false)} />
+      <AdminLoginModal
+        show={showAdminLogin}
+        onClose={() => setShowAdminLogin(false)}
+      />
     </header>
   );
 }
