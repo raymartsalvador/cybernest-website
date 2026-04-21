@@ -37,9 +37,9 @@ https://www.cybernestsolution.com/contact   → 200
 **Search Console status (2026-04-21):** `/products` crawled successfully. Rich Results Test flagged 2 Product warnings (missing offers) — resolved in commit `4258ed0` by switching to `SoftwareApplication` with `offers` block.
 
 **Next actions (you):**
-- In GSC, re-run URL Inspection + Live Test on `/products`, `/about`, `/contact` → request indexing.
-- Verify Rich Results warnings cleared after the `4258ed0` deploy.
-- Set `www.cybernestsolution.com` as primary in Vercel project settings; redirect apex `cybernestsolution.com` → `www`.
+- ~~In GSC, re-run URL Inspection + Live Test on `/products`, `/about`, `/contact` → request indexing.~~ **DONE 2026-04-21**
+- ~~Verify Rich Results warnings cleared after the `4258ed0` deploy.~~ **DONE 2026-04-21**
+- ~~Set `www.cybernestsolution.com` as primary in Vercel project settings; redirect apex `cybernestsolution.com` → `www`.~~ **DONE 2026-04-21**
 
 ---
 
@@ -143,10 +143,11 @@ The site ships useful meta tags but has structural SEO problems that will **acti
 - Build + prerender verified passing after changes.
 - Also resolves part of **P2 #18** (lazy-loading below the fold) and part of **P2 #21** (hero alt text).
 
-### 15. No Google Search Console / Bing verification — **PENDING USER ACTION**
-- No `<meta name="google-site-verification">` tag.
-- **User action:** register domain at https://search.google.com/search-console + Bing Webmaster Tools. Then paste the verification token and I'll add `<meta name="google-site-verification" content="...">` + `<meta name="msvalidate.01" content="...">` to `index.html`.
-- DNS verification also works (TXT record at domain registrar) and is more durable — prefer that if you have DNS access.
+### 15. Google Search Console / Bing verification — **DONE 2026-04-21**
+- GSC: `cybernestsolution.com` registered as **Domain property**, verified via DNS TXT record (more durable than HTML-tag verification — survives markup changes).
+- Bing Webmaster Tools: site imported from GSC and active; no `msvalidate.01` meta tag needed when imported this way.
+- No `<meta name="google-site-verification">` or `<meta name="msvalidate.01">` tags required in `index.html`.
+- Sitemap submitted in both GSC and Bing Webmaster Tools (2026-04-21).
 
 ---
 
@@ -259,13 +260,10 @@ The site ships useful meta tags but has structural SEO problems that will **acti
 - Decide canonical brand string ("Cybernest Solutions" vs "Cybernest") and align across title, OG, footer, Schema, social.
 - Make sure `cybernestsolutions.com` (plural) either redirects to singular, or register it defensively.
 
-### 33. Non-www / HTTP redirects — **PARTIAL 2026-04-20**
-- `vercel.json` now carries 301 redirects for `/Products`, `/About`, `/Contact` case variants + SPA fallback rewrite.
-- **Still needed at DNS / Vercel project level:**
-  - Set `www.cybernestsolution.com` as production domain in Vercel project settings.
-  - Add `cybernestsolution.com` (apex) as alias that **permanently redirects** to `www.cybernestsolution.com`.
-  - Verify `http://` variants auto-301 to `https://` (Vercel does this by default once the domain is attached).
-- Verification (post-deploy): `curl -I http://cybernestsolution.com/` should return 301 → `https://www.cybernestsolution.com/`.
+### 33. Non-www / HTTP redirects — **DONE 2026-04-21**
+- `vercel.json` carries 301 redirects for `/Products`, `/About`, `/Contact` case variants + SPA fallback rewrite.
+- Vercel project: `www.cybernestsolution.com` set as production domain; apex `cybernestsolution.com` aliased with permanent redirect → `www`. `http://` auto-301s to `https://`.
+- **Follow-up:** run `curl -I http://cybernestsolution.com/` once to confirm 301 chain → `https://www.cybernestsolution.com/`.
 
 ### 34. AOS animations & `data-aos` on critical content
 - AOS gates visibility via CSS until scripted in. Crawlers see the HTML so ranking isn't hurt, but LCP on the stats banner might suffer. Audit LCP element in Lighthouse.
