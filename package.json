@@ -28,6 +28,7 @@
     "@tailwindcss/vite": "^4.1.10",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@vercel/node": "^5.7.12",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
@@ -37,5 +38,12 @@
     "puppeteer": "^24.42.0",
     "tailwindcss": "^4.1.10",
     "vite": "^6.3.5"
+  },
+  "overrides": {
+    "path-to-regexp": "^6.3.0",
+    "undici": "^6.24.0",
+    "minimatch": "^10.2.3",
+    "smol-toml": "^1.6.1",
+    "ajv": "^8.18.0"
   }
 }
