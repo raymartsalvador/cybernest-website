@@ -3,6 +3,7 @@ import { Mail, TvMinimalPlay } from "lucide-react";
 import BookingModal from "../components/BookingModal";
 import { showPopup } from "../components/PopupService";
 import certifyLogo from "../assets/images/certify-logo.webp";
+import certifyLogoAvif from "../assets/images/certify-logo.avif";
 
 const featured = {
   name: "Certify+",
@@ -60,18 +61,22 @@ const FeaturedProduct: React.FC = () => {
           />
           {/* Center featured card */}
           <div
-            className="absolute bg-white border-2 border-cyberred rounded-[24px] flex flex-col items-center justify-start left-[16%] top-0 w-[68%] h-full sm:left-[26.37%] sm:w-[47.01%]"
+            className="absolute bg-white border-2 border-cyberred rounded-[24px] overflow-hidden left-[16%] top-0 w-[68%] h-full sm:left-[26.37%] sm:w-[47.01%]"
           >
-            <img
-              src={certifyLogo}
-              alt={`${featured.name} logo`}
-              width={3000}
-              height={3000}
-              loading="lazy"
-              decoding="async"
-              className="w-[70%] max-w-[395px] h-auto mt-[10%] sm:mt-[7.34%] sm:w-[60%] object-contain"
-            />
-            <span className="mt-3 sm:mt-4 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred">
+            <picture>
+              <source srcSet={certifyLogoAvif} type="image/avif" />
+              <source srcSet={certifyLogo} type="image/webp" />
+              <img
+                src={certifyLogo}
+                alt={`${featured.name} preview`}
+                width={1600}
+                height={1280}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </picture>
+            <span className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred backdrop-blur-sm">
               <span className="inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-cyberred animate-pulse" aria-hidden="true" />
               Coming Soon
             </span>

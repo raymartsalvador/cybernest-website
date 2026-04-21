@@ -9,15 +9,21 @@ import Seo from "../components/Seo";
 import Breadcrumbs from "../components/Breadcrumbs";
 import pointflowPreview from "../assets/images/pointflow-preview.webp";
 import certifyLogo from "../assets/images/certify-logo.webp";
+import certifyLogoAvif from "../assets/images/certify-logo.avif";
 import iotSolutionsImg from "../assets/images/services/iot-solutions.png";
 import trainingSeminarsImg from "../assets/images/services/training-seminars.png";
 import strategicAdvisoryImg from "../assets/images/services/strategic-advisory.webp";
+
+interface ProductImage {
+  src: string;
+  avif?: string;
+}
 
 interface Product {
   name: string;
   description: string;
   features: string[];
-  images?: string[];
+  images?: ProductImage[];
   comingSoon?: boolean;
 }
 
@@ -73,7 +79,7 @@ const products: Product[] = [
       "Bulk Email Delivery",
       "Customizable Templates",
     ],
-    images: [certifyLogo],
+    images: [{ src: certifyLogo, avif: certifyLogoAvif }],
     comingSoon: true,
   },
   {
@@ -86,7 +92,7 @@ const products: Product[] = [
       "Appointment System",
       "Easy Integration",
     ],
-    images: [pointflowPreview],
+    images: [{ src: pointflowPreview }],
   },
 ];
 
@@ -129,7 +135,7 @@ function ProductCarousel({
   name,
   comingSoon,
 }: {
-  images: string[];
+  images: ProductImage[];
   name: string;
   comingSoon?: boolean;
 }) {
@@ -165,20 +171,26 @@ function ProductCarousel({
       aria-roledescription="carousel"
       aria-label={`${name} preview`}
     >
-      {images.map((src, i) => (
-        <img
+      {images.map((image, i) => (
+        <picture
           key={i}
-          src={src}
-          alt={`${name} preview ${i + 1}`}
           aria-hidden={i !== index}
-          width={1725}
-          height={1666}
-          loading="lazy"
-          decoding="async"
-          className={`absolute inset-0 m-auto max-w-[80%] max-h-[80%] object-contain transition-opacity duration-700 ease-in-out ${
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
-        />
+        >
+          {image.avif && <source srcSet={image.avif} type="image/avif" />}
+          <source srcSet={image.src} type="image/webp" />
+          <img
+            src={image.src}
+            alt={`${name} preview ${i + 1}`}
+            width={1600}
+            height={1280}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </picture>
       ))}
       {comingSoon && (
         <span className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred backdrop-blur-sm">
