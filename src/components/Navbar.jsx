@@ -133,9 +133,9 @@ export default function Navbar() {
       >
         Skip to main content
       </a>
-      <header className="fixed top-0 left-0 right-0 z-40 flex justify-center py-3 font-montserrat">
+      <header className="fixed top-0 left-0 right-0 z-40 flex justify-center py-3 px-4 sm:px-8 lg:px-0 font-montserrat">
       <nav
-        className="relative flex items-center w-full max-w-6xl mx-auto px-6 md:px-10 bg-white rounded-full h-[70px] md:h-[90px] border-2 border-cyberred"
+        className="relative flex items-center w-full max-w-[1260px] mx-auto px-6 md:px-10 bg-white rounded-full h-[70px] md:h-[90px] border-2 border-cyberred"
       >
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
