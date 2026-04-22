@@ -10,16 +10,28 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/cybernest-apple-touch.png" />
 
-    <!-- Google Analytics (GA4) -->
+    <!-- Google Analytics (GA4) — Consent Mode v2, default-denied.
+         gtag.js loads, but no storage is written and no measurement call fires until
+         the ConsentBanner calls gtag('consent','update',...) after the user consents.
+         Required by RA 10173 (NPC treats GA4 client ID + IP as personal info) and by
+         GDPR ePrivacy for EU visitors. See /src/components/ConsentBanner.tsx. -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6PMNMXP7W"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
       gtag('js', new Date());
-      gtag('config', 'G-Z6PMNMXP7W');
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6PMNMXP7W"></script>
     
     <!-- Primary Meta Tags (default — per-route values injected by react-helmet-async via src/components/Seo.tsx) -->
     <title>Cybernest Solutions — Workflow Automation & Digital Transformation</title>

@@ -37,7 +37,7 @@ export default function About() {
       {seo}
       <NavBar />
 
-      <main className="bg-white pt-32 sm:pt-40 pb-20">
+      <main id="main" tabIndex={-1} className="bg-white pt-32 sm:pt-40 pb-20 outline-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-24 mb-6 sm:mb-8">
           <Breadcrumbs items={breadcrumbItems} />
         </div>

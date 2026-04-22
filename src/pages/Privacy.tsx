@@ -11,8 +11,8 @@ const breadcrumbItems = [
   { name: "Privacy", path: "/privacy" },
 ];
 
-export const PRIVACY_NOTICE_VERSION = "2026-04-21";
-const LAST_UPDATED = "21 April 2026";
+export const PRIVACY_NOTICE_VERSION = "2026-04-22";
+const LAST_UPDATED = "22 April 2026";
 
 export default function Privacy() {
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ export default function Privacy() {
       {seo}
       <NavBar />
 
-      <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24">
+      <main id="main" tabIndex={-1} className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24 outline-none">
         <div className="max-w-4xl mx-auto">
           <Breadcrumbs items={breadcrumbItems} className="mb-6 sm:mb-8" />
 
@@ -310,11 +310,20 @@ export default function Privacy() {
                 10. Cookies and analytics
               </h2>
               <p className="text-base leading-relaxed">
-                We use a small number of cookies and analytics tools (including
-                Google Analytics) to understand how the site is used. These
-                tools process aggregated, IP-anonymised data and do not
-                identify you personally. You can disable cookies in your
-                browser settings.
+                We use Google Analytics 4 to understand how the site is used.
+                Analytics cookies are{" "}
+                <strong>denied by default</strong> and are only set after you
+                accept through our cookie notice. When accepted, measurement
+                runs with IP anonymisation enabled and without advertising or
+                personalisation signals. You can change your preference at any
+                time on our{" "}
+                <a
+                  href="/cookies"
+                  className="text-cyberred hover:underline"
+                >
+                  Cookie Policy
+                </a>{" "}
+                page, or by clearing this site's storage in your browser.
               </p>
             </section>
 

@@ -100,7 +100,6 @@ export default function Navbar() {
       e.preventDefault();
       if (item.to) {
         navigate(item.to);
-        window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (!isHomePage) {
         navigate(`/#${item.href}`);
       } else {
@@ -127,7 +126,14 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 flex justify-center py-3 font-montserrat">
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-cyberred focus:px-5 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyberred"
+      >
+        Skip to main content
+      </a>
+      <header className="fixed top-0 left-0 right-0 z-40 flex justify-center py-3 font-montserrat">
       <nav
         className="relative flex items-center w-full max-w-6xl mx-auto px-6 md:px-10 bg-white rounded-full h-[70px] md:h-[90px] border-2 border-cyberred"
       >
@@ -241,5 +247,6 @@ export default function Navbar() {
         onClose={() => setShowAdminLogin(false)}
       />
     </header>
+    </>
   );
 }

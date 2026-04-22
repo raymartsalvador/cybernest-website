@@ -83,7 +83,7 @@ export default function Contact() {
       {seo}
       <NavBar />
 
-      <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24">
+      <main id="main" tabIndex={-1} className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24 outline-none">
         <div className="max-w-7xl mx-auto">
           <Breadcrumbs items={breadcrumbItems} className="mb-6 sm:mb-8" />
 

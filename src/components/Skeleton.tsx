@@ -1,4 +1,6 @@
 import type { CSSProperties } from "react";
+import NavBar from "./Navbar";
+import Footer from "./Footer";
 
 interface SkeletonProps {
   className?: string;
@@ -37,40 +39,6 @@ export function Skeleton({
   );
 }
 
-function SkeletonNavBar() {
-  return (
-    <div className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
-        <Skeleton className="h-8 w-32 sm:h-10 sm:w-40" rounded="md" />
-        <div className="hidden md:flex items-center gap-6">
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-10 w-32" rounded="full" />
-        </div>
-        <Skeleton className="md:hidden h-8 w-8" rounded="md" />
-      </div>
-    </div>
-  );
-}
-
-function SkeletonFooter() {
-  return (
-    <div className="bg-[#473c59] mt-20 py-12 sm:py-16 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="flex flex-col gap-3">
-            <Skeleton className="h-5 w-28 bg-white/10" />
-            <Skeleton className="h-3 w-40 bg-white/10" />
-            <Skeleton className="h-3 w-36 bg-white/10" />
-            <Skeleton className="h-3 w-32 bg-white/10" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function HomeSkeleton() {
   return (
     <div
@@ -79,7 +47,7 @@ export function HomeSkeleton() {
       aria-live="polite"
       className="font-montserrat"
     >
-      <SkeletonNavBar />
+      <NavBar />
 
       {/* Hero */}
       <section className="pt-24 sm:pt-32 pb-0 px-4 sm:px-6">
@@ -161,7 +129,7 @@ export function HomeSkeleton() {
         </div>
       </section>
 
-      <SkeletonFooter />
+      <Footer />
     </div>
   );
 }
@@ -174,7 +142,7 @@ export function ProductsSkeleton() {
       aria-live="polite"
       className="font-montserrat"
     >
-      <SkeletonNavBar />
+      <NavBar />
 
       <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24">
         <div className="max-w-7xl mx-auto">
@@ -240,7 +208,7 @@ export function ProductsSkeleton() {
         </div>
       </main>
 
-      <SkeletonFooter />
+      <Footer />
     </div>
   );
 }
@@ -253,7 +221,7 @@ export function AboutSkeleton() {
       aria-live="polite"
       className="font-montserrat"
     >
-      <SkeletonNavBar />
+      <NavBar />
 
       <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
@@ -306,7 +274,7 @@ export function AboutSkeleton() {
         </div>
       </main>
 
-      <SkeletonFooter />
+      <Footer />
     </div>
   );
 }
