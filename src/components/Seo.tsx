@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://www.cybernestsolution.com";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cybernest-banner.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cybernest-banner.jpg`;
 
 interface BreadcrumbItem {
   name: string;
