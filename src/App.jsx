@@ -63,9 +63,9 @@ function Home() {
           <Team />
         </section> */}
 
-        {/* <section id="testimonials">
+        <section id="testimonials">
           <Testimonials />
-        </section> */}
+        </section>
       </main>
 
       <Footer />

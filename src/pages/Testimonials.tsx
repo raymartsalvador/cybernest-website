@@ -1,83 +1,95 @@
-import { Star } from "lucide-react";
+import cristinaIbanez from "../assets/images/testimonials/cristina-ibanez.webp";
+import starIcon from "../assets/images/testimonials/star.svg";
+import raymartBonete from "../assets/images/testimonials/raymart-bonete.webp";
+import philipErmita from "../assets/images/testimonials/philip-ermita.webp";
 
 interface Testimonial {
   name: string;
-  role: string;
+  roleLines: [string, string];
   quote: string;
-  rating: number;
+  photo: string;
 }
 
 const testimonials: Testimonial[] = [
   {
-    name: "Cristina Maria Ibanez",
-    role: "President, ENEDA",
+    name: "Ms. Cristina Maria Ibanez",
+    roleLines: ["President, ENEDA", "President, SCALE NCR"],
     quote:
-      "“The level of technical expertise and creative vision provided was exactly what we needed to scale our digital presence effectively.”",
-    rating: 5,
+      "“Cybernest delivered a reliable and user-friendly web application for ENEDA that effectively supported and digitalized our operations. Their team understood our needs and translated them into a scalable and efficient solution.”",
+    photo:cristinaIbanez,
   },
   {
-    name: "Kurt Leinard D. Balbuena",
-    role: "Project Leader, AEROCOMP",
+    name: "Engr. Raymart Ireneo Bonete",
+    roleLines: [
+      "CTO, Liknayan Innovation Corp.",
+      "Content Creator, EngineerProf PH",
+    ],
     quote:
-      "“ Working with this team turned our complex legacy issues into a streamlined, user-centric interface that our clients absolutely love.”",
-    rating: 5,
+      "“Working with Cybernest on Aeriocomp’s web app was a smooth and productive experience. They were responsive, technically skilled, and delivered a platform that strengthened our digital presence”",
+    photo:raymartBonete,
   },
   {
     name: "Dr. Philip P. Ermita",
-    role: "Project Leader, PUP PYLON TBI",
+    roleLines: ["Director, PUP TBIDO", "Project Lead, PUP PYLON TBI"],
     quote:
-      "“Their data-driven approach to design and systems engineering sets them apart in a crowded market of digital solution providers.”",
-    rating: 5,
+      "“Cybernest demonstrated strong technical capability in developing the PointFLOW System. They were able to turn our requirements into a functional and efficient platform.”",
+    photo:philipErmita,
   },
 ];
 
-function getInitials(name: string): string {
-  const honorifics = new Set(["dr", "mr", "mrs", "ms", "sir", "prof"]);
-  const parts = name.split(/\s+/).filter((p) => {
-    const clean = p.replace(/\./g, "").toLowerCase();
-    return clean && !honorifics.has(clean);
-  });
-  if (parts.length === 0) return "";
-  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-  return (
-    parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
-  ).toUpperCase();
-}
-
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <div className="bg-[rgba(220,61,80,0.1)] rounded-[24px] sm:rounded-[40px] px-5 py-5 sm:px-8 sm:py-[30px] flex flex-col items-center text-center w-full max-w-[393px] sm:min-h-[345px]">
-      {/* Avatar with concentric rings + initials */}
-      <div className="relative w-[60px] h-[60px] sm:w-[74px] sm:h-[74px] mb-3 sm:mb-[14px]">
-        <div className="absolute inset-0 rounded-full border-2 border-cyberred" />
-        <div className="absolute inset-[3px] rounded-full bg-white" />
-        <div
-          aria-label={testimonial.name}
-          className="absolute inset-[7px] rounded-full bg-cyberred/10 flex items-center justify-center text-cyberred font-bold text-base sm:text-lg tracking-wide"
-        >
-          {getInitials(testimonial.name)}
+    <div className="bg-[rgba(220,61,80,0.1)] rounded-[24px] sm:rounded-[40px] px-5 py-6 sm:px-8 sm:py-[30px] flex flex-col items-center text-center w-full max-w-[393px] sm:min-h-[354px] shadow-[0_8px_24px_rgba(220,61,80,0.08)]">
+      {/* Avatar: outer rose ring → white gap → photo framed by red ring */}
+      <div className="relative w-[74px] h-[74px] sm:w-[84px] sm:h-[84px] shrink-0">
+        <div className="absolute inset-0 rounded-full bg-[#F0A0A8]" />
+        <div className="absolute inset-[4px] rounded-full bg-[#E5808C]" />
+        <div className="absolute inset-[7px] rounded-full border-[1.5px] border-cyberred overflow-hidden">
+          <img
+            src={testimonial.photo}
+            alt={testimonial.name}
+            width={70}
+            height={70}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
 
-      {/* Name & Role */}
-      <h3 className="text-base sm:text-[20px] font-bold text-black leading-tight">
+      {/* Name */}
+      <h3 className="mt-3 sm:mt-[14px] text-base sm:text-[20px] font-bold text-black leading-tight">
         {testimonial.name}
       </h3>
-      <p className="text-xs sm:text-sm text-black mt-[3px]">{testimonial.role}</p>
 
-      {/* Stars */}
-      <div className="flex gap-1.5 sm:gap-2.5 mt-3 mb-3 sm:mt-[14px] sm:mb-[14px]">
-        {Array.from({ length: testimonial.rating }).map((_, i) => (
-          <Star
-            key={i}
-            className="w-[18px] h-[18px] sm:w-[30px] sm:h-[30px] fill-cyberred text-cyberred"
-            strokeWidth={0}
+      {/* Role (two lines) */}
+      <p className="mt-[3px] text-xs sm:text-sm text-black leading-normal">
+        {testimonial.roleLines[0]}
+        <br />
+        {testimonial.roleLines[1]}
+      </p>
+
+      {/* Divider: line — layered star medallion — line (Figma group38341) */}
+      <div
+        aria-hidden="true"
+        className="flex items-center justify-center mt-3 mb-3 sm:mt-[14px] sm:mb-[14px] w-full max-w-[324px]"
+      >
+        <span className="h-px flex-1 bg-black/20" />
+        <span className="relative mx-3 inline-block w-[34px] h-[34px]">
+          <span className="absolute inset-0 rounded-full bg-[#F0A0A8]" />
+          <span className="absolute inset-[4px] rounded-full bg-[#E5808C]" />
+          <img
+            src={starIcon}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 m-auto w-[24px] h-[20px]"
           />
-        ))}
+        </span>
+        <span className="h-px flex-1 bg-black/20" />
       </div>
 
       {/* Quote */}
-      <p className="text-sm sm:text-base text-black leading-normal max-w-[326px]">
+      <p className="text-sm sm:text-base text-black leading-normal max-w-[336px]">
         {testimonial.quote}
       </p>
     </div>
@@ -86,18 +98,18 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 
 export default function Testimonials() {
   return (
-    <section className="bg-white py-20 px-4 sm:px-6 lg:px-24">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="bg-white py-16 sm:py-20 px-4 sm:px-6 lg:px-12">
+      <div className="max-w-[1260px] mx-auto text-center">
         <h2
           data-aos="fade-up"
-          className="text-3xl sm:text-4xl md:text-[48px] font-bold text-cyberred mb-4"
+          className="text-3xl sm:text-4xl md:text-[48px] font-bold text-cyberred mb-4 leading-tight"
         >
           Testimonials
         </h2>
         <p
           data-aos="fade-up"
           data-aos-delay="100"
-          className="text-base sm:text-lg md:text-2xl text-[#3f3f3f] max-w-[1190px] mx-auto mb-14"
+          className="text-base sm:text-lg md:text-[24px] text-[#3f3f3f] max-w-[1190px] mx-auto mb-10 sm:mb-14 font-normal leading-normal"
         >
           Trusted by industry leaders and startup founders to deliver
           exceptional digital experiences and scalable innovation.
@@ -108,8 +120,8 @@ export default function Testimonials() {
           data-aos-delay="200"
           className="flex flex-wrap justify-center gap-5"
         >
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} testimonial={testimonial} />
+          {testimonials.map((t) => (
+            <TestimonialCard key={t.name} testimonial={t} />
           ))}
         </div>
       </div>
