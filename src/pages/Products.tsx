@@ -379,7 +379,7 @@ export default function Products() {
   if (loading) return <>{seo}<ProductsSkeleton /></>;
 
   return (
-    <div className="font-montserrat text-gray-900 scroll-smooth">
+    <div className="font-montserrat text-gray-900 scroll-smooth overflow-x-clip">
       {seo}
       <NavBar />
 
