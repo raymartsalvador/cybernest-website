@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Mail, TvMinimalPlay, CheckCircle2 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, Mail, TvMinimalPlay, CheckCircle2 } from "lucide-react";
 import NavBar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BookingModal from "../components/BookingModal";
@@ -7,25 +8,12 @@ import { showPopup } from "../components/PopupService";
 import { ProductsSkeleton } from "../components/Skeleton";
 import Seo from "../components/Seo";
 import Breadcrumbs from "../components/Breadcrumbs";
-import pointflowPreview from "../assets/images/pointflow-preview.webp";
-import certifyLogo from "../assets/images/certify-logo.webp";
-import certifyLogoAvif from "../assets/images/certify-logo.avif";
+import WebDevServices from "../components/WebDevServices";
+import ProjectsCompleted from "../components/ProjectsCompleted";
+import { products, type FeaturedProduct, type ProductImage } from "../data/products";
 import iotSolutionsImg from "../assets/images/services/iot-solutions.png";
 import trainingSeminarsImg from "../assets/images/services/training-seminars.png";
 import strategicAdvisoryImg from "../assets/images/services/strategic-advisory.webp";
-
-interface ProductImage {
-  src: string;
-  avif?: string;
-}
-
-interface Product {
-  name: string;
-  description: string;
-  features: string[];
-  images?: ProductImage[];
-  comingSoon?: boolean;
-}
 
 const CAROUSEL_INTERVAL_MS = 4000;
 
@@ -68,33 +56,6 @@ const services: Service[] = [
   },
 ];
 
-const products: Product[] = [
-  {
-    name: "Certify+",
-    description:
-      "Certify is a web application that streamlines certificate creation. It offers customizable templates, custom uploads, and QR legitimacy verification—perfect for organizations or individuals who are constantly issuing certificates in bulk.",
-    features: [
-      "Certificate Generator",
-      "Import & Export Feature",
-      "Bulk Email Delivery",
-      "Customizable Templates",
-    ],
-    images: [{ src: certifyLogo, avif: certifyLogoAvif }],
-    comingSoon: true,
-  },
-  {
-    name: "PointFlow+",
-    description:
-      "PointFlow is a system that plugs right into your current setup. It helps you manage appointments, bookings, and waiting lines, making it easy to handle customers whether they are standing in your office or booking from home.",
-    features: [
-      "Queueing System",
-      "Booking System",
-      "Appointment System",
-      "Easy Integration",
-    ],
-    images: [{ src: pointflowPreview }],
-  },
-];
 
 function PaginationDots({
   count,
@@ -228,17 +189,18 @@ function ProductRow({
   onQuotation,
   onWatchDemo,
 }: {
-  product: Product;
+  product: FeaturedProduct;
   onQuotation: () => void;
   onWatchDemo: () => void;
 }) {
   const isMobile = useIsBelowLg();
+  const comingSoon = product.status === "coming-soon";
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center">
       <ProductCarousel
         images={product.images ?? []}
         name={product.name}
-        comingSoon={product.comingSoon}
+        comingSoon={comingSoon}
       />
 
       <div data-aos={isMobile ? "fade-up" : "fade-left"} className="flex flex-col gap-4 sm:gap-5 lg:gap-[22px]">
@@ -255,11 +217,11 @@ function ProductRow({
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 sm:mt-3">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-2 sm:mt-3">
           <button
             type="button"
             onClick={onQuotation}
-            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[300px] h-11 sm:h-[60px] bg-cyberred text-white rounded-full font-bold text-sm sm:text-xl hover:opacity-90 transition shadow-sm"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-11 sm:h-[60px] bg-cyberred text-white rounded-full font-bold text-sm sm:text-xl hover:opacity-90 transition shadow-sm"
           >
             <Mail className="w-4 h-4 sm:w-6 sm:h-6" />
             Get a Quotation
@@ -267,11 +229,19 @@ function ProductRow({
           <button
             type="button"
             onClick={onWatchDemo}
-            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-11 sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[220px] h-11 sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
           >
             <TvMinimalPlay className="w-4 h-4 sm:w-6 sm:h-6" />
             Watch Demo
           </button>
+          <Link
+            to={`/products/${product.slug}`}
+            aria-label={`See more about ${product.name}`}
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[200px] h-11 sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
+          >
+            See More
+            <ArrowRight className="w-4 h-4 sm:w-6 sm:h-6" />
+          </Link>
         </div>
       </div>
     </div>
@@ -322,11 +292,23 @@ function ServiceCard({
 export default function Products() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { hash } = useLocation();
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 650);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    if (loading || !hash) return;
+    const id = hash.slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, [loading, hash]);
 
   const handleWatchDemo = () => {
     showPopup({
@@ -341,19 +323,23 @@ export default function Products() {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: p.name,
-    description: p.description,
+    description: p.seo.description,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
+    url: p.liveUrl ?? `https://www.cybernestsolution.com/products/${p.slug}`,
     brand: {
       "@type": "Brand",
       name: "Cybernest Solutions",
     },
     offers: {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
       url: "https://www.cybernestsolution.com/contact",
       priceCurrency: "PHP",
-      price: "0",
-      availability: "https://schema.org/InStock",
+      lowPrice: "0",
+      availability:
+        p.status === "live"
+          ? "https://schema.org/InStock"
+          : "https://schema.org/PreOrder",
       seller: {
         "@type": "Organization",
         name: "Cybernest Solutions",
@@ -368,8 +354,8 @@ export default function Products() {
 
   const seo = (
     <Seo
-      title="Products — Certify+, PointFlow+ & Flow | Cybernest Solutions"
-      description="Explore Cybernest's workflow automation products: Certify+ for bulk certificate generation, PointFlow+ for queue & appointment management, and Flow for end-to-end digital transformation."
+      title="Products — Certify+ & PointFlow+ | Cybernest Solutions"
+      description="Explore Cybernest's workflow automation products: Certify+ for bulk certificate generation with QR verification, and PointFlow+ for unified queueing, booking, and appointment management."
       path="/products"
       breadcrumbs={breadcrumbItems}
       jsonLd={productSchema}
@@ -404,14 +390,19 @@ export default function Products() {
 
           <div className="flex flex-col gap-16 sm:gap-20 lg:gap-[90px]">
             {products.map((p) => (
-              <ProductRow
-                key={p.name}
-                product={p}
-                onQuotation={() => setShowModal(true)}
-                onWatchDemo={handleWatchDemo}
-              />
+              <div key={p.slug} id={p.slug} className="scroll-mt-32 sm:scroll-mt-40">
+                <ProductRow
+                  product={p}
+                  onQuotation={() => setShowModal(true)}
+                  onWatchDemo={handleWatchDemo}
+                />
+              </div>
             ))}
           </div>
+
+          <WebDevServices onBook={() => setShowModal(true)} />
+
+          <ProjectsCompleted />
 
           <section className="mt-16 sm:mt-24 lg:mt-32">
             <h2

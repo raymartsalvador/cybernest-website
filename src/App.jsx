@@ -12,6 +12,8 @@ import Team from "./pages/Team";
 import Partners from "./pages/Partners";
 import Testimonials from "./pages/Testimonials";
 import Products from "./pages/Products";
+import ProjectDetail from "./pages/ProjectDetail";
+import ProductDetail from "./pages/ProductDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
@@ -80,6 +82,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/projects/:slug" element={<ProjectDetail />} />
+        <Route path="/products/:productSlug" element={<ProductDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />

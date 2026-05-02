@@ -21,7 +21,22 @@ if (process.env.VERCEL || process.env.SKIP_PRERENDER) {
   process.exit(0);
 }
 
-const ROUTES = ["/", "/products", "/about", "/contact", "/privacy", "/cookies", "/terms", "/accessibility"];
+const ROUTES = [
+  "/",
+  "/products",
+  "/products/certify",
+  "/products/pointflow",
+  "/products/projects/orbit360",
+  "/products/projects/eneda",
+  "/products/projects/tbido",
+  "/products/projects/aerocomp",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/cookies",
+  "/terms",
+  "/accessibility",
+];
 const PORT = 4173;
 
 function routeToFile(route) {

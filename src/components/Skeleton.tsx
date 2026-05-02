@@ -213,6 +213,74 @@ export function ProductsSkeleton() {
   );
 }
 
+export function ProjectDetailSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading project case study"
+      aria-live="polite"
+      className="font-montserrat"
+    >
+      <NavBar />
+
+      <main className="bg-white pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 xl:px-24">
+        <div className="max-w-7xl mx-auto">
+          {/* Breadcrumbs */}
+          <Skeleton className="h-4 sm:h-5 w-72 mb-6 sm:mb-8" />
+
+          {/* Hero */}
+          <Skeleton className="h-7 w-32 mb-4" rounded="full" />
+          <Skeleton className="h-10 sm:h-14 lg:h-16 w-[70%] max-w-[640px] mb-4" />
+          <div className="flex flex-col gap-3 mb-8">
+            <Skeleton className="h-4 sm:h-5 w-[85%]" />
+            <Skeleton className="h-4 sm:h-5 w-[60%]" />
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12 sm:mb-16">
+            <Skeleton className="h-11 sm:h-[60px] w-full sm:w-[260px]" rounded="full" />
+            <Skeleton className="h-11 sm:h-[60px] w-full sm:w-[280px]" rounded="full" />
+          </div>
+
+          {/* Hero image */}
+          <Skeleton className="w-full aspect-[16/10] sm:aspect-[1255/620] mb-12 sm:mb-16" rounded="2xl" />
+
+          {/* Problem */}
+          <Skeleton className="h-7 w-48 mb-4" />
+          <div className="flex flex-col gap-3 mb-12 sm:mb-16">
+            <Skeleton className="h-4 sm:h-5 w-full" />
+            <Skeleton className="h-4 sm:h-5 w-[95%]" />
+            <Skeleton className="h-4 sm:h-5 w-[80%]" />
+          </div>
+
+          {/* Features */}
+          <Skeleton className="h-7 w-56 mb-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 sm:mb-16">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="border border-gray-100 rounded-2xl p-5 flex flex-col gap-3"
+              >
+                <Skeleton className="h-5 w-44" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-[85%]" />
+              </div>
+            ))}
+          </div>
+
+          {/* Tech stack */}
+          <Skeleton className="h-7 w-40 mb-4" />
+          <div className="flex flex-wrap gap-2 mb-12 sm:mb-16">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-8 w-24" rounded="full" />
+            ))}
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
 export function AboutSkeleton() {
   return (
     <div

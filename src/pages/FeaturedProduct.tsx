@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Mail, TvMinimalPlay } from "lucide-react";
+import { ExternalLink, Mail, TvMinimalPlay } from "lucide-react";
 import BookingModal from "../components/BookingModal";
 import { showPopup } from "../components/PopupService";
 import certifyLogo from "../assets/images/certify-logo.webp";
@@ -7,8 +7,9 @@ import certifyLogoAvif from "../assets/images/certify-logo.avif";
 
 const featured = {
   name: "Certify+",
+  liveUrl: "https://certify.cybernestsolution.com/",
   topDescription:
-    "Discover the future of automated workflow management. FLOW is designed to bridge the gap between complex data and intuitive user experiences, making high-level operations accessible.",
+    "Bulk certificate generation with a visual template builder and QR-based verification — built for schools, training centers, and event organizers. Now live with a free tier.",
 };
 
 const FeaturedProduct: React.FC = () => {
@@ -78,7 +79,7 @@ const FeaturedProduct: React.FC = () => {
             </picture>
             <span className="absolute top-4 right-4 sm:top-5 sm:right-5 inline-flex items-center gap-2 rounded-full border border-cyberred/30 bg-cyberred/10 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-sm font-semibold uppercase tracking-wider text-cyberred backdrop-blur-sm">
               <span className="inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-cyberred animate-pulse" aria-hidden="true" />
-              Coming Soon
+              Live Now
             </span>
           </div>
         </div>
@@ -100,12 +101,21 @@ const FeaturedProduct: React.FC = () => {
 
         <div
           data-aos="fade-up"
-          className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 max-w-[320px] sm:max-w-none mx-auto"
+          className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-6 max-w-[320px] sm:max-w-none mx-auto"
         >
+          <a
+            href={featured.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-[48px] sm:h-[60px] bg-cyberred text-white rounded-full font-bold text-sm sm:text-xl hover:opacity-90 transition shadow-sm"
+          >
+            <ExternalLink className="w-4 h-4 sm:w-6 sm:h-6" />
+            Visit Certify+
+          </a>
           <button
             type="button"
             onClick={() => setShowModal(true)}
-            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[300px] h-[48px] sm:h-[60px] bg-cyberred text-white rounded-full font-bold text-sm sm:text-xl hover:opacity-90 transition shadow-sm"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-[48px] sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
           >
             <Mail className="w-4 h-4 sm:w-6 sm:h-6" />
             Get a Quotation
@@ -113,7 +123,7 @@ const FeaturedProduct: React.FC = () => {
           <button
             type="button"
             onClick={handleWatchDemo}
-            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[260px] h-[48px] sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
+            className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-[220px] h-[48px] sm:h-[60px] border-2 border-cyberred text-cyberred rounded-full font-bold text-sm sm:text-xl hover:bg-cyberred/5 transition"
           >
             <TvMinimalPlay className="w-4 h-4 sm:w-6 sm:h-6" />
             Watch Demo
