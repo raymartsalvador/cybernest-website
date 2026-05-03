@@ -54,6 +54,9 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [consented, setConsented] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [website, setWebsite] = useState("");
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 650);
@@ -72,10 +75,39 @@ export default function Contact() {
 
   if (loading) return <>{seo}<HomeSkeleton /></>;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consented) return;
-    setSubmitted(true);
+    if (!consented || submitting) return;
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          consent: consented,
+          website,
+        }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as
+          | { error?: string }
+          | null;
+        throw new Error(data?.error ?? "Something went wrong. Please try again.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -229,6 +261,30 @@ export default function Contact() {
                     className="space-y-4"
                     noValidate
                   >
+                    {/* Honeypot — visually hidden, ignored by humans, filled by bots */}
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        left: "-10000px",
+                        width: "1px",
+                        height: "1px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <label htmlFor="contact-website">
+                        Website
+                        <input
+                          id="contact-website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={website}
+                          onChange={(e) => setWebsite(e.target.value)}
+                        />
+                      </label>
+                    </div>
+
                     <div>
                       <label
                         htmlFor="contact-name"
@@ -313,29 +369,27 @@ export default function Contact() {
                       </span>
                     </label>
 
+                    {submitError && (
+                      <div
+                        role="alert"
+                        className="rounded-xl border border-cyberred/30 bg-cyberred/5 px-4 py-3 text-sm text-cyberred"
+                      >
+                        {submitError}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      disabled={!consented}
+                      disabled={!consented || submitting}
                       className={`w-full inline-flex items-center justify-center gap-2 bg-cyberred text-white px-6 py-3 rounded-full font-semibold shadow-md transition ${
-                        consented
+                        consented && !submitting
                           ? "hover:opacity-90"
                           : "opacity-50 cursor-not-allowed"
                       }`}
                     >
-                      Send message <ArrowRight size={18} />
+                      {submitting ? "Sending..." : "Send message"}{" "}
+                      <ArrowRight size={18} />
                     </button>
-
-                    <p className="text-xs text-cyberviolet/60 text-center">
-                      Form submission handler pending. For anything urgent,
-                      please email{" "}
-                      <a
-                        href="mailto:cns@cybernestsolution.com"
-                        className="text-cyberred hover:underline"
-                      >
-                        cns@cybernestsolution.com
-                      </a>
-                      .
-                    </p>
                   </form>
                 )}
               </div>

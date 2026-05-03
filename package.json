@@ -20,6 +20,7 @@
     "react-dom": "^19.1.0",
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.6.2",
+    "resend": "^6.12.2",
     "sweetalert2": "^11.22.2",
     "sweetalert2-react-content": "^5.1.0"
   },
