@@ -12,7 +12,7 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Ms. Cristina Maria Ibanez",
+    name: "Ms. Maria Cristina Ibanez",
     roleLines: ["President, ENEDA", "President, SCALE NCR"],
     quote:
       "“Cybernest delivered a reliable and user-friendly web application for ENEDA that effectively supported and digitalized our operations. Their team understood our needs and translated them into a scalable and efficient solution.”",
